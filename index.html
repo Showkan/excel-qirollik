@@ -143,7 +143,9 @@ button,input,select{font:inherit;outline:none}
 .kb{font-size:12px;font-weight:800;font-family:monospace;background:var(--exal);color:var(--exat);padding:4px 10px;border-radius:6px;border:1px solid var(--exa);min-width:70px;text-align:center}
 .vc{background:#fff;border:1.5px solid #b0c8b8;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(10,30,18,.06)}
 .vl{font-size:13px;color:var(--t1);font-weight:700;padding:14px 18px 0}
-.vb{padding:14px 18px 18px}
+.vb{padding:14px 18px 18px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.vb::-webkit-scrollbar{height:6px}
+.vb::-webkit-scrollbar-thumb{background:#b0c8b8;border-radius:3px}
 .et{width:100%;border-collapse:collapse;font-size:13px}
 .et th{background:var(--exhdr);color:#3a5a46;font-weight:700;padding:9px;border:1.5px solid #b0c8b8;font-size:11px;text-align:center}
 .et td{padding:9px;border:1.5px solid #b0c8b8;text-align:center}
@@ -189,6 +191,7 @@ button,input,select{font:inherit;outline:none}
 .expired{background:#fee2e2!important}
 .expired td{color:#991b1b}
 .b-expired{background:#dc2626;color:#fff}
+@media(max-width:480px){.lgrid{grid-template-columns:1fr}.amain,.exct{padding:14px}.hero{padding:60px 16px 50px}.hero h1{font-size:1.8rem}.et{font-size:11px;min-width:100%}.et th{padding:6px 4px;font-size:10px}.et td{padding:6px 4px;font-size:11px}.vb{padding:10px}.vl{padding:12px 14px 0;font-size:12px}.fb2{margin:0 14px 14px;padding:10px 12px;font-size:11px}.rl{margin:10px 14px 0;font-size:11px;padding:5px 10px}.sg2{padding:10px 14px 14px;gap:6px}.si3{padding:8px 10px}.sk2{font-size:10px;padding:3px 8px}.sd2{font-size:11px}.lc2{padding:14px}.ltit{font-size:17px}.lnum{width:36px;height:36px;font-size:14px}.lday{font-size:11px}.ldesc{font-size:13px;line-height:1.6}.ti{font-size:13px;padding:8px 0;gap:10px}.ki{font-size:13px}.kb{font-size:11px;padding:3px 8px;min-width:60px}.exct{padding:10px}}
 </style>
 </head>
 <body>
