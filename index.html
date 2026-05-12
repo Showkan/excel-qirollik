@@ -185,8 +185,10 @@ button,input,select{font:inherit;outline:none}
 .spinner{display:inline-block;width:24px;height:24px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-right:14px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:1024px){.g4{grid-template-columns:repeat(2,1fr)}.lgrid{grid-template-columns:repeat(3,1fr)}.ll{grid-template-columns:1fr}.fgrid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:768px){.alayout{grid-template-columns:1fr}.aside{border-right:none;border-bottom:1px solid var(--bdr)}.g4,.g3,.g2{grid-template-columns:1fr}.lgrid{grid-template-columns:repeat(2,1fr)}.cgrid2,.csg{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}.hero h1{font-size:2.2rem}.lfooter2,.sg2{grid-template-columns:1fr}.lnav{padding:14px 20px}}
-@media(max-width:480px){.lgrid{grid-template-columns:1fr}.amain,.exct{padding:14px}.hero{padding:60px 16px 50px}.hero h1{font-size:1.8rem}}
+@media(max-width:768px){.alayout{grid-template-columns:1fr}.aside{border-right:none;border-bottom:1px solid var(--bdr);padding:10px;display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto}.aside .si2{width:auto;padding:8px 12px;font-size:.82rem;white-space:nowrap;flex:0 0 auto}.amain{padding:14px}.g4,.g3,.g2{grid-template-columns:1fr}.lgrid{grid-template-columns:repeat(2,1fr)}.cgrid2,.csg{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}.hero h1{font-size:2.2rem}.lfooter2,.sg2{grid-template-columns:1fr}.lnav{padding:14px 20px}.atop{padding:0 14px;flex-wrap:wrap;height:auto;min-height:56px}.atop-r{gap:8px;flex-wrap:wrap}.atag{font-size:.72rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atimer{font-size:.78rem;padding:4px 10px}.alogout{padding:5px 10px;font-size:.72rem}.atop-l{font-size:.95rem}.exct{padding:14px}.tbl{font-size:.78rem}.tbl th,.tbl td{padding:8px 10px}.ll{grid-template-columns:1fr}.ptitle{font-size:1.4rem}.btn{padding:8px 14px;font-size:.78rem}.exch span{font-size:9px}.exch span:nth-child(n+6){display:none}.exrn{width:30px}.exrn span{height:30px;font-size:9px}.lbtn{padding:12px 10px;min-height:80px}.lbt{font-size:12px}.gtop{padding:16px}.gname{font-size:1rem}.gbot{padding:12px 16px;flex-wrap:wrap;gap:8px}.lc2{padding:16px}.ltit{font-size:18px}.ldesc{font-size:13px}.fi{padding:10px 12px;font-size:.88rem}.mbox,.moc{padding:24px}.phead{flex-direction:column;align-items:stretch}.phead .actions,.phead button{width:100%}}
+.expired{background:#fee2e2!important}
+.expired td{color:#991b1b}
+.b-expired{background:#dc2626;color:#fff}
 </style>
 </head>
 <body>
@@ -336,19 +338,47 @@ let u=null;
 for(let i=0;i<DB.users.length;i++){if(DB.users[i].login===l&&DB.users[i].pass===ps){u=DB.users[i];break}}
 if(!u){er.textContent='Login yoki parol xato!';er.classList.remove('hidden');return}
 if(u.role!=='king'&&dl(u)===0){er.textContent='Muddat tugagan!';er.classList.remove('hidden');return}
-ME=u;u.ls=tdy();
+const newToken=Date.now()+'_'+Math.random().toString(36).substr(2,9);
+u.activeToken=newToken;
+u.ls=tdy();
+ME=u;
+localStorage.setItem('myToken',newToken);
+localStorage.setItem('myUserId',String(u.id));
 await svUser(u);
 closeLogin();
 $('vLand').classList.add('hidden');
 $('vApp').classList.remove('hidden');
 $('aTag').textContent=ME.name+' ('+rn(ME.role)+')';
 startSes();
+startTokenCheck();
 curTab=ME.role==='soldier'?'lessons':'dashboard';
 curCourse=null;curLesson=-1;curGroupId=null;
 buildSide();
 showTab(curTab);
 }
 
+let tokenCheckInt=null;
+function startTokenCheck(){
+if(tokenCheckInt)clearInterval(tokenCheckInt);
+tokenCheckInt=setInterval(async()=>{
+if(!ME)return;
+try{
+const myToken=localStorage.getItem('myToken');
+const usersSnap=await getDocs(collection(fdb,"users"));
+let found=null;
+usersSnap.forEach(d=>{const data=d.data();if(data.id===ME.id)found=data});
+if(found && found.activeToken && found.activeToken!==myToken){
+clearInterval(tokenCheckInt);
+alert('Sizning hisobingizdan boshqa qurilmadan kirildi! Tizimdan chiqarildingiz.');
+localStorage.removeItem('myToken');
+localStorage.removeItem('myUserId');
+sessionStorage.removeItem(SK);
+ME=null;
+location.reload();
+}
+}catch(e){console.error(e)}
+},10000);
+}
 async function doLogout(){await finSes();clearInterval(timerInt);ME=null;timerStart=null;location.reload()}
 
 function startSes(){
@@ -495,7 +525,7 @@ function rStudents(v){
 let list=vu();
 if(studentSearch){const q=studentSearch.toLowerCase();list=list.filter(u=>u.name.toLowerCase().indexOf(q)>=0||u.login.toLowerCase().indexOf(q)>=0)}
 let rows='';
-for(let i=0;i<list.length;i++){const u=list[i],g=gById(u.gId),d=dl(u),at2=u.access==='all'?'Hammasi':u.access==='foundation'?'Oddiy':u.access==='pro'?'Pro':'Yopiq';rows+='<tr><td><b>'+u.name+'</b><br><span class="muted">'+u.login+'</span></td><td>'+rb(u.role)+'</td><td>'+(g?g.name:'-')+'</td><td>'+at2+'</td><td>'+(d===9999?'∞':d+' kun')+'</td><td>'+ht(tm(u.id))+'</td><td>'+sb(iat(u))+'</td><td>'+(ME.role==='king'?'<button class="btn btn-y btn-sm" data-eu="'+u.id+'">Tahrir</button> ':'')+(ME.role==='king'&&u.role!=='king'?'<button class="btn btn-r btn-sm" data-du="'+u.id+'">O\'chirish</button>':'')+'</td></tr>'}
+for(let i=0;i<members.length;i++){const u=members[i],d=dl(u),at2=u.access==='all'?'Hammasi':u.access==='foundation'?'Oddiy':u.access==='pro'?'Pro':'Yopiq';const exp=u.role!=='king'&&d===0;const dText=d===9999?'∞':exp?'<span class="badge b-expired">TUGAGAN</span>':d+' kun';rows+='<tr class="'+(exp?'expired':'')+'"><td><b>'+u.name+'</b><br><span class="muted">'+u.login+'</span></td><td>'+rb(u.role)+'</td><td>'+at2+'</td><td>'+dText+'</td><td>'+fdt(ls(u))+'</td><td>'+ht(tm(u.id))+'</td><td>'+sb(iat(u))+'</td><td>'+(ME.role==='king'?'<button class="btn btn-y btn-sm" data-eu="'+u.id+'">Tahrir</button> ':'')+(ME.role==='king'&&u.role!=='king'?'<button class="btn btn-r btn-sm" data-du="'+u.id+'">O\'chirish</button>':'')+'</td></tr>'}
 v.innerHTML='<div class="phead"><div><div class="ptitle">O\'quvchilar</div><div class="psub">Qidirish va boshqarish</div></div>'+(ME.role==='king'||ME.role==='commander'?'<button class="btn btn-p" id="btnNewU">+ Yangi</button>':'')+'</div><div style="margin-bottom:16px"><input class="fi" type="text" id="srchU" placeholder="🔍 Ism yoki login bo\'yicha qidirish..." value="'+studentSearch+'" style="max-width:400px"></div><div class="card"><div class="cpad">'+(rows?'<table class="tbl"><thead><tr><th>Ism</th><th>Rol</th><th>Guruh</th><th>Kurs</th><th>Muddat</th><th>Jami vaqt</th><th>Holat</th><th>Amal</th></tr></thead><tbody>'+rows+'</tbody></table>':'<div class="empty">'+(studentSearch?'"'+studentSearch+'" topilmadi':'Hali o\'quvchi yo\'q. "+ Yangi" tugmasini bosib qo\'shing.')+'</div>')+'</div></div>';
 const bn=$('btnNewU');if(bn)bn.addEventListener('click',opUM);
 $('srchU').addEventListener('input',e=>{studentSearch=e.target.value;rM()});
