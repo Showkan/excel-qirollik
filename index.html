@@ -374,10 +374,41 @@ sessionStorage.removeItem(SK);
 }
 window.addEventListener('beforeunload',finSes);
 
-function buildSide(){var s=document.getElementById('aSide'),h='';h+='<button class="si2" data-t="lessons" onclick="showTab(\'lessons\')">📖 Darslar</button>';if(ME.role==='king'||ME.role==='commander'){h+='<button class="si2" data-t="dashboard" onclick="showTab(\'dashboard\')">🏠 Dashboard</button>';h+='<button class="si2" data-t="groups" onclick="showTab(\'groups\')">📂 Guruhlar</button>';h+='<button class="si2" data-t="students" onclick="showTab(\'students\')">👥 O\'quvchilar</button>';h+='<button class="si2" data-t="stats" onclick="showTab(\'stats\')">📊 Statistika</button>'}h+='<button class="si2" data-t="profile" onclick="showTab(\'profile\')">👤 Profil</button>';s.innerHTML=h;var bs=s.querySelectorAll('.si2');for(var i=0;i<bs.length;i++){bs[i].onclick=(function(t){return function(){showTab(t)}})(bs[i].getAttribute('data-t'))}}
-window.showTab=function(t){curTab=t;curCourse=null;curLesson=-1;curGroupId=null;studentSearch='';var bs=document.querySelectorAll('.si2');for(var i=0;i<bs.length;i++)bs[i].classList.toggle('active',bs[i].getAttribute('data-t')===t);rM()}
-window.rM=function(){var v=document.getElementById('aMain');if(curTab==='lessons')return rLessons(v);if(curTab==='dashboard')return rDash(v);if(curTab==='groups')return rGroups(v);if(curTab==='students')return rStudents(v);if(curTab==='stats')return rStats(v);if(curTab==='profile')return rProfile(v)}
-
+function buildSide(){
+var s=document.getElementById('aSide'),h='';
+h+='<button class="si2" data-t="lessons">📖 Darslar</button>';
+if(ME.role==='king'||ME.role==='commander'){
+h+='<button class="si2" data-t="dashboard">🏠 Dashboard</button>';
+h+='<button class="si2" data-t="groups">📂 Guruhlar</button>';
+h+='<button class="si2" data-t="students">👥 O\'quvchilar</button>';
+h+='<button class="si2" data-t="stats">📊 Statistika</button>';
+}
+h+='<button class="si2" data-t="profile">👤 Profil</button>';
+s.innerHTML=h;
+var bs=s.querySelectorAll('.si2');
+for(var i=0;i<bs.length;i++){
+bs[i].addEventListener('click',(function(t){return function(){window.showTab(t)}})(bs[i].getAttribute('data-t')));
+}
+}
+window.rM=function(){
+var v=document.getElementById('aMain');
+if(curTab==='lessons')return rLessons(v);
+if(curTab==='dashboard')return rDash(v);
+if(curTab==='groups')return rGroups(v);
+if(curTab==='students')return rStudents(v);
+if(curTab==='stats')return rStats(v);
+if(curTab==='profile')return rProfile(v);
+}
+window.rLessons=rLessons;
+window.rCS=rCS;
+window.rLL=rLL;
+window.rLD=rLD;
+window.rDash=rDash;
+window.rGroups=rGroups;
+window.rGD=rGD;
+window.rStudents=rStudents;
+window.rStats=rStats;
+window.rProfile=rProfile;
 function rDash(v){var us=vu(),ss=us.filter(function(u){return u.role==='soldier'}),gs=vg(),at=0,tm2=0;for(var i=0;i<ss.length;i++)if(iat(ss[i]))at++;var ts=DB.sessions.filter(function(s){return s.date===tdy()});for(var i=0;i<ts.length;i++)tm2+=ts[i].min;var rs=DB.sessions.slice().sort(function(a,b){return b.date>a.date?1:b.date<a.date?-1:b.id-a.id}).slice(0,8);var rr='';for(var i=0;i<rs.length;i++){var s=rs[i],u=uById(s.uid),g=gById(s.gid);rr+='<tr><td><b>'+(u?u.name:'-')+'</b></td><td>'+(g?g.name:'-')+'</td><td>'+fdt(s.date)+'</td><td>'+s.lt+' → '+s.ot+'</td><td>'+ht(s.min)+'</td></tr>'}v.innerHTML='<div class="phead"><div><div class="ptitle">Dashboard</div><div class="psub">Umumiy holat</div></div></div><div class="g4" style="margin-bottom:20px"><div class="card cpad sc"><h4>O\'quvchilar</h4><div class="sv">'+ss.length+'</div></div><div class="card cpad sc"><h4>Guruhlar</h4><div class="sv">'+gs.length+'</div></div><div class="card cpad sc"><h4>Bugun faol</h4><div class="sv">'+at+'</div></div><div class="card cpad sc"><h4>Bugungi vaqt</h4><div class="sv">'+ht(tm2)+'</div></div></div><div class="card"><div class="cpad"><div class="stitle">Oxirgi faolliklar</div>'+(rr?'<table class="tbl"><thead><tr><th>Ism</th><th>Guruh</th><th>Sana</th><th>Vaqt</th><th>Davomiylik</th></tr></thead><tbody>'+rr+'</tbody></table>':'<div class="empty">Hali faollik yo\'q. Avval o\'quvchi qo\'shing.</div>')+'</div></div>'}
 
 function rLessons(v){if(curLesson>=0)return rLD(v);if(curCourse)return rLL(v);rCS(v)}
