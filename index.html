@@ -4,151 +4,214 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Excel Qirolligi — PRO ta'lim platformasi</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800&family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
---bg:#07080f;--bg2:#0d0e1a;--bg3:#12141f;
---acc:#7c6ef7;--acc2:#5b4fd4;--acc-glow:rgba(124,110,247,0.18);
---txt:#e8e8f0;--txt2:#8888a0;--txt3:#4a4a62;
---bdr:rgba(255,255,255,0.07);--bdr2:rgba(255,255,255,0.12);
---green:#34d399;--green-bg:rgba(52,211,153,0.1);
---red:#ef4444;--red-bg:rgba(239,68,68,0.1);
---yellow:#f59e0b;--blue:#3b82f6;--purple:#a78bfa;
+--bg:#060710;--bg2:#0a0c1a;--bg3:#0f1120;--bg4:#141628;
+--acc:#6c5ce7;--acc2:#4834d4;--acc3:#a29bfe;
+--gold:#f9ca24;--green:#00b894;--green2:#55efc4;--red:#e17055;
+--txt:#f0f0ff;--txt2:#9898b8;--txt3:#4a4a6a;
+--bdr:rgba(255,255,255,0.06);--bdr2:rgba(255,255,255,0.1);--bdr3:rgba(108,92,231,0.25);
+--glow:rgba(108,92,231,0.15);--glow2:rgba(108,92,231,0.08);
+--blue:#74b9ff;--yellow:#fdcb6e;--purple:#a29bfe;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
-h1,h2,h3,h4{font-family:'Syne',sans-serif;line-height:1.2}
+body{background:var(--bg);color:var(--txt);font-family:'Cabinet Grotesk',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
 .hidden{display:none!important}
-button,input,select{font:inherit;outline:none;font-family:'DM Sans',sans-serif}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4}
+button,input,select{font:inherit;outline:none;font-family:'Cabinet Grotesk',sans-serif}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.028;pointer-events:none;z-index:9999}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(7,8,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr)}
-.nav-logo{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--txt);display:flex;align-items:center;gap:8px;text-decoration:none;cursor:pointer}
-.nav-logo span{color:var(--acc)}
-.nav-links{display:flex;gap:28px;align-items:center}
-.nav-links a{color:var(--txt2);font-size:.88rem;text-decoration:none;transition:color .2s;cursor:pointer}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 48px;height:64px;display:flex;justify-content:space-between;align-items:center;transition:background .4s,border .4s}
+nav.scrolled{background:rgba(6,7,16,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr)}
+.nav-logo{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;color:var(--txt);text-decoration:none;display:flex;align-items:center;gap:10px;letter-spacing:-.01em;cursor:pointer}
+.nav-logo-crown{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--acc),var(--acc3));display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 0 20px var(--glow)}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{color:var(--txt2);font-size:.85rem;font-weight:500;text-decoration:none;transition:color .2s;letter-spacing:.01em;cursor:pointer}
 .nav-links a:hover{color:var(--txt)}
-.nav-btn{padding:9px 22px;background:var(--acc);color:#fff;border:none;border-radius:8px;font-size:.88rem;font-weight:500;cursor:pointer;transition:all .2s;text-decoration:none}
-.nav-btn:hover{background:var(--acc2);transform:translateY(-1px)}
+.nav-cta{padding:8px 20px;background:transparent;border:1px solid var(--bdr3);border-radius:8px;color:var(--acc3)!important;font-size:.85rem!important;font-weight:500;transition:all .2s!important}
+.nav-cta:hover{background:var(--glow)!important;border-color:var(--acc)!important;color:var(--txt)!important}
 
-.hero{min-height:100vh;display:flex;align-items:center;padding:120px 40px 80px;position:relative;overflow:hidden}
-.hero-glow-1{position:absolute;top:-100px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(124,110,247,.12) 0%,transparent 65%);pointer-events:none}
-.hero-glow-2{position:absolute;bottom:-200px;left:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(52,211,153,.06) 0%,transparent 65%);pointer-events:none}
-.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--bdr) 1px,transparent 1px),linear-gradient(90deg,var(--bdr) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%)}
-.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:1}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,110,247,.1);border:1px solid rgba(124,110,247,.25);border-radius:999px;padding:6px 16px;font-size:.8rem;color:var(--acc);margin-bottom:24px;animation:fadeUp .6s ease both}
-.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--acc);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.2)}}
-.hero h1{font-size:3.4rem;font-weight:800;margin-bottom:20px;animation:fadeUp .6s ease .1s both}
-.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--acc),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero-sub{font-size:1.05rem;color:var(--txt2);line-height:1.7;margin-bottom:36px;max-width:480px;animation:fadeUp .6s ease .2s both}
-.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .6s ease .3s both}
-.btn-primary{padding:14px 32px;background:var(--acc);color:#fff;border:none;border-radius:10px;font-size:.95rem;font-weight:500;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:8px;text-decoration:none;box-shadow:0 0 30px rgba(124,110,247,.3)}
-.btn-primary:hover{background:var(--acc2);transform:translateY(-2px);box-shadow:0 0 40px rgba(124,110,247,.4)}
-.btn-ghost{padding:14px 28px;background:transparent;color:var(--txt2);border:1px solid var(--bdr2);border-radius:10px;font-size:.95rem;cursor:pointer;transition:all .25s;text-decoration:none}
-.btn-ghost:hover{border-color:var(--acc);color:var(--txt)}
-.hero-stats{display:flex;gap:28px;margin-top:48px;padding-top:32px;border-top:1px solid var(--bdr);animation:fadeUp .6s ease .4s both}
-.stat-n{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:700;color:var(--txt)}
-.stat-l{font-size:.8rem;color:var(--txt3);margin-top:2px}
-.hero-visual{position:relative;animation:fadeUp .7s ease .2s both}
-.hero-card-main{background:var(--bg3);border:1px solid var(--bdr2);border-radius:16px;padding:24px;position:relative;overflow:hidden}
-.hero-card-main::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--acc),transparent)}
-.hc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.hc-title{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700}
-.hc-badge{font-size:.72rem;background:var(--green-bg);color:var(--green);padding:3px 10px;border-radius:999px}
-.progress-list{display:flex;flex-direction:column;gap:12px}
-.prog-item{display:flex;flex-direction:column;gap:6px}
-.prog-header{display:flex;justify-content:space-between;font-size:.82rem}
-.prog-header span:first-child{color:var(--txt2)}
-.prog-header span:last-child{color:var(--acc);font-weight:500}
-.prog-bar{height:4px;background:var(--bg);border-radius:2px;overflow:hidden}
-.prog-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--acc),#a78bfa);transition:width 1s ease}
-.hero-card-sm{position:absolute;bottom:-20px;right:-20px;background:var(--bg2);border:1px solid var(--bdr2);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 20px 40px rgba(0,0,0,.4)}
-.hcs-icon{width:36px;height:36px;border-radius:8px;background:var(--acc-glow);display:flex;align-items:center;justify-content:center;font-size:18px}
-.hcs-text p{font-size:.82rem;font-weight:500}
-.hcs-text span{font-size:.72rem;color:var(--txt3)}
+.hero{min-height:100vh;display:flex;align-items:center;padding:80px 48px 60px;position:relative;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:orbFloat 8s ease-in-out infinite}
+.orb-1{width:500px;height:500px;top:-80px;right:-60px;background:radial-gradient(circle,rgba(108,92,231,.18),transparent 70%);animation-delay:0s}
+.orb-2{width:400px;height:400px;bottom:-120px;left:-60px;background:radial-gradient(circle,rgba(0,184,148,.08),transparent 70%);animation-delay:-3s}
+.orb-3{width:300px;height:300px;top:30%;left:30%;background:radial-gradient(circle,rgba(108,92,231,.06),transparent 70%);animation-delay:-5s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0)}33%{transform:translate(20px,-30px)}66%{transform:translate(-15px,20px)}}
+.hero-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,black 20%,transparent 100%)}
+.hero-inner{max-width:1160px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:2}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;background:rgba(108,92,231,.1);border:1px solid rgba(108,92,231,.2);border-radius:999px;margin-bottom:28px;font-size:.78rem;color:var(--acc3);font-weight:500;opacity:0;animation:slideUp .6s ease .1s forwards}
+.hero-pill-dot{width:20px;height:20px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.hero h1{font-family:'Syne',sans-serif;font-size:3.8rem;font-weight:800;line-height:1.1;letter-spacing:-.03em;margin-bottom:22px;opacity:0;animation:slideUp .6s ease .2s forwards}
+.hero h1 .grad{background:linear-gradient(135deg,#a29bfe 0%,#6c5ce7 40%,#74b9ff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero h1 .outline{-webkit-text-stroke:1.5px rgba(255,255,255,.3);-webkit-text-fill-color:transparent;color:transparent}
+.hero-sub{font-size:1rem;color:var(--txt2);line-height:1.75;max-width:460px;margin-bottom:40px;opacity:0;animation:slideUp .6s ease .3s forwards}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:slideUp .6s ease .4s forwards}
+.btn-hero{padding:14px 30px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:none;border-radius:10px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:8px;text-decoration:none;box-shadow:0 8px 32px rgba(108,92,231,.35);position:relative;overflow:hidden}
+.btn-hero:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(108,92,231,.45)}
+.btn-outline{padding:14px 28px;background:transparent;color:var(--txt2);border:1px solid var(--bdr2);border-radius:10px;font-size:.9rem;font-weight:500;cursor:pointer;transition:all .25s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn-outline:hover{border-color:rgba(162,155,254,.4);color:var(--txt)}
+.hero-counters{display:flex;gap:0;margin-top:52px;padding-top:36px;border-top:1px solid var(--bdr);opacity:0;animation:slideUp .6s ease .5s forwards}
+.counter{padding:0 32px 0 0;margin:0 32px 0 0;border-right:1px solid var(--bdr)}
+.counter:last-child{border-right:none;margin:0;padding:0}
+.counter-val{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--txt),var(--txt2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.counter-label{font-size:.78rem;color:var(--txt3);margin-top:2px;letter-spacing:.04em;text-transform:uppercase}
 
-.section{max-width:1100px;margin:0 auto;padding:80px 40px}
-.section-tag{display:inline-block;font-size:.78rem;color:var(--acc);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
-.section-title{font-size:2.2rem;font-weight:800;margin-bottom:14px}
-.section-sub{color:var(--txt2);font-size:1rem;max-width:500px;line-height:1.7;margin-bottom:48px}
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.feat-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:16px;padding:28px;transition:all .25s;position:relative;overflow:hidden}
-.feat-card::before{content:'';position:absolute;inset:0;opacity:0;background:radial-gradient(circle at 50% 0%,var(--acc-glow),transparent 70%);transition:opacity .3s}
-.feat-card:hover{border-color:rgba(124,110,247,.3);transform:translateY(-3px)}
-.feat-card:hover::before{opacity:1}
-.feat-icon{width:44px;height:44px;border-radius:10px;background:var(--acc-glow);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
-.feat-card h3{font-size:1rem;font-weight:700;margin-bottom:8px}
-.feat-card p{font-size:.88rem;color:var(--txt2);line-height:1.7}
+.hero-visual{position:relative;opacity:0;animation:slideUp .8s ease .3s forwards}
+.hv-window{background:var(--bg3);border:1px solid var(--bdr2);border-radius:16px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04);position:relative}
+.hv-window::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 5%,var(--acc) 50%,transparent 95%);opacity:.6}
+.hv-titlebar{padding:12px 16px;background:var(--bg4);display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--bdr)}
+.hv-dots{display:flex;gap:6px}
+.hv-dot{width:10px;height:10px;border-radius:50%}
+.hv-dot:nth-child(1){background:#ff5f57}
+.hv-dot:nth-child(2){background:#ffbd2e}
+.hv-dot:nth-child(3){background:#28c840}
+.hv-title{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--txt3);margin-left:8px}
+.hv-body{padding:20px}
+.excel-tabs{display:flex;gap:2px;margin-bottom:12px}
+.excel-tab{padding:5px 14px;border-radius:6px 6px 0 0;font-family:'DM Mono',monospace;font-size:.7rem;background:var(--bg4);color:var(--txt3);cursor:pointer;border:1px solid var(--bdr);border-bottom:none;transition:all .2s}
+.excel-tab.active{background:#1a6b3c;color:#d2edde;border-color:#2d8a55}
+.excel-grid{border:1px solid #2d3a2e;border-radius:0 8px 8px 8px;overflow:hidden}
+.excel-colhead{display:grid;grid-template-columns:32px repeat(5,1fr);background:#1a2b1e;border-bottom:1px solid #2d3a2e}
+.excel-col{font-family:'DM Mono',monospace;font-size:.65rem;color:#6a9a76;padding:5px 8px;text-align:center;border-right:1px solid #2d3a2e}
+.excel-row{display:grid;grid-template-columns:32px repeat(5,1fr);border-bottom:1px solid rgba(45,58,46,.5)}
+.excel-row:last-child{border-bottom:none}
+.excel-rn{font-family:'DM Mono',monospace;font-size:.65rem;color:#4a7056;padding:7px 8px;text-align:center;background:#1a2b1e;border-right:1px solid #2d3a2e}
+.excel-cell{font-family:'DM Mono',monospace;font-size:.72rem;padding:7px 8px;border-right:1px solid rgba(45,58,46,.4);color:var(--txt2)}
+.excel-cell:last-child{border-right:none}
+.cell-h{color:#d2edde;font-weight:500;background:#0f2218}
+.cell-g{color:#34d399}
+.cell-r{color:#ff7675}
+.cell-y{color:#fdcb6e}
+.cell-b{color:#74b9ff}
+.formula-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg4);border-top:1px solid var(--bdr)}
+.fb-cell{font-family:'DM Mono',monospace;font-size:.7rem;color:#1a6b3c;background:#d2edde18;padding:3px 10px;border-radius:4px;border:1px solid #2d8a5540}
+.fb-fx{font-family:'DM Mono',monospace;font-size:.72rem;color:#6c5ce7;font-style:italic}
+.fb-formula{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--acc3)}
+.hv-float-1{position:absolute;bottom:-16px;right:-24px;background:var(--bg2);border:1px solid var(--bdr2);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 24px 48px rgba(0,0,0,.4);animation:float1 4s ease-in-out infinite}
+.hv-float-2{position:absolute;top:24px;left:-28px;background:var(--bg2);border:1px solid var(--bdr2);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 16px 32px rgba(0,0,0,.3);animation:float2 5s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.hv-f-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.hv-f-icon.purple{background:rgba(108,92,231,.2)}
+.hv-f-icon.green{background:rgba(0,184,148,.15)}
+.hv-f-text p{font-size:.82rem;font-weight:700;color:var(--txt)}
+.hv-f-text span{font-size:.7rem;color:var(--txt3)}
 
-.courses-wrap{max-width:1100px;margin:0 auto;padding:0 40px 80px}
-.course-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.course-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:20px;padding:36px;transition:all .3s;position:relative;overflow:hidden}
-.course-card.featured{border-color:rgba(124,110,247,.35)}
-.course-card.featured::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--acc),#a78bfa)}
-.course-card:hover{border-color:rgba(124,110,247,.4);transform:translateY(-4px)}
-.course-badge{display:inline-block;padding:5px 14px;border-radius:999px;font-size:.75rem;font-weight:600;margin-bottom:16px}
-.badge-green{background:var(--green-bg);color:var(--green)}
-.badge-purple{background:var(--acc-glow);color:var(--acc)}
-.course-card h3{font-size:1.4rem;font-weight:800;margin-bottom:12px}
-.course-card p{color:var(--txt2);font-size:.9rem;line-height:1.7;margin-bottom:20px}
-.course-meta{display:flex;gap:20px;color:var(--txt3);font-size:.84rem}
-.course-meta span{display:flex;align-items:center;gap:6px}
-.course-topics{margin-top:20px;padding-top:20px;border-top:1px solid var(--bdr);display:flex;flex-direction:column;gap:8px}
-.topic{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--txt2)}
-.topic::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--acc);flex-shrink:0}
+.marquee-wrap{padding:20px 0;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);overflow:hidden;background:var(--bg2);position:relative}
+.marquee-wrap::before,.marquee-wrap::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2}
+.marquee-wrap::before{left:0;background:linear-gradient(90deg,var(--bg2),transparent)}
+.marquee-wrap::after{right:0;background:linear-gradient(-90deg,var(--bg2),transparent)}
+.marquee-track{display:flex;gap:0;animation:marquee 30s linear infinite;width:max-content}
+.marquee-item{display:flex;align-items:center;gap:10px;padding:0 28px;font-family:'DM Mono',monospace;font-size:.78rem;color:var(--txt3);white-space:nowrap;border-right:1px solid var(--bdr)}
+.marquee-item span{color:var(--acc3);font-size:.9rem}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-.contact-wrap{max-width:1100px;margin:0 auto;padding:0 40px 100px}
-.contact-inner{background:var(--bg2);border:1px solid var(--bdr);border-radius:24px;padding:60px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;overflow:hidden}
-.contact-inner::before{content:'';position:absolute;top:-200px;right:-200px;width:500px;height:500px;background:radial-gradient(circle,var(--acc-glow) 0%,transparent 65%)}
-.contact-inner h2{font-size:2rem;font-weight:800;margin-bottom:14px}
-.contact-inner p{color:var(--txt2);line-height:1.7;margin-bottom:24px}
-.contact-links{display:flex;flex-direction:column;gap:14px}
-.contact-link{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--bg3);border:1px solid var(--bdr);border-radius:12px;text-decoration:none;transition:all .2s}
-.contact-link:hover{border-color:var(--acc);background:var(--acc-glow)}
-.cl-icon{width:40px;height:40px;border-radius:10px;background:var(--acc-glow);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.cl-text p{font-size:.88rem;font-weight:500;color:var(--txt)}
-.cl-text span{font-size:.78rem;color:var(--txt3)}
+.section{max-width:1160px;margin:0 auto;padding:100px 48px}
+.sec-eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:.72rem;color:var(--acc3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.sec-eyebrow::before{content:'//'}
+.sec-title{font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:16px}
+.sec-sub{color:var(--txt2);font-size:.95rem;line-height:1.75;max-width:480px;margin-bottom:60px}
+.feat-bento{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:16px}
+.feat-tile{background:var(--bg2);border:1px solid var(--bdr);border-radius:20px;padding:32px;position:relative;overflow:hidden;transition:all .3s}
+.feat-tile:hover{border-color:var(--bdr3);transform:translateY(-4px)}
+.feat-tile.wide{grid-column:span 2}
+.ft-num{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--txt3);margin-bottom:20px;letter-spacing:.04em}
+.ft-icon{width:48px;height:48px;border-radius:12px;background:var(--glow2);border:1px solid var(--bdr3);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px}
+.feat-tile h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:10px}
+.feat-tile p{font-size:.88rem;color:var(--txt2);line-height:1.7}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chip{padding:5px 12px;border-radius:999px;font-size:.75rem;font-weight:500;border:1px solid var(--bdr2);color:var(--txt2)}
 
-footer{border-top:1px solid var(--bdr);padding:32px 40px;text-align:center;color:var(--txt3);font-size:.82rem}
-footer a{color:var(--acc);text-decoration:none}
+.courses-section{background:var(--bg2);position:relative;overflow:hidden}
+.course-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;position:relative;z-index:1}
+.course-card{background:var(--bg3);border:1px solid var(--bdr);border-radius:24px;padding:40px;position:relative;overflow:hidden;transition:all .35s}
+.course-card:hover{transform:translateY(-6px);border-color:var(--bdr3)}
+.course-card.pro{border-color:rgba(108,92,231,.25)}
+.course-card.pro::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 5%,var(--acc) 50%,transparent 95%)}
+.cc-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;font-size:.73rem;font-weight:700;margin-bottom:24px}
+.cc-badge.starter{background:rgba(0,184,148,.12);color:var(--green2);border:1px solid rgba(0,184,148,.2)}
+.cc-badge.pro-b{background:rgba(108,92,231,.12);color:var(--acc3);border:1px solid rgba(108,92,231,.2)}
+.cc-badge .badge-dot{width:6px;height:6px;border-radius:50%}
+.cc-badge.starter .badge-dot{background:var(--green)}
+.cc-badge.pro-b .badge-dot{background:var(--acc)}
+.course-card h3{font-family:'Syne',sans-serif;font-size:1.55rem;font-weight:800;line-height:1.2;margin-bottom:14px;letter-spacing:-.02em}
+.course-card>p{color:var(--txt2);font-size:.9rem;line-height:1.75;margin-bottom:24px}
+.cc-meta{display:flex;gap:20px;margin-bottom:28px}
+.cc-meta-item{display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--txt3)}
+.cc-topics{border-top:1px solid var(--bdr);padding-top:24px;display:flex;flex-direction:column;gap:10px}
+.cc-topic{display:flex;align-items:center;gap:12px;font-size:.85rem;color:var(--txt2)}
+.cc-topic-check{width:18px;height:18px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.starter-check{background:rgba(0,184,148,.1);color:var(--green);border:1px solid rgba(0,184,148,.2)}
+.pro-check{background:rgba(108,92,231,.1);color:var(--acc3);border:1px solid rgba(108,92,231,.2)}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
+.cta-section{position:relative;overflow:hidden}
+.cta-inner{background:var(--bg2);border:1px solid var(--bdr);border-radius:28px;padding:72px;text-align:center;position:relative;overflow:hidden}
+.cta-inner::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(108,92,231,.12),transparent 65%)}
+.cta-inner h2{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;letter-spacing:-.03em;margin-bottom:16px;position:relative;z-index:1}
+.cta-inner p{color:var(--txt2);font-size:1rem;margin-bottom:36px;position:relative;z-index:1;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7}
+.cta-contact{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;position:relative;z-index:1}
+.contact-pill{display:flex;align-items:center;gap:12px;padding:14px 24px;background:var(--bg3);border:1px solid var(--bdr2);border-radius:14px;text-decoration:none;transition:all .25s;min-width:200px;cursor:pointer}
+.contact-pill:hover{border-color:var(--bdr3);background:var(--glow2);transform:translateY(-2px)}
+.cp-icon{width:38px;height:38px;border-radius:9px;background:var(--glow2);border:1px solid var(--bdr3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cp-text p{font-size:.85rem;font-weight:700;color:var(--txt);text-align:left}
+.cp-text span{font-size:.73rem;color:var(--txt3)}
 
-/* ============ LOGIN MODAL ============ */
-.mbg{position:fixed;inset:0;background:rgba(7,8,15,0.85);backdrop-filter:blur(10px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
-.mbox{background:var(--bg2);width:100%;max-width:420px;border-radius:20px;padding:36px;border:1px solid var(--bdr2);box-shadow:0 25px 60px rgba(0,0,0,.5)}
-.mbox h2{font-size:1.6rem;font-weight:800;margin-bottom:6px;text-align:center;font-family:'Syne',sans-serif}
-.msub{text-align:center;color:var(--txt2);font-size:.88rem;margin-bottom:24px}
-.fl{display:block;font-size:.78rem;font-weight:600;color:var(--txt2);margin-bottom:6px;margin-top:14px}
-.fi{width:100%;padding:12px 16px;border:1px solid var(--bdr2);border-radius:10px;font-size:.95rem;background:var(--bg3);color:var(--txt);transition:all .2s}
-.fi:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-glow)}
-.fbtn{width:100%;padding:14px;background:var(--acc);color:#fff;border:none;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;margin-top:20px;transition:all .2s}
-.fbtn:hover{background:var(--acc2);box-shadow:0 0 30px rgba(124,110,247,.3)}
-.ferr{color:var(--red);font-size:.82rem;font-weight:600;margin-top:10px;text-align:center}
-.fclose{display:block;text-align:center;margin-top:16px;color:var(--txt3);font-size:.88rem;cursor:pointer}
-.fhints{margin-top:20px;background:var(--bg3);border:1px solid var(--bdr);border-radius:12px;padding:14px;font-size:.82rem;line-height:1.8;text-align:center;color:var(--txt2)}
-.fhints b{color:var(--txt)}
-.fhints a{color:var(--acc);text-decoration:none;font-weight:600}
+footer{border-top:1px solid var(--bdr);padding:40px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--txt2);display:flex;align-items:center;gap:8px}
+.footer-copy{font-size:.8rem;color:var(--txt3)}
+.footer-link{color:var(--acc3);text-decoration:none}
 
-/* ============ APP SHELL ============ */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:800;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:all .3s}
+.modal-bg.open{opacity:1;visibility:visible}
+.modal-box{background:var(--bg2);border:1px solid var(--bdr2);border-radius:24px;padding:44px;width:100%;max-width:400px;position:relative;transform:translateY(16px);transition:transform .3s;box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.modal-bg.open .modal-box{transform:translateY(0)}
+.modal-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--acc),transparent);border-radius:24px 24px 0 0}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bdr);border:none;color:var(--txt3);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.modal-close:hover{background:var(--bdr2);color:var(--txt)}
+.modal-crown{font-size:2rem;margin-bottom:8px}
+.modal-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:6px}
+.modal-sub{font-size:.85rem;color:var(--txt3);margin-bottom:28px}
+.m-label{display:block;font-size:.78rem;font-weight:600;color:var(--txt3);margin-bottom:6px;margin-top:16px;letter-spacing:.04em;text-transform:uppercase}
+.m-input{width:100%;padding:12px 16px;background:var(--bg3);border:1px solid var(--bdr2);border-radius:10px;color:var(--txt);font-size:.92rem;transition:border .2s;outline:none}
+.m-input:focus{border-color:var(--acc)}
+.m-btn{width:100%;padding:14px;margin-top:24px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 8px 24px rgba(108,92,231,.3)}
+.m-btn:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(108,92,231,.4)}
+.m-err{font-size:.8rem;color:#ff7675;margin-top:10px;text-align:center;display:none;padding:8px;background:rgba(255,118,117,.1);border-radius:8px}
+.m-err.show{display:block}
+.m-hint{margin-top:20px;padding:14px;background:var(--bg3);border:1px solid var(--bdr);border-radius:10px;font-size:.8rem;color:var(--txt3);text-align:center;line-height:1.7}
+.m-hint a{color:var(--acc3);text-decoration:none}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.reveal.up{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}
+.reveal-d2{transition-delay:.2s}
+.reveal-d3{transition-delay:.3s}
+
+.loader{position:fixed;inset:0;background:var(--bg);z-index:9998;display:flex;align-items:center;justify-content:center;transition:opacity .5s ease,visibility .5s ease}
+.loader.gone{opacity:0;visibility:hidden}
+.loader-inner{text-align:center}
+.loader-crown{font-size:2.5rem;animation:crownPop .5s ease}
+.loader-bar{width:160px;height:2px;background:var(--bdr2);border-radius:2px;margin:16px auto 0;overflow:hidden}
+.loader-fill{height:100%;background:linear-gradient(90deg,var(--acc),var(--acc3));border-radius:2px;animation:load 1.2s ease forwards}
+@keyframes crownPop{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+@keyframes load{from{width:0}to{width:100%}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* APP SHELL */
 .atop{height:60px;background:var(--bg2);border-bottom:1px solid var(--bdr);color:var(--txt);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100}
 .atop-l{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1rem;font-family:'Syne',sans-serif}
-.atop-l span{color:var(--acc)}
 .atop-r{display:flex;align-items:center;gap:14px}
-.atimer{font-family:monospace;font-weight:700;background:var(--green-bg);color:var(--green);padding:5px 14px;border-radius:8px;font-size:.85rem;border:1px solid rgba(52,211,153,.25)}
+.atimer{font-family:'DM Mono',monospace;font-weight:700;background:rgba(0,184,148,.1);color:var(--green2);padding:5px 14px;border-radius:8px;font-size:.85rem;border:1px solid rgba(0,184,148,.25)}
 .atag{font-size:.82rem;color:var(--txt2)}
-.alogout{background:var(--red-bg);color:var(--red);border:1px solid rgba(239,68,68,.25);padding:7px 16px;border-radius:8px;font-weight:600;font-size:.8rem;cursor:pointer;transition:all .2s}
-.alogout:hover{background:var(--red);color:#fff}
+.alogout{background:rgba(225,112,85,.1);color:#ff7675;border:1px solid rgba(225,112,85,.25);padding:7px 16px;border-radius:8px;font-weight:600;font-size:.8rem;cursor:pointer;transition:all .2s}
+.alogout:hover{background:#e17055;color:#fff}
 .alayout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 60px)}
 .aside{background:var(--bg2);border-right:1px solid var(--bdr);padding:16px;overflow-y:auto}
 .amain{padding:28px;overflow-y:auto;background:var(--bg)}
 .si2{width:100%;text-align:left;border:none;background:transparent;padding:12px 14px;border-radius:10px;font-weight:600;color:var(--txt2);cursor:pointer;display:flex;align-items:center;gap:10px;margin-bottom:4px;transition:.15s;font-size:.9rem}
 .si2:hover{background:var(--bg3);color:var(--txt)}
-.si2.active{background:var(--acc-glow);color:var(--acc)}
+.si2.active{background:var(--glow);color:var(--acc3)}
 
 .phead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:24px}
 .ptitle{font-size:1.8rem;font-weight:800;font-family:'Syne',sans-serif}
@@ -157,8 +220,8 @@ footer a{color:var(--acc);text-decoration:none}
 .btn:hover{transform:translateY(-1px)}
 .btn-p{background:var(--acc);color:#fff}
 .btn-p:hover{background:var(--acc2)}
-.btn-r{background:var(--red);color:#fff}
-.btn-y{background:var(--yellow);color:#fff}
+.btn-r{background:#e17055;color:#fff}
+.btn-y{background:#fdcb6e;color:#000}
 .btn-d{background:var(--bg3);color:var(--txt);border:1px solid var(--bdr2)}
 .btn-gh{background:var(--bg3);color:var(--txt2);border:1px solid var(--bdr)}
 .btn-gh:hover{color:var(--txt);border-color:var(--bdr2)}
@@ -175,39 +238,37 @@ footer a{color:var(--acc);text-decoration:none}
 .tbl th{font-size:.74rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;background:var(--bg3)}
 .tbl tr:hover td{background:var(--bg3)}
 .badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:.7rem;font-weight:700}
-.b-king{background:rgba(245,158,11,.15);color:var(--yellow)}
-.b-cmd{background:rgba(59,130,246,.15);color:var(--blue)}
-.b-sold{background:var(--green-bg);color:var(--green)}
-.b-act{background:var(--green-bg);color:var(--green)}
-.b-pas{background:var(--red-bg);color:var(--red)}
-.b-expired{background:var(--red);color:#fff}
-.expired{background:rgba(239,68,68,.05)!important}
-.expired td{color:rgba(239,68,68,.8)}
+.b-king{background:rgba(249,202,36,.15);color:var(--gold)}
+.b-cmd{background:rgba(116,185,255,.15);color:var(--blue)}
+.b-sold{background:rgba(0,184,148,.15);color:var(--green2)}
+.b-act{background:rgba(0,184,148,.15);color:var(--green2)}
+.b-pas{background:rgba(225,112,85,.15);color:#ff7675}
+.b-expired{background:#e17055;color:#fff}
+.expired{background:rgba(225,112,85,.05)!important}
+.expired td{color:rgba(255,118,117,.8)}
 .stitle{font-size:1.05rem;font-weight:700;margin-bottom:14px;font-family:'Syne',sans-serif}
 .empty{padding:40px;text-align:center;color:var(--txt3);font-weight:500}
 .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
 .filters input,.filters select{padding:10px 14px;border:1px solid var(--bdr2);border-radius:8px;font-size:.85rem;background:var(--bg3);color:var(--txt)}
 .muted{color:var(--txt3);font-size:.8rem}
 
-/* Excel-like lessons */
 .exw{background:var(--bg2);border-radius:14px;overflow:hidden;border:1px solid var(--bdr)}
 .exch{display:flex;background:var(--bg3);border-bottom:1px solid var(--bdr);padding-left:36px}
 .exch span{flex:1;font-size:11px;color:var(--txt3);text-align:center;padding:8px 0;border-left:1px solid var(--bdr);font-weight:600}
 .exfb{display:flex;align-items:center;background:var(--bg2);border-bottom:1px solid var(--bdr)}
-.exfc{background:var(--acc-glow);padding:9px 14px;color:var(--acc);font-weight:700;font-family:monospace;font-size:12px;min-width:60px;text-align:center;border-right:1px solid var(--bdr)}
-.exfx{padding:9px 12px;color:var(--acc);font-style:italic;font-weight:700;border-right:1px solid var(--bdr);font-size:13px}
+.exfc{background:var(--glow);padding:9px 14px;color:var(--acc3);font-weight:700;font-family:monospace;font-size:12px;min-width:60px;text-align:center;border-right:1px solid var(--bdr)}
+.exfx{padding:9px 12px;color:var(--acc3);font-style:italic;font-weight:700;border-right:1px solid var(--bdr);font-size:13px}
 .exfp{padding:9px 14px;color:var(--txt2);font-size:13px;flex:1}
 .exfp b{color:var(--txt)}
 .exbd{display:flex}
 .exrn{background:var(--bg3);border-right:1px solid var(--bdr);width:36px;flex-shrink:0}
 .exrn span{height:36px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--txt3);border-bottom:1px solid var(--bdr);font-weight:600}
 .exct{flex:1;padding:24px;min-width:0}
-
 .csg{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .csc{background:var(--bg2);border:1px solid var(--bdr2);border-radius:16px;padding:28px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
 .csc:hover{border-color:var(--acc);transform:translateY(-2px)}
 .csc.locked{opacity:.55;cursor:not-allowed}
-.csc.locked::before{content:'🔒 Yopiq';position:absolute;top:14px;right:14px;font-size:.78rem;font-weight:700;color:var(--red);background:var(--red-bg);padding:5px 12px;border-radius:8px;border:1px solid rgba(239,68,68,.25)}
+.csc.locked::before{content:'🔒 Yopiq';position:absolute;top:14px;right:14px;font-size:.78rem;font-weight:700;color:#ff7675;background:rgba(225,112,85,.15);padding:5px 12px;border-radius:8px;border:1px solid rgba(225,112,85,.25)}
 .csb{display:inline-block;padding:5px 14px;border-radius:999px;font-size:.78rem;font-weight:700;margin-bottom:14px}
 
 .lgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -220,7 +281,7 @@ footer a{color:var(--acc);text-decoration:none}
 .ll{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .lleft,.lright{display:flex;flex-direction:column;gap:16px}
 .lc2{background:var(--bg2);border:1px solid var(--bdr);border-radius:14px;padding:22px}
-.lnum{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:10px;background:var(--acc-glow);color:var(--acc);font-size:17px;font-weight:800;font-family:monospace;margin-bottom:12px;border:1px solid rgba(124,110,247,.3)}
+.lnum{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:10px;background:var(--glow);color:var(--acc3);font-size:17px;font-weight:800;font-family:monospace;margin-bottom:12px;border:1px solid rgba(108,92,231,.3)}
 .lday{font-size:12px;color:var(--txt3);margin-bottom:4px;font-weight:500}
 .ltit{font-size:22px;font-weight:800;line-height:1.3;margin-bottom:10px;font-family:'Syne',sans-serif}
 .ldesc{font-size:14px;color:var(--txt2);line-height:1.7}
@@ -228,9 +289,9 @@ footer a{color:var(--acc);text-decoration:none}
 .ti{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--bdr);font-size:14px;line-height:1.6}
 .ti:last-child{border-bottom:none}
 .td2{width:8px;height:8px;border-radius:50%;background:var(--acc);flex-shrink:0;margin-top:8px}
-.ti b{color:var(--acc)}
+.ti b{color:var(--acc3)}
 .ki{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:14px;font-weight:500;color:var(--txt2)}
-.kb{font-size:11px;font-weight:700;font-family:monospace;background:var(--acc-glow);color:var(--acc);padding:4px 10px;border-radius:6px;border:1px solid rgba(124,110,247,.3);min-width:70px;text-align:center}
+.kb{font-size:11px;font-weight:700;font-family:monospace;background:var(--glow);color:var(--acc3);padding:4px 10px;border-radius:6px;border:1px solid rgba(108,92,231,.3);min-width:70px;text-align:center}
 .vc{background:var(--bg2);border:1px solid var(--bdr);border-radius:14px;overflow:hidden}
 .vl{font-size:13px;color:var(--txt);font-weight:700;padding:14px 18px 0}
 .vb{padding:14px 18px 18px;overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -240,20 +301,20 @@ footer a{color:var(--acc);text-decoration:none}
 .et th{background:var(--bg3);color:var(--txt2);font-weight:700;padding:9px;border:1px solid var(--bdr);font-size:11px;text-align:center}
 .et td{padding:9px;border:1px solid var(--bdr);text-align:center;color:var(--txt)}
 .rh{background:var(--bg3);color:var(--txt3);font-size:11px;width:32px;font-weight:700}
-.cg{background:rgba(52,211,153,.12);color:var(--green);font-weight:700}
-.cr{background:rgba(239,68,68,.12);color:var(--red);font-weight:700}
-.cb{background:rgba(59,130,246,.12);color:var(--blue);font-weight:700}
-.cy{background:rgba(245,158,11,.12);color:var(--yellow);font-weight:700}
-.cp2{background:rgba(167,139,250,.12);color:var(--purple);font-weight:700}
+.cg{background:rgba(0,184,148,.12);color:var(--green2);font-weight:700}
+.cr{background:rgba(225,112,85,.12);color:#ff7675;font-weight:700}
+.cb{background:rgba(116,185,255,.12);color:var(--blue);font-weight:700}
+.cy{background:rgba(253,203,110,.12);color:var(--yellow);font-weight:700}
+.cp2{background:rgba(162,155,254,.12);color:var(--purple);font-weight:700}
 .cv2{font-weight:700;color:var(--txt)}
 .ch2{font-weight:700;text-align:center;color:#fff;padding:10px}
 .fb2{margin:0 18px 18px;padding:14px 18px;background:var(--bg3);border-radius:10px;font-family:monospace;font-size:13px;color:var(--txt);border-left:3px solid var(--acc);line-height:1.8}
-.fb2 b{color:var(--acc)}
-.fb2 .fdesc{display:block;color:var(--txt2);font-size:12px;font-family:'DM Sans',sans-serif;margin-top:6px}
-.rl{display:inline-block;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;margin:14px 18px 0;background:var(--acc-glow);color:var(--acc);border:1px solid rgba(124,110,247,.3)}
+.fb2 b{color:var(--acc3)}
+.fb2 .fdesc{display:block;color:var(--txt2);font-size:12px;font-family:'Cabinet Grotesk',sans-serif;margin-top:6px}
+.rl{display:inline-block;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;margin:14px 18px 0;background:var(--glow);color:var(--acc3);border:1px solid rgba(108,92,231,.3)}
 .sg2{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 18px 18px}
 .si3{display:flex;align-items:center;gap:10px;background:var(--bg3);border-radius:8px;padding:10px 12px;border:1px solid var(--bdr)}
-.sk2{font-family:monospace;font-size:11px;font-weight:700;background:var(--bg2);border:1px solid var(--bdr2);border-radius:6px;padding:4px 10px;color:var(--acc);white-space:nowrap}
+.sk2{font-family:monospace;font-size:11px;font-weight:700;background:var(--bg2);border:1px solid var(--bdr2);border-radius:6px;padding:4px 10px;color:var(--acc3);white-space:nowrap}
 .sd2{font-size:12px;font-weight:500;color:var(--txt2)}
 .lfooter2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
 .fc2{background:var(--bg2);border:1px solid var(--bdr);border-radius:14px;padding:20px}
@@ -270,27 +331,28 @@ footer a{color:var(--acc);text-decoration:none}
 .gbot{padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
 .gcnt{font-size:.85rem;color:var(--txt2);font-weight:500}
 
-.mov{position:fixed;inset:0;background:rgba(7,8,15,0.85);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
 .moc{width:100%;max-width:520px;max-height:90vh;overflow-y:auto;background:var(--bg2);border:1px solid var(--bdr2);border-radius:18px;padding:28px}
 .mot{font-size:1.3rem;font-weight:800;margin-bottom:16px;font-family:'Syne',sans-serif}
 .moa{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.fl{display:block;font-size:.78rem;font-weight:600;color:var(--txt2);margin-bottom:6px;margin-top:14px}
+.fi{width:100%;padding:12px 16px;border:1px solid var(--bdr2);border-radius:10px;font-size:.95rem;background:var(--bg3);color:var(--txt)}
+.fi:focus{border-color:var(--acc)}
 
-.loader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;color:var(--txt);font-size:1rem;font-weight:600;flex-direction:column;gap:18px}
-.loader.hidden{display:none}
-.spinner{display:inline-block;width:32px;height:32px;border:3px solid var(--bdr2);border-top-color:var(--acc);border-radius:50%;animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-@media(max-width:900px){
-nav{padding:16px 20px}
-.hero{padding:100px 20px 60px}
-.hero-inner{grid-template-columns:1fr;gap:40px}
-.hero h1{font-size:2.4rem}
+@media(max-width:960px){
+nav{padding:0 24px}
+.nav-links a:not(.nav-cta){display:none}
+.hero{padding:90px 24px 60px}
+.hero-inner{grid-template-columns:1fr;gap:48px}
+.hero h1{font-size:2.6rem}
 .hero-visual{display:none}
-.feat-grid{grid-template-columns:1fr}
+.section{padding:70px 24px}
+.feat-bento{grid-template-columns:1fr}
+.feat-tile.wide{grid-column:span 1}
 .course-grid{grid-template-columns:1fr}
-.contact-inner{grid-template-columns:1fr;padding:32px}
-.section{padding:60px 20px}
-.courses-wrap,.contact-wrap{padding-left:20px;padding-right:20px}
+.cta-inner{padding:40px 28px}
+.cta-inner h2{font-size:2rem}
+footer{padding:32px 24px;flex-direction:column;text-align:center}
 .alayout{grid-template-columns:1fr}
 .aside{border-right:none;border-bottom:1px solid var(--bdr);padding:10px;display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .aside::-webkit-scrollbar{display:none}
@@ -302,252 +364,205 @@ nav{padding:16px 20px}
 .ll{grid-template-columns:1fr}
 .lfooter2,.sg2{grid-template-columns:1fr}
 .atop{padding:0 14px;flex-wrap:wrap;height:auto;min-height:60px;gap:8px;padding-top:8px;padding-bottom:8px}
-.atop-r{gap:8px;flex-wrap:wrap}
-.atag{font-size:.72rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.atimer{font-size:.78rem;padding:4px 10px}
-.alogout{padding:5px 10px;font-size:.72rem}
-.atop-l{font-size:.9rem}
 .tbl{font-size:.78rem}
 .tbl th,.tbl td{padding:8px 10px}
 .ptitle{font-size:1.4rem}
-.btn{padding:8px 14px;font-size:.78rem}
 .exch span{font-size:9px}
 .exch span:nth-child(n+6){display:none}
 .exrn{width:30px}
 .exrn span{height:30px;font-size:9px}
 .exct{padding:14px}
-.lbtn{padding:12px 10px;min-height:80px}
-.lbt{font-size:12px}
-.gtop{padding:16px}
-.gname{font-size:1rem}
-.gbot{padding:12px 16px;flex-wrap:wrap;gap:8px}
-.lc2{padding:16px}
-.ltit{font-size:18px}
-.ldesc{font-size:13px}
-.fi{padding:10px 12px;font-size:.88rem}
-.mbox,.moc{padding:24px}
-.phead{flex-direction:column;align-items:stretch}
 }
 @media(max-width:480px){
 .lgrid{grid-template-columns:1fr}
 .hero h1{font-size:2rem}
-.et{font-size:11px;min-width:100%}
-.et th{padding:6px 4px;font-size:10px}
-.et td{padding:6px 4px;font-size:11px}
-.vb{padding:10px}
-.vl{padding:12px 14px 0;font-size:12px}
-.fb2{margin:0 14px 14px;padding:10px 12px;font-size:11px}
-.rl{margin:10px 14px 0;font-size:11px;padding:5px 10px}
-.sg2{padding:10px 14px 14px;gap:6px}
-.si3{padding:8px 10px}
-.sk2{font-size:10px;padding:3px 8px}
-.sd2{font-size:11px}
-.lc2{padding:14px}
-.ltit{font-size:17px}
-.lnum{width:36px;height:36px;font-size:14px}
-.ti{font-size:13px;padding:8px 0;gap:10px}
-.ki{font-size:13px}
-.kb{font-size:11px;padding:3px 8px;min-width:60px}
+.et{font-size:11px}
+.et th,.et td{padding:6px 4px;font-size:11px}
 }
 </style>
 </head>
 <body>
 
-<div id="loader" class="loader"><div class="spinner"></div><div>Yuklanmoqda...</div></div>
+<div class="loader" id="loader"><div class="loader-inner"><div class="loader-crown">👑</div><div class="loader-bar"><div class="loader-fill"></div></div></div></div>
 
 <!-- ============ LANDING ============ -->
 <div id="vLand" class="hidden">
-<nav>
-  <a class="nav-logo" id="navLogo"><span>👑</span> Excel Qirolligi</a>
+<nav id="nav">
+  <a class="nav-logo"><div class="nav-logo-crown">👑</div>Excel Qirolligi</a>
   <div class="nav-links">
     <a href="#features">Imkoniyatlar</a>
     <a href="#courses">Kurslar</a>
     <a href="#contact">Aloqa</a>
-    <button class="nav-btn" id="btnLoginOpen">Kirish 🔑</button>
+    <a class="nav-cta" id="btnLoginOpen">Kirish →</a>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-glow-1"></div>
-  <div class="hero-glow-2"></div>
-  <div class="hero-grid-bg"></div>
+  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+  <div class="hero-dots"></div>
   <div class="hero-inner">
     <div>
-      <div class="hero-badge">Ta'lim platformasi</div>
-      <h1>Excelni noldan <em>PRO</em> darajagacha o'rganing</h1>
-      <p class="hero-sub">Real loyihalar, amaliy darslar va professional nazorat tizimi bilan. Har bir dars — yangi bosqich.</p>
-      <div class="hero-btns">
-        <button class="btn-primary" id="btnLoginOpen2">Boshlash →</button>
-        <a href="#courses" class="btn-ghost">Kurslarni ko'rish</a>
+      <div class="hero-pill"><div class="hero-pill-dot">✦</div>Uzbekistondagi eng professional Excel kursi</div>
+      <h1>Excelni <span class="grad">PRO</span><br>darajaga <span class="outline">o'rgan</span></h1>
+      <p class="hero-sub">Real loyihalar, amaliy darslar va professional nazorat tizimi bilan. Har bir dars — yangi bosqich. Har bir formula — yangi kuch.</p>
+      <div class="hero-actions">
+        <button class="btn-hero" id="btnLoginOpen2">Boshlash<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <a href="#courses" class="btn-outline">Kurslarni ko'rish</a>
       </div>
-      <div class="hero-stats">
-        <div><div class="stat-n">20+</div><div class="stat-l">Darslar</div></div>
-        <div><div class="stat-n">2</div><div class="stat-l">Kurs darajasi</div></div>
-        <div><div class="stat-n">100%</div><div class="stat-l">Amaliy</div></div>
+      <div class="hero-counters">
+        <div class="counter"><div class="counter-val">20+</div><div class="counter-label">Darslar</div></div>
+        <div class="counter"><div class="counter-val">2</div><div class="counter-label">Kurs darajasi</div></div>
+        <div class="counter"><div class="counter-val">100%</div><div class="counter-label">Amaliy</div></div>
       </div>
     </div>
     <div class="hero-visual">
-      <div class="hero-card-main">
-        <div class="hc-header">
-          <div class="hc-title">O'zlashtirish</div>
-          <div class="hc-badge">Faol</div>
-        </div>
-        <div class="progress-list">
-          <div class="prog-item"><div class="prog-header"><span>Asosiy formulalar</span><span>92%</span></div><div class="prog-bar"><div class="prog-fill" style="width:92%"></div></div></div>
-          <div class="prog-item"><div class="prog-header"><span>VLOOKUP / XLOOKUP</span><span>78%</span></div><div class="prog-bar"><div class="prog-fill" style="width:78%"></div></div></div>
-          <div class="prog-item"><div class="prog-header"><span>Pivot Table</span><span>65%</span></div><div class="prog-bar"><div class="prog-fill" style="width:65%"></div></div></div>
-          <div class="prog-item"><div class="prog-header"><span>VBA Makroslar</span><span>40%</span></div><div class="prog-bar"><div class="prog-fill" style="width:40%"></div></div></div>
+      <div class="hv-window">
+        <div class="hv-titlebar"><div class="hv-dots"><div class="hv-dot"></div><div class="hv-dot"></div><div class="hv-dot"></div></div><div class="hv-title">Hisobot_2024.xlsx</div></div>
+        <div class="hv-body">
+          <div class="excel-tabs"><div class="excel-tab active">Sotuv</div><div class="excel-tab">Xarajat</div><div class="excel-tab">Dashboard</div></div>
+          <div class="excel-grid">
+            <div class="excel-colhead"><div class="excel-col"></div><div class="excel-col">A</div><div class="excel-col">B</div><div class="excel-col">C</div><div class="excel-col">D</div><div class="excel-col">E</div></div>
+            <div class="excel-row"><div class="excel-rn">1</div><div class="excel-cell cell-h">Ism</div><div class="excel-cell cell-h">Kirim</div><div class="excel-cell cell-h">Chiqim</div><div class="excel-cell cell-h">Bonus</div><div class="excel-cell cell-h">Jami</div></div>
+            <div class="excel-row"><div class="excel-rn">2</div><div class="excel-cell" style="color:var(--txt)">Sherzod</div><div class="excel-cell cell-g">10 000</div><div class="excel-cell cell-r">3 400</div><div class="excel-cell cell-y">200</div><div class="excel-cell cell-b">6 800</div></div>
+            <div class="excel-row"><div class="excel-rn">3</div><div class="excel-cell" style="color:var(--txt)">Madina</div><div class="excel-cell cell-g">15 000</div><div class="excel-cell cell-r">4 200</div><div class="excel-cell cell-y">350</div><div class="excel-cell cell-b">11 150</div></div>
+            <div class="excel-row"><div class="excel-rn">4</div><div class="excel-cell" style="color:var(--txt)">Aziza</div><div class="excel-cell cell-g">8 000</div><div class="excel-cell cell-r">5 100</div><div class="excel-cell cell-y">150</div><div class="excel-cell cell-b">3 050</div></div>
+            <div class="excel-row"><div class="excel-rn">5</div><div class="excel-cell" style="color:var(--txt)">Ali</div><div class="excel-cell cell-g">12 000</div><div class="excel-cell cell-r">2 800</div><div class="excel-cell cell-y">180</div><div class="excel-cell cell-b">9 380</div></div>
+          </div>
+          <div class="formula-bar"><div class="fb-cell">E2</div><div class="fb-fx">fx</div><div class="fb-formula">=SUM(B2,D2)-C2</div></div>
         </div>
       </div>
-      <div class="hero-card-sm"><div class="hcs-icon">⏱️</div><div class="hcs-text"><p>Bugungi vaqt</p><span>2 soat 14 daqiqa</span></div></div>
+      <div class="hv-float-1"><div class="hv-f-icon green">⏱️</div><div class="hv-f-text"><p>Bugungi vaqt</p><span>2 soat 14 daqiqa</span></div></div>
+      <div class="hv-float-2"><div class="hv-f-icon purple">⚡</div><div class="hv-f-text"><p>VBA avtomatik</p><span>12-dars tayyor</span></div></div>
     </div>
   </div>
 </section>
 
-<section id="features">
-  <div class="section">
-    <div class="reveal">
-      <div class="section-tag">Nima uchun biz?</div>
-      <h2 class="section-title">Professional muhit, real natija</h2>
-      <p class="section-sub">Platformamiz o'quvchilarga qulay, o'qituvchilarga nazoratli muhit yaratadi</p>
-    </div>
-    <div class="feat-grid">
-      <div class="feat-card reveal"><div class="feat-icon">📊</div><h3>Amaliy darslar</h3><p>Har bir darsda haqiqiy Excel jadvallar, formulalar va vizual misollar bilan ishlaysiz.</p></div>
-      <div class="feat-card reveal"><div class="feat-icon">⏱️</div><h3>Vaqt nazorati</h3><p>Har bir darsda qancha vaqt sarflaganingiz avtomatik hisoblanadi va saqlanadi.</p></div>
-      <div class="feat-card reveal"><div class="feat-icon">🛡️</div><h3>Guruh tizimi</h3><p>Qomondonlar va statistika tizimi orqali o'zlashtirishni real vaqtda kuzating.</p></div>
-    </div>
-  </div>
-</section>
+<div class="marquee-wrap"><div class="marquee-track">
+<div class="marquee-item"><span>📊</span> SUM · AVERAGE · MIN · MAX</div>
+<div class="marquee-item"><span>🔍</span> VLOOKUP · XLOOKUP · INDEX</div>
+<div class="marquee-item"><span>🧮</span> IF · AND · OR · IFERROR</div>
+<div class="marquee-item"><span>🔄</span> SUMIFS · COUNTIFS</div>
+<div class="marquee-item"><span>📈</span> Pivot Table · Dashboard</div>
+<div class="marquee-item"><span>⚙️</span> VBA · Makroslar · Automation</div>
+<div class="marquee-item"><span>🤖</span> ChatGPT + Excel</div>
+<div class="marquee-item"><span>🗂️</span> UNIQUE · SORT · FILTER</div>
+<div class="marquee-item"><span>📊</span> SUM · AVERAGE · MIN · MAX</div>
+<div class="marquee-item"><span>🔍</span> VLOOKUP · XLOOKUP · INDEX</div>
+<div class="marquee-item"><span>🧮</span> IF · AND · OR · IFERROR</div>
+<div class="marquee-item"><span>🔄</span> SUMIFS · COUNTIFS</div>
+<div class="marquee-item"><span>📈</span> Pivot Table · Dashboard</div>
+<div class="marquee-item"><span>⚙️</span> VBA · Makroslar · Automation</div>
+<div class="marquee-item"><span>🤖</span> ChatGPT + Excel</div>
+<div class="marquee-item"><span>🗂️</span> UNIQUE · SORT · FILTER</div>
+</div></div>
 
-<section id="courses">
-  <div class="courses-wrap">
-    <div class="reveal" style="margin-bottom:40px">
-      <div class="section-tag">Kurslar</div>
-      <h2 class="section-title">Boshlang'ichdan avtomatlashtirishgacha</h2>
-    </div>
-    <div class="course-grid">
-      <div class="course-card reveal">
-        <div class="course-badge badge-green">Boshlang'ich</div>
-        <h3>Excel Foundation + Intermediate</h3>
-        <p>Excelning asosiy interfeysi, formulalar, jadvallar, grafiklar va mini dashboard yaratishgacha.</p>
-        <div class="course-meta"><span>📅 4 hafta</span><span>📖 8 dars</span></div>
-        <div class="course-topics">
-          <div class="topic">Interfeys va asosiy formulalar</div>
-          <div class="topic">IF, COUNTIF, SUMIF</div>
-          <div class="topic">VLOOKUP / XLOOKUP</div>
-          <div class="topic">Pivot Table va Dashboard</div>
-        </div>
-      </div>
-      <div class="course-card featured reveal">
-        <div class="course-badge badge-purple">Professional</div>
-        <h3>Excel PRO + Automation</h3>
-        <p>Murakkab formulalar, VBA makroslar, ChatGPT integratsiya va avtomatik hisobotlar.</p>
-        <div class="course-meta"><span>📅 6 hafta</span><span>📖 12 dars</span></div>
-        <div class="course-topics">
-          <div class="topic">Murakkab formulalar va dinamik massiv</div>
-          <div class="topic">Real loyiha — zakaz tizimi</div>
-          <div class="topic">ChatGPT + Excel integratsiya</div>
-          <div class="topic">VBA makroslar va avtomatik hisobot</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<section id="features"><div class="section">
+<div class="reveal"><div class="sec-eyebrow">Nima uchun biz</div><h2 class="sec-title">Professional muhit,<br>real natija</h2><p class="sec-sub">Har bir dars real Excel fayliga asoslangan — nazariya emas, amaliyot.</p></div>
+<div class="feat-bento">
+<div class="feat-tile reveal reveal-d1"><div class="ft-num">01</div><div class="ft-icon">📊</div><h3>Amaliy darslar</h3><p>Har bir darsda haqiqiy Excel jadvallar, formulalar va vizual misollar bilan ishlaysiz.</p><div class="chip-row"><div class="chip">SUM</div><div class="chip">IF</div><div class="chip">VLOOKUP</div><div class="chip">Pivot</div></div></div>
+<div class="feat-tile wide reveal reveal-d2"><div class="ft-num">02</div><div class="ft-icon">⏱️</div><h3>Real-time vaqt nazorati</h3><p>Har bir sessiyadagi vaqtingiz avtomatik hisoblanadi. O'qituvchi qaysi kunda qancha vaqt sarflaganingizni ko'radi.</p></div>
+<div class="feat-tile reveal reveal-d3"><div class="ft-num">03</div><div class="ft-icon">🛡️</div><h3>Guruh tizimi</h3><p>Qomondonlar guruhlarni boshqaradi va statistikani real vaqtda kuzatadi.</p></div>
+<div class="feat-tile reveal reveal-d2"><div class="ft-num">04</div><div class="ft-icon">🤖</div><h3>ChatGPT integratsiya</h3><p>AI yordamida formulalar yozishni, xatolarni topishni va VBA kodini tuzishni o'rganasiz.</p></div>
+<div class="feat-tile wide reveal reveal-d1"><div class="ft-num">05</div><div class="ft-icon">📈</div><h3>Boshlang'ichdan avtomatlashtirishgacha</h3><p>Interfeys va asosiy formulalardan boshlab VBA makroslargacha — to'liq yo'l xaritasi.</p><div class="chip-row"><div class="chip">Interfeys</div><div class="chip">Formulalar</div><div class="chip">Dashboard</div><div class="chip">VBA</div><div class="chip">Automation</div></div></div>
+</div></div></section>
 
-<section id="contact">
-  <div class="contact-wrap">
-    <div class="contact-inner">
-      <div class="reveal">
-        <h2>Qirollikka qo'shiling</h2>
-        <p>Login olish yoki savollar uchun biz bilan bog'laning. Tez javob beramiz!</p>
-        <button class="btn-primary" id="btnLoginOpen3">Kirish 🔑</button>
-      </div>
-      <div class="reveal">
-        <div class="contact-links">
-          <a href="https://t.me/tr_power" target="_blank" class="contact-link"><div class="cl-icon">✈️</div><div class="cl-text"><p>Telegram</p><span>@tr_power — tez javob</span></div></a>
-          <div class="contact-link"><div class="cl-icon">👑</div><div class="cl-text"><p>Excel Qirolligi</p><span>Professional ta'lim platformasi</span></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<section id="courses" class="courses-section"><div class="section">
+<div class="reveal"><div class="sec-eyebrow">Kurslar</div><h2 class="sec-title">Boshlang'ichdan<br>avtomatlashtirishgacha</h2><p class="sec-sub">Ikkala kurs ham real loyiha asosida — siz o'rganasiz, keyin ishda qo'llaysiz.</p></div>
+<div class="course-grid">
+<div class="course-card reveal reveal-d1">
+<div class="cc-badge starter"><div class="badge-dot"></div>Boshlang'ich</div>
+<h3>Excel Foundation + Intermediate</h3>
+<p>Excelning asosiy interfeysi, formulalar, jadvallar, grafiklar va mini dashboard yaratishgacha — 4 haftalik sayohat.</p>
+<div class="cc-meta"><div class="cc-meta-item">📅 4 hafta</div><div class="cc-meta-item">📖 8 dars</div></div>
+<div class="cc-topics">
+<div class="cc-topic"><div class="cc-topic-check starter-check">✓</div>Interfeys va asosiy formulalar (SUM, AVG, MIN, MAX)</div>
+<div class="cc-topic"><div class="cc-topic-check starter-check">✓</div>IF mantiqiy formulalar va COUNTIF / SUMIF</div>
+<div class="cc-topic"><div class="cc-topic-check starter-check">✓</div>VLOOKUP / XLOOKUP — jadvallar bilan ishlash</div>
+<div class="cc-topic"><div class="cc-topic-check starter-check">✓</div>Pivot Table va mini Dashboard</div>
+</div>
+</div>
+<div class="course-card pro reveal reveal-d2">
+<div class="cc-badge pro-b"><div class="badge-dot"></div>Professional</div>
+<h3>Excel PRO + Automation</h3>
+<p>Murakkab formulalar, VBA makroslar, ChatGPT integratsiya va to'liq avtomatik hisobotlar — 6 haftalik PRO sayohat.</p>
+<div class="cc-meta"><div class="cc-meta-item">📅 6 hafta</div><div class="cc-meta-item">📖 12 dars</div></div>
+<div class="cc-topics">
+<div class="cc-topic"><div class="cc-topic-check pro-check">✦</div>Murakkab formulalar: Nested IF, AND, OR, SUMIFS</div>
+<div class="cc-topic"><div class="cc-topic-check pro-check">✦</div>Real loyiha — zakaz tizimi va data cleaning</div>
+<div class="cc-topic"><div class="cc-topic-check pro-check">✦</div>ChatGPT + Excel: AI yordamida formula yozish</div>
+<div class="cc-topic"><div class="cc-topic-check pro-check">✦</div>VBA makroslar va tugma orqali hisobot</div>
+</div>
+</div>
+</div>
+</div></section>
 
-<footer><p>👑 Excel Qirolligi — 2024 &nbsp;|&nbsp; Barcha huquqlar himoyalangan &nbsp;|&nbsp; <a href="https://t.me/tr_power" target="_blank">Telegram</a></p></footer>
+<section id="contact" class="cta-section"><div class="section">
+<div class="cta-inner reveal">
+<div class="sec-eyebrow" style="justify-content:center;margin-bottom:20px">Qo'shiling</div>
+<h2>Qirollikka tayyor<br>bo'ldingizmi? 👑</h2>
+<p>Login olish uchun Telegram orqali bog'laning. Tez javob — tez boshlash!</p>
+<div class="cta-contact">
+<a href="https://t.me/tr_power" target="_blank" class="contact-pill"><div class="cp-icon">✈️</div><div class="cp-text"><p>Telegram</p><span>@tr_power — tez javob</span></div></a>
+<div class="contact-pill" id="btnLoginOpen3"><div class="cp-icon">🔑</div><div class="cp-text"><p>Kirish</p><span>Login bor bo'lsa kirish</span></div></div>
+</div>
+</div>
+</div></section>
+
+<footer>
+<div class="footer-logo"><div class="nav-logo-crown" style="width:28px;height:28px;font-size:14px">👑</div>Excel Qirolligi</div>
+<div class="footer-copy">2024 · Barcha huquqlar himoyalangan · <a href="https://t.me/tr_power" class="footer-link">@tr_power</a></div>
+</footer>
 </div>
 
 <!-- ============ LOGIN MODAL ============ -->
-<div id="loginM" class="mbg hidden">
-  <div class="mbox">
-    <h2>👑 Tizimga kirish</h2>
-    <div class="msub">Login va parolingizni kiriting</div>
-    <label class="fl">Login</label>
-    <input class="fi" id="iL" placeholder="Login">
-    <label class="fl">Parol</label>
-    <input class="fi" type="password" id="iP" placeholder="Parol">
-    <button class="fbtn" id="btnDoLogin">Kirish</button>
-    <div class="ferr hidden" id="lErr"></div>
-    <div class="fclose" id="btnLoginClose">← Orqaga</div>
-    <div class="fhints"><b>📞 Aloqa</b><br>Telegram: <a href="https://t.me/tr_power" target="_blank">@tr_power</a><br>Login olish uchun bog'laning</div>
-  </div>
+<div class="modal-bg" id="loginM">
+<div class="modal-box">
+<button class="modal-close" id="btnLoginClose">✕</button>
+<div class="modal-crown">👑</div>
+<div class="modal-title">Tizimga kirish</div>
+<div class="modal-sub">Login va parolingizni kiriting</div>
+<label class="m-label">Login</label>
+<input class="m-input" id="iL" placeholder="loginIngiz">
+<label class="m-label">Parol</label>
+<input class="m-input" type="password" id="iP" placeholder="••••••••">
+<button class="m-btn" id="btnDoLogin">Kirish →</button>
+<div class="m-err" id="lErr"></div>
+<div class="m-hint">Login yo'qmi? <a href="https://t.me/tr_power" target="_blank">@tr_power</a> ga yozing.</div>
+</div>
 </div>
 
 <!-- ============ APP ============ -->
 <div id="vApp" class="hidden">
 <header class="atop">
-  <div class="atop-l"><span>👑</span> Excel Qirolligi</div>
-  <div class="atop-r">
-    <div id="aTimer" class="atimer hidden">00:00:00</div>
-    <div id="aTag" class="atag"></div>
-    <button class="alogout" id="btnLogout">Chiqish</button>
-  </div>
+<div class="atop-l"><div class="nav-logo-crown" style="width:28px;height:28px;font-size:14px">👑</div>Excel Qirolligi</div>
+<div class="atop-r">
+<div id="aTimer" class="atimer hidden">00:00:00</div>
+<div id="aTag" class="atag"></div>
+<button class="alogout" id="btnLogout">Chiqish</button>
+</div>
 </header>
-<div class="alayout">
-  <aside class="aside" id="aSide"></aside>
-  <main class="amain" id="aMain"></main>
-</div>
+<div class="alayout"><aside class="aside" id="aSide"></aside><main class="amain" id="aMain"></main></div>
 </div>
 
-<!-- ============ USER MODAL ============ -->
-<div id="uMod" class="mov hidden">
-  <div class="moc">
-    <div class="mot" id="umT">Yangi foydalanuvchi</div>
-    <label class="fl">Ism</label>
-    <input class="fi" id="umN">
-    <label class="fl">Login</label>
-    <input class="fi" id="umL">
-    <label class="fl">Parol</label>
-    <input class="fi" id="umP" value="1234">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div><label class="fl">Rol</label><select class="fi" id="umR"><option value="soldier">Askar</option><option value="commander">Qomondon</option></select></div>
-      <div><label class="fl">Guruh</label><select class="fi" id="umG"></select></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div><label class="fl">Muddat(kun)</label><input class="fi" type="number" id="umD" value="30" min="1"></div>
-      <div><label class="fl">Kurs ruxsati</label><select class="fi" id="umA"><option value="all">Hammasi</option><option value="foundation">Faqat Oddiy</option><option value="pro">Faqat Pro</option><option value="none">Yopiq</option></select></div>
-    </div>
-    <div class="moa">
-      <button class="btn btn-gh" id="btnUMCancel">Bekor</button>
-      <button class="btn btn-p" id="btnUMSave">Saqlash</button>
-    </div>
-  </div>
-</div>
+<!-- USER MODAL -->
+<div id="uMod" class="mov hidden"><div class="moc">
+<div class="mot" id="umT">Yangi foydalanuvchi</div>
+<label class="fl">Ism</label><input class="fi" id="umN">
+<label class="fl">Login</label><input class="fi" id="umL">
+<label class="fl">Parol</label><input class="fi" id="umP" value="1234">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="fl">Rol</label><select class="fi" id="umR"><option value="soldier">Askar</option><option value="commander">Qomondon</option></select></div><div><label class="fl">Guruh</label><select class="fi" id="umG"></select></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="fl">Muddat(kun)</label><input class="fi" type="number" id="umD" value="30" min="1"></div><div><label class="fl">Kurs ruxsati</label><select class="fi" id="umA"><option value="all">Hammasi</option><option value="foundation">Faqat Oddiy</option><option value="pro">Faqat Pro</option><option value="none">Yopiq</option></select></div></div>
+<div class="moa"><button class="btn btn-gh" id="btnUMCancel">Bekor</button><button class="btn btn-p" id="btnUMSave">Saqlash</button></div>
+</div></div>
 
-<!-- ============ GROUP MODAL ============ -->
-<div id="gMod" class="mov hidden">
-  <div class="moc">
-    <div class="mot" id="gmT">Yangi guruh</div>
-    <label class="fl">Guruh nomi</label>
-    <input class="fi" id="gmN">
-    <label class="fl">Rang</label>
-    <input class="fi" type="color" id="gmC" value="#7c6ef7">
-    <label class="fl">Qomondon</label>
-    <select class="fi" id="gmK"></select>
-    <div class="moa">
-      <button class="btn btn-gh" id="btnGMCancel">Bekor</button>
-      <button class="btn btn-p" id="btnGMSave">Saqlash</button>
-    </div>
-  </div>
-</div>
+<!-- GROUP MODAL -->
+<div id="gMod" class="mov hidden"><div class="moc">
+<div class="mot" id="gmT">Yangi guruh</div>
+<label class="fl">Guruh nomi</label><input class="fi" id="gmN">
+<label class="fl">Rang</label><input class="fi" type="color" id="gmC" value="#6c5ce7">
+<label class="fl">Qomondon</label><select class="fi" id="gmK"></select>
+<div class="moa"><button class="btn btn-gh" id="btnGMCancel">Bekor</button><button class="btn btn-p" id="btnGMSave">Saqlash</button></div>
+</div></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -564,34 +579,54 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const fdb = getFirestore(app);
 
+// PAROLNI SHIFRLASH
+const SECRET='QiR0lL1k_X9pZ_2024_S3cur3';
+function encPass(p){
+  let r='';
+  for(let i=0;i<p.length;i++){
+    r+=String.fromCharCode(p.charCodeAt(i)^SECRET.charCodeAt(i%SECRET.length));
+  }
+  return btoa(r).split('').reverse().join('');
+}
+function decPass(e){
+  try{
+    const r=atob(e.split('').reverse().join(''));
+    let p='';
+    for(let i=0;i<r.length;i++){
+      p+=String.fromCharCode(r.charCodeAt(i)^SECRET.charCodeAt(i%SECRET.length));
+    }
+    return p;
+  }catch(err){return ''}
+}
+
 const SK='qirollik_ses';
 const cols='ABCDEFGHIJKL'.split('');
 let rowNums='';for(let i=1;i<=20;i++)rowNums+='<span>'+i+'</span>';
 
 const fd=[
 {n:1,d:'Shanba',t:'Excel interfeys + jadval yaratish',desc:'Excel oynasini tanib olamiz va birinchi jadvalimizni yaratamiz.',items:['Excel oynasini ochish','Ustunlar (Columns) — A,B,C,D','Qatorlar (Rows) — 1,2,3,4','Katak (Cell) — B4','Varaq (Sheet)','Jadval tuzish','Oddiy formatlash'],keys:[['Ctrl+B','Qalin'],['Ctrl+S','Saqlash'],['Ctrl+Z','Bekor'],['Ctrl+C','Nusxa'],['Ctrl+V','Joylashtirish'],['Win+S','Qidiruv']],tables:[{label:'📊 Kirim-chiqim jadvali',h:['','B','C','D','E','F'],hr:['Ism','Kirim','Chiqim','Bonus','Jami'],hc:['var(--acc)','var(--green)','var(--red)','var(--yellow)','#4b5563'],rows:[['2','Sherzod','10 000','3 400','200','6 800'],['3','Ali','15 000','4 200','350','11 150'],['4','Madina','8 000','5 100','150','3 050'],['5','Aziza','12 000','2 800','180','9 380']],st:[[0,'cv2','cg','cr','cy','cb'],[0,'cv2','cg','cr','cy','cb'],[0,'cv2','cg','cr','cy','cb'],[0,'cv2','cg','cr','cy','cb']],f:'F2 = C2 - D2 + E2',fd:'Kirim - Chiqim + Bonus = Jami'}],sc:[['Ctrl+B','Qalin'],['Border','Chegara'],['Zalivka','Rang'],['000','Son formati'],['Merge','Birlashtirish'],['Ctrl+Z','Bekor']],bog:null,nat:"O'quvchi birinchi jadvalini yaratadi"},
-{n:2,d:'Yakshanba',t:'Asosiy formulalar — SUM, AVERAGE, MIN, MAX',desc:'Excelning eng muhim 4 ta formulasini o\'rganamiz.',items:['SUM — yig\'indi','AVERAGE — o\'rtacha','MIN — eng kichik','MAX — eng katta','Formulani yozish','AutoSum'],keys:[['Alt+=','AutoSum'],['Ctrl+S','Saqlash'],['Tab','Keyingi'],['Enter','Tasdiqlash'],['F2','Tahrirlash'],['Ctrl+Z','Bekor']],tables:[{label:'📊 1-qadam: Boshlang\'ich',h:['','A','B','C','D'],hr:['Ism','1-kun','2-kun','3-kun'],hc:['var(--acc)','var(--green)','var(--green)','var(--green)'],rows:[['2','Sherzod','10 000','15 000','8 000'],['3','Ali','12 000','9 000','14 000'],['4','Madina','8 000','11 000','7 000']],st:[[0,'cv2','cg','cg','cg'],[0,'cv2','cg','cg','cg'],[0,'cv2','cg','cg','cg']],f:null,fd:null},{label:'📊 2-qadam: Natija',h:['','A','B','C','D','E','F'],hr:['Ism','1-kun','2-kun','3-kun','JAMI','O\'RTACHA'],hc:['var(--acc)','var(--green)','var(--green)','var(--green)','var(--blue)','var(--yellow)'],rows:[['2','Sherzod','10 000','15 000','8 000','33 000','11 000'],['3','Ali','12 000','9 000','14 000','35 000','11 667'],['4','Madina','8 000','11 000','7 000','26 000','8 667'],['5','','','','','',''],['6','MIN','8 000','9 000','7 000','26 000','8 667'],['7','MAX','12 000','15 000','14 000','35 000','11 667']],st:[[0,'cv2','cg','cg','cg','cb','cy'],[0,'cv2','cg','cg','cg','cb','cy'],[0,'cv2','cg','cg','cg','cb','cy'],[0,0,0,0,0,0,0],[0,'cr','cr','cr','cr','cr','cr'],[0,'cg','cg','cg','cg','cg','cg']],f:'E2=SUM(B2:D2)\nF2=AVERAGE(B2:D2)\nB6=MIN(B2:B4)\nB7=MAX(B2:B4)',fd:'SUM—jami, AVERAGE—o\'rtacha, MIN—eng kichik, MAX—eng katta'}],sc:[['SUM','Yig\'indi'],['AVERAGE','O\'rtacha'],['MIN','Eng kichik'],['MAX','Eng katta'],['Alt+=','Tezkor SUM'],['F2','Tahrirlash']],bog:'1-dars jadvaliga hisob qo\'shiladi',nat:'Jadval hisobli jadvalga aylanadi'},
-{n:3,d:'Shanba',t:'IF — mantiqiy formula',desc:'IF — "Agar shart bajarilsa shunday qil" degan mantiq.',items:['IF — Agar bo\'lsa','Nested IF — ichma-ich','Mantiq tuzish','TRUE va FALSE'],keys:[['=IF(','Boshlash'],['Ctrl+S','Saqlash'],['F2','Tahrirlash'],['Tab','Keyingi'],['Ctrl+Z','Bekor'],['Alt+=','AutoSum']],tables:[{label:'📊 1-qadam: Boshlang\'ich',h:['','A','B'],hr:['Ism','Ball'],hc:['var(--acc)','var(--blue)'],rows:[['2','Sherzod','85'],['3','Ali','45'],['4','Madina','72'],['5','Sardor','58']],st:[[0,'cv2','cb'],[0,'cv2','cr'],[0,'cv2','cy'],[0,'cv2','cr']],f:null,fd:null},{label:'📊 2-qadam: IF natijasi',h:['','A','B','C','D'],hr:['Ism','Ball','Natija','Daraja'],hc:['var(--acc)','var(--blue)','var(--green)','var(--yellow)'],rows:[['2','Sherzod','85','O\'tdi','Yaxshi'],['3','Ali','45','Yiqildi','Yomon'],['4','Madina','72','O\'tdi','O\'rta'],['5','Sardor','58','Yiqildi','Yomon']],st:[[0,'cv2','cb','cg','cy'],[0,'cv2','cb','cr','cr'],[0,'cv2','cb','cg','cy'],[0,'cv2','cb','cr','cr']],f:'C2=IF(B2>=60,"O\'tdi","Yiqildi")\nD2=IF(B2>=80,"Yaxshi",IF(B2>=60,"O\'rta","Yomon"))',fd:'C — oddiy IF, D — Nested IF'}],sc:[['IF','Shartli'],['>=','Katta-teng'],['<=','Kichik-teng'],['TRUE','To\'g\'ri'],['FALSE','Noto\'g\'ri'],['Nested','Ichma-ich']],bog:'2-dars hisobiga shart qo\'shiladi',nat:'Aqlli hisob quriladi'},
-{n:4,d:'Yakshanba',t:'COUNTIF va SUMIF',desc:'COUNTIF — sanaydi. SUMIF — yig\'adi.',items:['COUNTIF — sanash','SUMIF — yig\'ish','Matn shartlari','Son shartlari'],keys:[['COUNTIF','Sanash'],['SUMIF','Yig\'ish'],['Ctrl+S','Saqlash'],['F2','Tahrirlash'],['Tab','Keyingi'],['Ctrl+Z','Bekor']],tables:[{label:'📊 1-qadam: Ma\'lumotlar',h:['','A','B','C','D'],hr:['Ism','Mahsulot','Soni','Narxi'],hc:['var(--acc)','var(--purple)','var(--blue)','var(--green)'],rows:[['2','Sherzod','Olma','10','50 000'],['3','Ali','Nok','5','40 000'],['4','Madina','Olma','8','40 000'],['5','Sardor','Nok','12','96 000'],['6','Aziza','Olma','6','30 000']],st:[[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg']],f:null,fd:null},{label:'📊 2-qadam: Natija',h:['','A','B'],hr:['Tahlil','Natija'],hc:['var(--acc)','var(--blue)'],rows:[['8','Olma necha marta:','3'],['9','Nok necha marta:','2'],['10','Olma jami:','120 000'],['11','Nok jami:','136 000']],st:[[0,'cv2','cb'],[0,'cv2','cb'],[0,'cv2','cg'],[0,'cv2','cg']],f:'B8=COUNTIF(B2:B6,"Olma")\nB9=COUNTIF(B2:B6,"Nok")\nB10=SUMIF(B2:B6,"Olma",D2:D6)\nB11=SUMIF(B2:B6,"Nok",D2:D6)',fd:'COUNTIF—sanaydi, SUMIF—yig\'adi'}],sc:[['COUNTIF','Sanash'],['SUMIF','Yig\'ish'],['COUNTIFS','Ko\'p shartli'],['SUMIFS','Ko\'p shartli'],['*','Wildcard'],['?','1 belgi']],bog:'IF bilan birga',nat:'Shartli analiz boshlanadi'},
-{n:5,d:'Shanba',t:'VLOOKUP / XLOOKUP',desc:'Bitta jadvaldan boshqa jadvalga qidirish.',items:['VLOOKUP — klassik','XLOOKUP — zamonaviy','Qidiruv jadvali','Xato natija'],keys:[['VLOOKUP','Klassik'],['XLOOKUP','Zamonaviy'],['F2','Tahrir'],['Ctrl+S','Saqlash'],['Tab','Keyingi'],['Ctrl+Z','Bekor']],tables:[{label:'📊 Buyurtmalar',h:['','A','B','C'],hr:['Kod','Mahsulot','Soni'],hc:['var(--purple)','var(--acc)','var(--blue)'],rows:[['2','A01','','10'],['3','B02','','5'],['4','C03','','8']],st:[[0,'cp2','cv2','cb'],[0,'cp2','cv2','cb'],[0,'cp2','cv2','cb']],f:null,fd:null},{label:'📊 Qidiruv jadvali',h:['','E','F','G'],hr:['Kod','Nomi','Narxi'],hc:['var(--purple)','var(--acc)','var(--green)'],rows:[['2','A01','Olma','5 000'],['3','B02','Nok','8 000'],['4','C03','Uzum','3 000']],st:[[0,'cp2','cv2','cg'],[0,'cp2','cv2','cg'],[0,'cp2','cv2','cg']],f:'B2=XLOOKUP(A2,E2:E4,F2:F4,"Topilmadi")\nVLOOKUP: B2=VLOOKUP(A2,E:G,2,FALSE)',fd:'Kod bo\'yicha topadi'}],sc:[['VLOOKUP','Vertikal'],['XLOOKUP','Zamonaviy'],['FALSE','Aniq'],['TRUE','Yaqin'],['MATCH','Pozitsiya'],['INDEX','Qiymat']],bog:'Oldingi jadval',nat:'Ma\'lumotlar birlashadi'},
-{n:6,d:'Yakshanba',t:'Filter + Sort',desc:'Kerakli ma\'lumotni tez topish.',items:['Sort A-Z','Sort kattadan','Filter','Ko\'p shartli'],keys:[['Ctrl+Shift+L','Filter'],['Alt+↓','Menyu'],['Ctrl+S','Saqlash'],['Ctrl+Z','Bekor'],['Ctrl+Home','Bosh'],['Ctrl+End','Oxir']],tables:[{label:'📊 OLDIN',h:['','A','B','C'],hr:['Ism','Shahar','Balans'],hc:['var(--acc)','var(--purple)','var(--green)'],rows:[['2','Ali','Toshkent','15 000'],['3','Madina','Samarqand','8 000'],['4','Sardor','Toshkent','22 000'],['5','Zarina','Buxoro','5 000'],['6','Jasur','Toshkent','18 000']],st:[[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg']],f:null,fd:null},{label:'📊 KEYIN (Toshkent)',h:['','A','B','C'],hr:['Ism','Shahar','Balans'],hc:['var(--acc)','var(--purple)','var(--green)'],rows:[['2','Ali','Toshkent','15 000'],['4','Sardor','Toshkent','22 000'],['6','Jasur','Toshkent','18 000']],st:[[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg']],f:'Filter: Shahar="Toshkent"\nSort: Balans kattadan kichikka',fd:'Faqat Toshkent ko\'rinadi'}],sc:[['Ctrl+Shift+L','Filter'],['A→Z','Kichikdan'],['Z→A','Kattadan'],['Custom','Maxsus'],['Clear','Tozalash'],['Alt+↓','Menyu']],bog:'Lookup bilan',nat:'Boshqariladigan data'},
-{n:7,d:'Shanba',t:'Pivot Table',desc:'Katta ma\'lumotlarni hisobot shaklida.',items:['Pivot yaratish','Guruhlash','Sum/Count/Average','Formatlash'],keys:[['Alt+N+V','Pivot'],['Alt+F1','Grafik'],['Ctrl+S','Saqlash'],['Ctrl+Z','Bekor'],['F2','Tahrir'],['Ctrl+Shift+L','Filter']],tables:[{label:'📊 1-qadam: Data',h:['','A','B','C'],hr:['Ism','Oy','Sotuv'],hc:['var(--acc)','var(--purple)','var(--green)'],rows:[['2','Ali','Yanvar','5 000'],['3','Madina','Yanvar','8 000'],['4','Ali','Fevral','7 000'],['5','Madina','Fevral','12 000'],['6','Ali','Mart','9 000'],['7','Madina','Mart','6 000']],st:[[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg']],f:null,fd:null},{label:'📊 2-qadam: Pivot',h:['','A','B','C','D'],hr:['Oy','Ali','Madina','JAMI'],hc:['var(--purple)','var(--blue)','var(--yellow)','var(--green)'],rows:[['2','Yanvar','5 000','8 000','13 000'],['3','Fevral','7 000','12 000','19 000'],['4','Mart','9 000','6 000','15 000'],['5','JAMI','21 000','26 000','47 000']],st:[[0,'cp2','cb','cy','cg'],[0,'cp2','cb','cy','cg'],[0,'cp2','cb','cy','cg'],[0,'cv2','cb','cy','cg']],f:'Pivot: Rows=Oy, Columns=Ism, Values=SUM(Sotuv)',fd:'Katta data → qisqa hisobot'}],sc:[['Alt+N+V','Pivot'],['Drag','Tortish'],['Sum','Yig\'indi'],['Count','Sanash'],['Average','O\'rtacha'],['Refresh','Yangilash']],bog:'Barcha data',nat:'Umumiy analiz'},
-{n:8,d:'Yakshanba',t:'Mini Dashboard',desc:'Barcha ko\'rsatkichlarni vizual ko\'rsatish.',items:['KPI — Jami, O\'rtacha, Max','Grafiklar','ALT+F1','Formatlash'],keys:[['Alt+F1','Grafik'],['Ctrl+S','Saqlash'],['F11','To\'liq grafik'],['Ctrl+1','Format'],['Ctrl+B','Qalin'],['Ctrl+Shift+L','Filter']],tables:[{label:'📊 1-qadam: Ma\'lumotlar',h:['','A','B','C','D'],hr:['Oy','Sotuv','Xarajat','Foyda'],hc:['var(--purple)','var(--green)','var(--red)','var(--blue)'],rows:[['2','Yanvar','13 000','8 000','5 000'],['3','Fevral','19 000','10 000','9 000'],['4','Mart','15 000','7 000','8 000'],['5','Aprel','22 000','12 000','10 000']],st:[[0,'cp2','cg','cr','cb'],[0,'cp2','cg','cr','cb'],[0,'cp2','cg','cr','cb'],[0,'cp2','cg','cr','cb']],f:null,fd:null},{label:'📊 2-qadam: KPI',h:['','A','B'],hr:['Ko\'rsatkich','Qiymat'],hc:['var(--acc)','var(--blue)'],rows:[['8','Jami sotuv','69 000'],['9','O\'rtacha','17 250'],['10','Eng yuqori','22 000'],['11','Eng past','13 000'],['12','Jami foyda','32 000']],st:[[0,'cv2','cg'],[0,'cv2','cy'],[0,'cv2','cg'],[0,'cv2','cr'],[0,'cv2','cb']],f:'B8=SUM(B2:B5)\nB9=AVERAGE(B2:B5)\nB10=MAX(B2:B5)\nB11=MIN(B2:B5)\nB12=SUM(D2:D5)',fd:'Dashboard — muhim ko\'rsatkichlar bitta joyda'}],sc:[['Alt+F1','Grafik'],['Bar','Ustunli'],['Pie','Doiraviy'],['Line','Chiziqli'],['F11','To\'liq sahifa'],['Ctrl+1','Format']],bog:'Pivot natijasi',nat:'Tayyor mini hisobot'}
+{n:2,d:'Yakshanba',t:'Asosiy formulalar — SUM, AVERAGE, MIN, MAX',desc:'Excelning eng muhim 4 ta formulasini o\'rganamiz.',items:['SUM — yig\'indi','AVERAGE — o\'rtacha','MIN — eng kichik','MAX — eng katta','Formulani yozish','AutoSum'],keys:[['Alt+=','AutoSum'],['Ctrl+S','Saqlash'],['Tab','Keyingi'],['Enter','Tasdiqlash'],['F2','Tahrirlash'],['Ctrl+Z','Bekor']],tables:[{label:'📊 1-qadam: Boshlang\'ich',h:['','A','B','C','D'],hr:['Ism','1-kun','2-kun','3-kun'],hc:['var(--acc)','var(--green)','var(--green)','var(--green)'],rows:[['2','Sherzod','10 000','15 000','8 000'],['3','Ali','12 000','9 000','14 000'],['4','Madina','8 000','11 000','7 000']],st:[[0,'cv2','cg','cg','cg'],[0,'cv2','cg','cg','cg'],[0,'cv2','cg','cg','cg']],f:null,fd:null},{label:'📊 2-qadam: Natija',h:['','A','B','C','D','E','F'],hr:['Ism','1-kun','2-kun','3-kun','JAMI','O\'RTACHA'],hc:['var(--acc)','var(--green)','var(--green)','var(--green)','var(--blue)','var(--yellow)'],rows:[['2','Sherzod','10 000','15 000','8 000','33 000','11 000'],['3','Ali','12 000','9 000','14 000','35 000','11 667'],['4','Madina','8 000','11 000','7 000','26 000','8 667'],['5','','','','','',''],['6','MIN','8 000','9 000','7 000','26 000','8 667'],['7','MAX','12 000','15 000','14 000','35 000','11 667']],st:[[0,'cv2','cg','cg','cg','cb','cy'],[0,'cv2','cg','cg','cg','cb','cy'],[0,'cv2','cg','cg','cg','cb','cy'],[0,0,0,0,0,0,0],[0,'cr','cr','cr','cr','cr','cr'],[0,'cg','cg','cg','cg','cg','cg']],f:'E2=SUM(B2:D2)\nF2=AVERAGE(B2:D2)\nB6=MIN(B2:B4)\nB7=MAX(B2:B4)',fd:'SUM—jami, AVERAGE—o\'rtacha'}],sc:[['SUM','Yig\'indi'],['AVERAGE','O\'rtacha'],['MIN','Eng kichik'],['MAX','Eng katta'],['Alt+=','Tezkor SUM'],['F2','Tahrirlash']],bog:'1-dars',nat:'Hisobli jadval'},
+{n:3,d:'Shanba',t:'IF — mantiqiy formula',desc:'IF — "Agar shart bajarilsa shunday qil" degan mantiq.',items:['IF','Nested IF','Mantiq tuzish','TRUE va FALSE'],keys:[['=IF(','Boshlash'],['Ctrl+S','Saqlash'],['F2','Tahrirlash'],['Tab','Keyingi'],['Ctrl+Z','Bekor'],['Alt+=','AutoSum']],tables:[{label:'📊 1-qadam',h:['','A','B'],hr:['Ism','Ball'],hc:['var(--acc)','var(--blue)'],rows:[['2','Sherzod','85'],['3','Ali','45'],['4','Madina','72'],['5','Sardor','58']],st:[[0,'cv2','cb'],[0,'cv2','cr'],[0,'cv2','cy'],[0,'cv2','cr']],f:null,fd:null},{label:'📊 2-qadam: Natija',h:['','A','B','C','D'],hr:['Ism','Ball','Natija','Daraja'],hc:['var(--acc)','var(--blue)','var(--green)','var(--yellow)'],rows:[['2','Sherzod','85','O\'tdi','Yaxshi'],['3','Ali','45','Yiqildi','Yomon'],['4','Madina','72','O\'tdi','O\'rta'],['5','Sardor','58','Yiqildi','Yomon']],st:[[0,'cv2','cb','cg','cy'],[0,'cv2','cb','cr','cr'],[0,'cv2','cb','cg','cy'],[0,'cv2','cb','cr','cr']],f:'C2=IF(B2>=60,"O\'tdi","Yiqildi")\nD2=IF(B2>=80,"Yaxshi",IF(B2>=60,"O\'rta","Yomon"))',fd:'C — oddiy IF, D — Nested'}],sc:[['IF','Shartli'],['>=','Katta-teng'],['<=','Kichik-teng'],['TRUE','To\'g\'ri'],['FALSE','Noto\'g\'ri'],['Nested','Ichma-ich']],bog:'2-dars',nat:'Aqlli hisob'},
+{n:4,d:'Yakshanba',t:'COUNTIF va SUMIF',desc:'COUNTIF — sanaydi. SUMIF — yig\'adi.',items:['COUNTIF','SUMIF','Matn shartlari','Son shartlari'],keys:[['COUNTIF','Sanash'],['SUMIF','Yig\'ish'],['Ctrl+S','Saqlash'],['F2','Tahrirlash'],['Tab','Keyingi'],['Ctrl+Z','Bekor']],tables:[{label:'📊 1-qadam',h:['','A','B','C','D'],hr:['Ism','Mahsulot','Soni','Narxi'],hc:['var(--acc)','var(--purple)','var(--blue)','var(--green)'],rows:[['2','Sherzod','Olma','10','50 000'],['3','Ali','Nok','5','40 000'],['4','Madina','Olma','8','40 000'],['5','Sardor','Nok','12','96 000'],['6','Aziza','Olma','6','30 000']],st:[[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg']],f:null,fd:null},{label:'📊 2-qadam: Natija',h:['','A','B'],hr:['Tahlil','Natija'],hc:['var(--acc)','var(--blue)'],rows:[['8','Olma necha marta:','3'],['9','Nok necha marta:','2'],['10','Olma jami:','120 000'],['11','Nok jami:','136 000']],st:[[0,'cv2','cb'],[0,'cv2','cb'],[0,'cv2','cg'],[0,'cv2','cg']],f:'B8=COUNTIF(B2:B6,"Olma")\nB9=COUNTIF(B2:B6,"Nok")\nB10=SUMIF(B2:B6,"Olma",D2:D6)\nB11=SUMIF(B2:B6,"Nok",D2:D6)',fd:'COUNTIF—sanaydi, SUMIF—yig\'adi'}],sc:[['COUNTIF','Sanash'],['SUMIF','Yig\'ish'],['COUNTIFS','Ko\'p shartli'],['SUMIFS','Ko\'p shartli'],['*','Wildcard'],['?','1 belgi']],bog:'IF',nat:'Shartli analiz'},
+{n:5,d:'Shanba',t:'VLOOKUP / XLOOKUP',desc:'Bitta jadvaldan boshqa jadvalga qidirish.',items:['VLOOKUP','XLOOKUP','Qidiruv jadvali','Xato natija'],keys:[['VLOOKUP','Klassik'],['XLOOKUP','Zamonaviy'],['F2','Tahrir'],['Ctrl+S','Saqlash'],['Tab','Keyingi'],['Ctrl+Z','Bekor']],tables:[{label:'📊 Buyurtmalar',h:['','A','B','C'],hr:['Kod','Mahsulot','Soni'],hc:['var(--purple)','var(--acc)','var(--blue)'],rows:[['2','A01','','10'],['3','B02','','5'],['4','C03','','8']],st:[[0,'cp2','cv2','cb'],[0,'cp2','cv2','cb'],[0,'cp2','cv2','cb']],f:null,fd:null},{label:'📊 Qidiruv jadvali',h:['','E','F','G'],hr:['Kod','Nomi','Narxi'],hc:['var(--purple)','var(--acc)','var(--green)'],rows:[['2','A01','Olma','5 000'],['3','B02','Nok','8 000'],['4','C03','Uzum','3 000']],st:[[0,'cp2','cv2','cg'],[0,'cp2','cv2','cg'],[0,'cp2','cv2','cg']],f:'B2=XLOOKUP(A2,E2:E4,F2:F4,"Topilmadi")',fd:'Kod bo\'yicha topadi'}],sc:[['VLOOKUP','Vertikal'],['XLOOKUP','Zamonaviy'],['FALSE','Aniq'],['TRUE','Yaqin'],['MATCH','Pozitsiya'],['INDEX','Qiymat']],bog:'Oldingi',nat:'Birlashadi'},
+{n:6,d:'Yakshanba',t:'Filter + Sort',desc:'Kerakli ma\'lumotni tez topish.',items:['Sort A-Z','Sort kattadan','Filter','Ko\'p shartli'],keys:[['Ctrl+Shift+L','Filter'],['Alt+↓','Menyu'],['Ctrl+S','Saqlash'],['Ctrl+Z','Bekor'],['Ctrl+Home','Bosh'],['Ctrl+End','Oxir']],tables:[{label:'📊 OLDIN',h:['','A','B','C'],hr:['Ism','Shahar','Balans'],hc:['var(--acc)','var(--purple)','var(--green)'],rows:[['2','Ali','Toshkent','15 000'],['3','Madina','Samarqand','8 000'],['4','Sardor','Toshkent','22 000'],['5','Zarina','Buxoro','5 000'],['6','Jasur','Toshkent','18 000']],st:[[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg']],f:null,fd:null},{label:'📊 KEYIN',h:['','A','B','C'],hr:['Ism','Shahar','Balans'],hc:['var(--acc)','var(--purple)','var(--green)'],rows:[['2','Ali','Toshkent','15 000'],['4','Sardor','Toshkent','22 000'],['6','Jasur','Toshkent','18 000']],st:[[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg']],f:'Filter: Shahar="Toshkent"',fd:'Faqat Toshkent'}],sc:[['Ctrl+Shift+L','Filter'],['A→Z','Kichikdan'],['Z→A','Kattadan'],['Custom','Maxsus'],['Clear','Tozalash'],['Alt+↓','Menyu']],bog:'Lookup',nat:'Boshqariladigan data'},
+{n:7,d:'Shanba',t:'Pivot Table',desc:'Katta ma\'lumotlarni hisobot.',items:['Pivot','Guruhlash','Sum/Count/Average','Formatlash'],keys:[['Alt+N+V','Pivot'],['Alt+F1','Grafik'],['Ctrl+S','Saqlash'],['Ctrl+Z','Bekor'],['F2','Tahrir'],['Ctrl+Shift+L','Filter']],tables:[{label:'📊 1-qadam',h:['','A','B','C'],hr:['Ism','Oy','Sotuv'],hc:['var(--acc)','var(--purple)','var(--green)'],rows:[['2','Ali','Yanvar','5 000'],['3','Madina','Yanvar','8 000'],['4','Ali','Fevral','7 000'],['5','Madina','Fevral','12 000']],st:[[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg']],f:null,fd:null},{label:'📊 2-qadam: Pivot',h:['','A','B','C','D'],hr:['Oy','Ali','Madina','JAMI'],hc:['var(--purple)','var(--blue)','var(--yellow)','var(--green)'],rows:[['2','Yanvar','5 000','8 000','13 000'],['3','Fevral','7 000','12 000','19 000']],st:[[0,'cp2','cb','cy','cg'],[0,'cp2','cb','cy','cg']],f:'Pivot: Rows=Oy, Columns=Ism',fd:'Katta data → qisqa hisobot'}],sc:[['Alt+N+V','Pivot'],['Drag','Tortish'],['Sum','Yig\'indi'],['Count','Sanash'],['Average','O\'rtacha'],['Refresh','Yangilash']],bog:'Barcha data',nat:'Umumiy analiz'},
+{n:8,d:'Yakshanba',t:'Mini Dashboard',desc:'Vizual ko\'rsatkichlar.',items:['KPI','Grafiklar','ALT+F1','Formatlash'],keys:[['Alt+F1','Grafik'],['Ctrl+S','Saqlash'],['F11','To\'liq'],['Ctrl+1','Format'],['Ctrl+B','Qalin'],['Ctrl+Shift+L','Filter']],tables:[{label:'📊 1-qadam',h:['','A','B','C','D'],hr:['Oy','Sotuv','Xarajat','Foyda'],hc:['var(--purple)','var(--green)','var(--red)','var(--blue)'],rows:[['2','Yanvar','13 000','8 000','5 000'],['3','Fevral','19 000','10 000','9 000']],st:[[0,'cp2','cg','cr','cb'],[0,'cp2','cg','cr','cb']],f:null,fd:null},{label:'📊 2-qadam: KPI',h:['','A','B'],hr:['Ko\'rsatkich','Qiymat'],hc:['var(--acc)','var(--blue)'],rows:[['8','Jami sotuv','32 000'],['9','O\'rtacha','16 000']],st:[[0,'cv2','cg'],[0,'cv2','cy']],f:'B8=SUM(B2:B3)\nB9=AVERAGE(B2:B3)',fd:'Dashboard'}],sc:[['Alt+F1','Grafik'],['Bar','Ustunli'],['Pie','Doiraviy'],['Line','Chiziqli'],['F11','To\'liq'],['Ctrl+1','Format']],bog:'Pivot',nat:'Hisobot'}
 ];
 
 const pd=[
-{n:1,d:'1-hafta',t:'Murakkab formulalar',desc:'Nested IF, AND, OR va IFERROR.',items:['Nested IF','AND — va','OR — yoki','IFERROR'],keys:[['AND','Va'],['OR','Yoki'],['IFERROR','Xato'],['IF','Shart'],['F2','Tahrir'],['Ctrl+Z','Bekor']],tables:[{label:'📊 1-qadam',h:['','A','B','C'],hr:['Ism','Ball','Davomat'],hc:['var(--acc)','var(--blue)','var(--green)'],rows:[['2','Sherzod','85','95%'],['3','Ali','72','60%'],['4','Madina','90','88%'],['5','Sardor','45','40%']],st:[[0,'cv2','cb','cg'],[0,'cv2','cb','cy'],[0,'cv2','cb','cg'],[0,'cv2','cr','cr']],f:null,fd:null},{label:'📊 2-qadam: Natija',h:['','A','B','C','D'],hr:['Ism','Ball','Davomat','Bonus'],hc:['var(--acc)','var(--blue)','var(--green)','var(--yellow)'],rows:[['2','Sherzod','85','95%','Bor'],['3','Ali','72','60%','Yo\'q'],['4','Madina','90','88%','Bor'],['5','Sardor','45','40%','Yo\'q']],st:[[0,'cv2','cb','cg','cg'],[0,'cv2','cb','cy','cr'],[0,'cv2','cb','cg','cg'],[0,'cv2','cr','cr','cr']],f:'D2=IF(AND(B2>=70,C2>=80%),"Bor","Yo\'q")',fd:'AND — ikkala shart bajarilishi kerak'}],sc:[['AND','Hammasi'],['OR','Biri'],['NOT','Teskari'],['IFERROR','Xato'],['Nested','Ichma-ich'],['F2','Tahrir']],bog:null,nat:'Murakkab mantiq'},
-{n:2,d:'1-hafta',t:'SUMIFS — Ko\'p shartli',desc:'SUMIFS bilan ko\'p shartga mos yig\'ish.',items:['SUMIFS','Matn shartlari','Murakkab analiz'],keys:[['SUMIFS','Ko\'p shartli'],['COUNTIFS','Sanash'],['Ctrl+S','Saqlash'],['F2','Tahrir'],['Tab','Keyingi'],['Ctrl+Z','Bekor']],tables:[{label:'📊 1-qadam',h:['','A','B','C','D'],hr:['Sotuvchi','Shahar','Oy','Sotuv'],hc:['var(--acc)','var(--purple)','var(--blue)','var(--green)'],rows:[['2','Ali','Toshkent','Yanvar','15 000'],['3','Madina','Samarqand','Yanvar','8 000'],['4','Ali','Toshkent','Fevral','20 000'],['5','Madina','Toshkent','Fevral','12 000'],['6','Ali','Samarqand','Mart','9 000']],st:[[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg']],f:null,fd:null},{label:'📊 2-qadam',h:['','F','G'],hr:['Tahlil','Natija'],hc:['var(--acc)','var(--blue)'],rows:[['1','Ali+Toshkent:','35 000'],['2','Fevral jami:','32 000'],['3','Ali+Toshkent+Fevral:','20 000']],st:[[0,'cv2','cg'],[0,'cv2','cg'],[0,'cv2','cb']],f:'G1=SUMIFS(D:D,A:A,"Ali",B:B,"Toshkent")\nG2=SUMIFS(D:D,C:C,"Fevral")\nG3=SUMIFS(D:D,A:A,"Ali",B:B,"Toshkent",C:C,"Fevral")',fd:'Ko\'p shart = aniq natija'}],sc:[['SUMIFS','Ko\'p shartli'],['COUNTIFS','Sanash'],['AVERAGEIFS','O\'rtacha'],['>=','Katta-teng'],['<=','Kichik-teng'],['<>','Teng emas']],bog:'1-dars formulalari',nat:'Kuchli analiz'},
-{n:3,d:'2-hafta',t:'XLOOKUP advanced',desc:'XLOOKUP kengaytirilgan.',items:['Ko\'p ustunli','Xato ushlash','Yaqin moslik'],keys:[['XLOOKUP','Qidiruv'],['IFERROR','Xato'],['F2','Tahrir'],['Ctrl+S','Saqlash'],['Tab','Keyingi'],['Ctrl+Z','Bekor']],tables:[{label:'📊 Xodimlar',h:['','A','B','C','D'],hr:['ID','Ism','Bo\'lim','Maosh'],hc:['var(--acc)','var(--blue)','var(--purple)','var(--green)'],rows:[['2','101','Sherzod','IT','8 000 000'],['3','102','Madina','HR','6 000 000'],['4','103','Ali','IT','7 500 000'],['5','104','Sardor','Moliya','9 000 000']],st:[[0,'cp2','cv2','cp2','cg'],[0,'cp2','cv2','cp2','cg'],[0,'cp2','cv2','cp2','cg'],[0,'cp2','cv2','cp2','cg']],f:null,fd:null},{label:'📊 Qidiruv',h:['','F','G'],hr:['Savol','Javob'],hc:['var(--acc)','var(--green)'],rows:[['1','ID:','103'],['2','Ism:','Ali'],['3','Bo\'lim:','IT'],['4','Maosh:','7 500 000']],st:[[0,'cv2','cb'],[0,'cv2','cg'],[0,'cv2','cp2'],[0,'cv2','cg']],f:'G2=XLOOKUP(G1,A:A,B:B,"Topilmadi")\nG3=XLOOKUP(G1,A:A,C:C)\nG4=XLOOKUP(G1,A:A,D:D,0)',fd:'ID bo\'yicha topadi'}],sc:[['XLOOKUP','Qidiruv'],['MATCH','Pozitsiya'],['INDEX','Qiymat'],['IFERROR','Xato'],['F4','Fix'],['FALSE','Aniq']],bog:'Oldingi lookup',nat:'Professional qidiruv'},
-{n:4,d:'2-hafta',t:'Dynamic formulalar',desc:'UNIQUE, SORT, FILTER.',items:['UNIQUE','SORT','FILTER'],keys:[['UNIQUE','Unikal'],['SORT','Tartiblash'],['FILTER','Ajratish'],['Ctrl+S','Saqlash'],['F2','Tahrir'],['Ctrl+Z','Bekor']],tables:[{label:'📊 Ma\'lumotlar',h:['','A','B','C'],hr:['Ism','Shahar','Sotuv'],hc:['var(--acc)','var(--purple)','var(--green)'],rows:[['2','Ali','Toshkent','15 000'],['3','Madina','Buxoro','8 000'],['4','Ali','Toshkent','20 000'],['5','Sardor','Buxoro','12 000'],['6','Madina','Toshkent','18 000']],st:[[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg']],f:null,fd:null},{label:'📊 Natijalar',h:['','E','F','G'],hr:['UNIQUE','SORT','FILTER(>10000)'],hc:['var(--blue)','var(--yellow)','var(--green)'],rows:[['1','Ali','8 000','Ali 15 000'],['2','Madina','12 000','Ali 20 000'],['3','Sardor','15 000','Sardor 12 000'],['4','','18 000','Madina 18 000']],st:[[0,'cb','cy','cg'],[0,'cb','cy','cg'],[0,'cb','cy','cg'],[0,0,'cy','cg']],f:'E1=UNIQUE(A2:A6)\nF1=SORT(C2:C6)\nG1=FILTER(A2:C6,C2:C6>10000)',fd:'Dinamik formulalar avtomatik yangilanadi'}],sc:[['UNIQUE','Unikal'],['SORT','Tartiblash'],['FILTER','Ajratish'],['SEQUENCE','Ketma-ket'],['RANDARRAY','Tasodifiy'],['SORTBY','Saralash']],bog:'3-dars XLOOKUP',nat:'Avtomatik jadval'},
-{n:5,d:'3-hafta',t:'Real loyiha — zakaz tizimi',desc:'Haqiqiy zakaz bazasi.',items:['Zakaz bazasi','Formulalar birlashtirish','Tahlil'],keys:[['COUNTA','Sanash'],['SUMIF','Yig\'ish'],['AVERAGE','O\'rtacha'],['Ctrl+S','Saqlash'],['Ctrl+T','Table'],['Ctrl+Z','Bekor']],tables:[{label:'📊 Buyurtmalar',h:['','A','B','C','D','E','F'],hr:['Zakaz#','Mijoz','Mahsulot','Soni','Narx','Jami'],hc:['var(--acc)','var(--blue)','var(--purple)','var(--yellow)','var(--green)','var(--green)'],rows:[['2','Z001','Bobur','Telefon','2','3 000 000','6 000 000'],['3','Z002','Nilufar','Noutbuk','1','8 000 000','8 000 000'],['4','Z003','Bobur','Planshet','3','2 000 000','6 000 000'],['5','Z004','Oybek','Telefon','1','3 000 000','3 000 000']],st:[[0,'cp2','cb','cp2','cy','cg','cg'],[0,'cp2','cb','cp2','cy','cg','cg'],[0,'cp2','cb','cp2','cy','cg','cg'],[0,'cp2','cb','cp2','cy','cg','cg']],f:null,fd:null},{label:'📊 Tahlil',h:['','H','I'],hr:['Ko\'rsatkich','Natija'],hc:['var(--acc)','var(--green)'],rows:[['1','Jami:','4'],['2','Summa:','23 000 000'],['3','Bobur:','12 000 000'],['4','Telefon:','3 ta'],['5','O\'rtacha:','5 750 000']],st:[[0,'cv2','cg'],[0,'cv2','cg'],[0,'cv2','cb'],[0,'cv2','cy'],[0,'cv2','cg']],f:'I1=COUNTA(A2:A5)\nI2=SUM(F2:F5)\nI3=SUMIF(B:B,"Bobur",F:F)\nI4=COUNTIF(C:C,"Telefon")\nI5=AVERAGE(F2:F5)',fd:'Real loyiha — formulalar birgalikda'}],sc:[['COUNTA','Sanash'],['SUM','Yig\'indi'],['SUMIF','Shartli'],['COUNTIF','Sanash'],['AVERAGE','O\'rtacha'],['Ctrl+T','Table']],bog:'Barcha bilimlar',nat:'Loyiha skeleti'},
-{n:6,d:'3-hafta',t:'Data cleaning',desc:'Noto\'g\'ri ma\'lumotlarni tozalash.',items:['PROPER','TRIM','CLEAN','SUBSTITUTE'],keys:[['PROPER','Bosh harf'],['TRIM','Bo\'shliq'],['CLEAN','Tozalash'],['SUBSTITUTE','Almashtirish'],['LEN','Uzunlik'],['FIND','Topish']],tables:[{label:'📊 Noto\'g\'ri',h:['','A','B','C'],hr:['Ism','Telefon','Shahar'],hc:['var(--acc)','var(--blue)','var(--purple)'],rows:[['2','sherzod','90-123-45','toshkent'],['3','ALI','tel:90123','TOSHKENT'],['4',' Madina','901234567','Samarqand'],['5','sardor','90 123','samarqand']],st:[[0,'cr','cr','cr'],[0,'cr','cr','cr'],[0,'cr','cv2','cv2'],[0,'cr','cr','cr']],f:null,fd:null},{label:'📊 Tozalangan',h:['','A','B','C'],hr:['Ism','Telefon','Shahar'],hc:['var(--acc)','var(--blue)','var(--purple)'],rows:[['2','Sherzod','901234567','Toshkent'],['3','Ali','901234567','Toshkent'],['4','Madina','901234567','Samarqand'],['5','Sardor','901234567','Samarqand']],st:[[0,'cg','cg','cg'],[0,'cg','cg','cg'],[0,'cg','cg','cg'],[0,'cg','cg','cg']],f:'PROPER() — Bosh harf\nTRIM() — Bo\'shliq\nCLEAN() — Yashirin\nSUBSTITUTE() — Almashtirish',fd:'Toza data = to\'g\'ri natija'}],sc:[['PROPER','Bosh harf'],['TRIM','Bo\'shliq'],['CLEAN','Tozalash'],['SUBSTITUTE','Almashtir'],['LEN','Uzunlik'],['VALUE','Songa']],bog:'5-dars loyihasi',nat:'Toza data'},
-{n:7,d:'4-hafta',t:'Dashboard PRO',desc:'KPI va professional grafiklar.',items:['KPI','Murakkab grafiklar','INDEX+MATCH','Conditional formatting'],keys:[['INDEX','Qiymat'],['MATCH','Pozitsiya'],['Ctrl+1','Format'],['Alt+F1','Grafik'],['Ctrl+B','Qalin'],['F11','To\'liq grafik']],tables:[{label:'📊 KPI data',h:['','A','B','C','D','E'],hr:['Oy','Sotuv','Xarajat','Foyda','KPI%'],hc:['var(--acc)','var(--green)','var(--red)','var(--blue)','var(--yellow)'],rows:[['2','Yanvar','25 000','18 000','7 000','28%'],['3','Fevral','32 000','20 000','12 000','38%'],['4','Mart','28 000','22 000','6 000','21%'],['5','Aprel','40 000','25 000','15 000','38%']],st:[[0,'cp2','cg','cr','cb','cy'],[0,'cp2','cg','cr','cb','cy'],[0,'cp2','cg','cr','cb','cr'],[0,'cp2','cg','cr','cb','cy']],f:null,fd:null},{label:'📊 Dashboard',h:['','G','H'],hr:['Ko\'rsatkich','Natija'],hc:['var(--acc)','var(--green)'],rows:[['1','Jami sotuv:','125 000'],['2','Jami foyda:','40 000'],['3','O\'rtacha KPI:','31%'],['4','Eng yaxshi:','Aprel'],['5','Eng yomon:','Mart']],st:[[0,'cv2','cg'],[0,'cv2','cb'],[0,'cv2','cy'],[0,'cv2','cg'],[0,'cv2','cr']],f:'H4=INDEX(A2:A5,MATCH(MAX(D2:D5),D2:D5,0))\nKPI%=Foyda/Sotuv*100',fd:'INDEX+MATCH — avtomatik topadi'}],sc:[['INDEX','Qiymat'],['MATCH','Pozitsiya'],['MAX','Eng katta'],['MIN','Eng kichik'],['Sparkline','Mini grafik'],['Ctrl+1','Format']],bog:'6-dars data',nat:'Professional dashboard'},
-{n:8,d:'4-hafta',t:'Interaktiv dashboard',desc:'Slicer va dinamik filtrlar.',items:['Slicer','Dinamik filtr','Timeline','Vizualizatsiya'],keys:[['Slicer','Panel'],['Timeline','Sana'],['Alt+F1','Grafik'],['Ctrl+S','Saqlash'],['F5','Yangilash'],['Ctrl+Z','Bekor']],tables:[{label:'📊 Dashboard + Slicer',h:['','A','B','C'],hr:['Slicer','Filtr','Natija'],hc:['var(--acc)','var(--blue)','var(--green)'],rows:[['2','Oy:','[Yanvar]','13 000'],['3','Sotuvchi:','[Ali]','5 000'],['4','Shahar:','[Toshkent]','5 000']],st:[[0,'cv2','cb','cg'],[0,'cv2','cb','cg'],[0,'cv2','cb','cg']],f:'Slicer → Pivot → Grafik\nHammasi avtomatik yangilanadi',fd:'Bir tugma — hisobot o\'zgaradi'}],sc:[['Slicer','Panel'],['Timeline','Sana'],['Pivot','Jadval'],['Chart','Grafik'],['Refresh','Yangilash'],['Format','Bezash']],bog:'7-dars dashboard',nat:'Interaktiv hisobot'},
-{n:9,d:'5-hafta',t:'ChatGPT + Excel',desc:'AI bilan formula yozish.',items:['Prompt yozish','Formula so\'rash','Xatoni tuzatish'],keys:[['Prompt','So\'rov'],['ChatGPT','AI'],['Ctrl+C','Nusxa'],['Ctrl+V','Joylashtir'],['F2','Tahrir'],['Ctrl+Z','Bekor']],tables:[{label:'📊 Prompt → Natija',h:['','A','B'],hr:['Prompt','Natija'],hc:['var(--acc)','var(--green)'],rows:[['2','"3 shartli IF yoz"','=IF(A1>90,"A",IF(A1>70,"B","C"))'],['3','"SUMIFS 2 shartli"','=SUMIFS(D:D,A:A,"Ali",B:B,"Toshkent")'],['4','"Xato nima?"','Tuzatilgan formula'],['5','"VBA makros"','Sub...End Sub']],st:[[0,'cv2','cg'],[0,'cv2','cg'],[0,'cv2','cg'],[0,'cv2','cg']],f:'Prompt = aniq savol\nNatija = tayyor formula',fd:'AI yordamchingiz, tekshirish sizda'}],sc:[['Prompt','Savol'],['Context','Kontekst'],['Copy','Nusxalash'],['Test','Tekshirish'],['Refine','Yaxshilash'],['Learn','O\'rganish']],bog:'Barcha skilllar',nat:'AI bilan tezroq'},
-{n:10,d:'5-hafta',t:'Avtomatlashtirish',desc:'Formulalarni optimallashtirish.',items:['Sekin vs tez','Named Ranges','Table references'],keys:[['Ctrl+`','Formula ko\'rish'],['F9','Hisoblash'],['Ctrl+S','Saqlash'],['Ctrl+T','Table'],['F2','Tahrir'],['Alt+=','AutoSum']],tables:[{label:'📊 Sekin vs Tez',h:['','A','B','C'],hr:['Amal','Sekin','Tez'],hc:['var(--acc)','var(--red)','var(--green)'],rows:[['2','Qidiruv','VLOOKUP','XLOOKUP'],['3','Yig\'indi','SUM(IF())','SUMIFS'],['4','Havola','A1:A1000','Table[Ustun]'],['5','Hisoblash','Avtomatik','Qo\'lda']],st:[[0,'cv2','cr','cg'],[0,'cv2','cr','cg'],[0,'cv2','cr','cg'],[0,'cv2','cr','cg']],f:'Named Range: =SUM(Sotuvlar)\nTable: =SUM(Jadval1[Sotuv])',fd:'Tez formulalar = tez fayllar'}],sc:[['Ctrl+`','Formulalar'],['F9','Hisoblash'],['Ctrl+T','Table'],['Name','Named Range'],['Manual','Qo\'lda'],['F2','Tahrir']],bog:'9-dars AI',nat:'Samarali jarayon'},
-{n:11,d:'6-hafta',t:'VBA asoslari',desc:'Makroslar bilan avtomatik amallar.',items:['VBA nima?','Alt+F11','Sub procedure','MsgBox'],keys:[['Alt+F11','VBA'],['F5','Ishga tushirish'],['Ctrl+S','Saqlash'],['Sub','Protsedura'],['End Sub','Yakunlash'],['MsgBox','Xabar']],tables:[{label:'📊 VBA buyruqlar',h:['','A','B'],hr:['Buyruq','Vazifasi'],hc:['var(--acc)','var(--green)'],rows:[['2','Sub Salom()','Protsedura boshlash'],['3','MsgBox "Salom!"','Xabar chiqarish'],['4','Range("A1").Value=5','Katakga qiymat'],['5','End Sub','Yakunlash']],st:[[0,'cb','cg'],[0,'cb','cg'],[0,'cb','cg'],[0,'cb','cg']],f:'Sub Salom()\n  MsgBox "Salom!"\n  Range("A1").Value="Tayyor"\nEnd Sub',fd:'Alt+F11 → kod → F5'}],sc:[['Alt+F11','VBA'],['F5','Ishga tushir'],['Sub','Boshlash'],['End Sub','Yakunlash'],['MsgBox','Xabar'],['Range','Katak']],bog:'10-dars avtomatlashtirish',nat:'Birinchi makros'},
-{n:12,d:'6-hafta',t:'Tugma orqali hisobot',desc:'Bir tugma = to\'liq hisobot.',items:['Tugma yaratish','Makrosni ulash','Avtomatik hisobot','Yakuniy loyiha'],keys:[['Button','Tugma'],['Assign','Ulash'],['Sub','Protsedura'],['Alt+F11','VBA'],['F5','Ishga tushir'],['Ctrl+S','Saqlash']],tables:[{label:'📊 Tugma → Natija',h:['','A','B'],hr:['Bosqich','Amal'],hc:['var(--acc)','var(--green)'],rows:[['2','1. Tugma','Insert → Button → Assign'],['3','2. Makros','Sub Hisobot()...End Sub'],['4','3. Natija','Jami, O\'rtacha, Grafik avtomatik'],['5','4. Saqlash','.xlsm formatda']],st:[[0,'cv2','cg'],[0,'cv2','cg'],[0,'cv2','cg'],[0,'cv2','cg']],f:'Sub Hisobot()\n  Range("H1").Value=Application.Sum(Range("B2:B100"))\n  Range("H2").Value=Application.Average(Range("B2:B100"))\n  Charts.Add\nEnd Sub',fd:'Bir tugma = to\'liq hisobot'}],sc:[['Button','Tugma'],['Assign','Ulash'],['.xlsm','Makros fayl'],['Charts.Add','Grafik'],['Sum','Yig\'indi'],['Average','O\'rtacha']],bog:'11-dars VBA',nat:'To\'liq avtomat tizim'}
+{n:1,d:'1-hafta',t:'Murakkab formulalar',desc:'Nested IF, AND, OR.',items:['Nested IF','AND','OR','IFERROR'],keys:[['AND','Va'],['OR','Yoki'],['IFERROR','Xato'],['IF','Shart'],['F2','Tahrir'],['Ctrl+Z','Bekor']],tables:[{label:'📊 1-qadam',h:['','A','B','C'],hr:['Ism','Ball','Davomat'],hc:['var(--acc)','var(--blue)','var(--green)'],rows:[['2','Sherzod','85','95%'],['3','Ali','72','60%']],st:[[0,'cv2','cb','cg'],[0,'cv2','cb','cy']],f:null,fd:null},{label:'📊 2-qadam',h:['','A','B','C','D'],hr:['Ism','Ball','Davomat','Bonus'],hc:['var(--acc)','var(--blue)','var(--green)','var(--yellow)'],rows:[['2','Sherzod','85','95%','Bor'],['3','Ali','72','60%','Yo\'q']],st:[[0,'cv2','cb','cg','cg'],[0,'cv2','cb','cy','cr']],f:'D2=IF(AND(B2>=70,C2>=80%),"Bor","Yo\'q")',fd:'AND'}],sc:[['AND','Hammasi'],['OR','Biri'],['NOT','Teskari'],['IFERROR','Xato'],['Nested','Ichma-ich'],['F2','Tahrir']],bog:null,nat:'Murakkab mantiq'},
+{n:2,d:'1-hafta',t:'SUMIFS — Ko\'p shartli',desc:'Ko\'p shartga mos yig\'ish.',items:['SUMIFS','Matn shartlari','Murakkab analiz'],keys:[['SUMIFS','Ko\'p'],['COUNTIFS','Sanash'],['Ctrl+S','Saqlash'],['F2','Tahrir'],['Tab','Keyingi'],['Ctrl+Z','Bekor']],tables:[{label:'📊 1-qadam',h:['','A','B','C','D'],hr:['Sotuvchi','Shahar','Oy','Sotuv'],hc:['var(--acc)','var(--purple)','var(--blue)','var(--green)'],rows:[['2','Ali','Toshkent','Yanvar','15 000'],['3','Ali','Toshkent','Fevral','20 000']],st:[[0,'cv2','cp2','cb','cg'],[0,'cv2','cp2','cb','cg']],f:null,fd:null},{label:'📊 2-qadam',h:['','F','G'],hr:['Tahlil','Natija'],hc:['var(--acc)','var(--blue)'],rows:[['1','Ali+Toshkent:','35 000']],st:[[0,'cv2','cg']],f:'G1=SUMIFS(D:D,A:A,"Ali",B:B,"Toshkent")',fd:'Ko\'p shart'}],sc:[['SUMIFS','Ko\'p'],['COUNTIFS','Sanash'],['AVERAGEIFS','O\'rtacha'],['>=','Katta-teng'],['<=','Kichik-teng'],['<>','Teng emas']],bog:'1-dars',nat:'Kuchli analiz'},
+{n:3,d:'2-hafta',t:'XLOOKUP advanced',desc:'XLOOKUP kengaytirilgan.',items:['Ko\'p ustunli','Xato ushlash','Yaqin moslik'],keys:[['XLOOKUP','Qidiruv'],['IFERROR','Xato'],['F2','Tahrir'],['Ctrl+S','Saqlash'],['Tab','Keyingi'],['Ctrl+Z','Bekor']],tables:[{label:'📊 Xodimlar',h:['','A','B','C','D'],hr:['ID','Ism','Bo\'lim','Maosh'],hc:['var(--acc)','var(--blue)','var(--purple)','var(--green)'],rows:[['2','101','Sherzod','IT','8 000 000'],['3','103','Ali','IT','7 500 000']],st:[[0,'cp2','cv2','cp2','cg'],[0,'cp2','cv2','cp2','cg']],f:null,fd:null},{label:'📊 Qidiruv',h:['','F','G'],hr:['Savol','Javob'],hc:['var(--acc)','var(--green)'],rows:[['1','ID:','103'],['2','Ism:','Ali']],st:[[0,'cv2','cb'],[0,'cv2','cg']],f:'G2=XLOOKUP(G1,A:A,B:B,"Topilmadi")',fd:'ID bo\'yicha'}],sc:[['XLOOKUP','Qidiruv'],['MATCH','Pozitsiya'],['INDEX','Qiymat'],['IFERROR','Xato'],['F4','Fix'],['FALSE','Aniq']],bog:'Oldingi',nat:'Professional qidiruv'},
+{n:4,d:'2-hafta',t:'Dynamic formulalar',desc:'UNIQUE, SORT, FILTER.',items:['UNIQUE','SORT','FILTER'],keys:[['UNIQUE','Unikal'],['SORT','Tartiblash'],['FILTER','Ajratish'],['Ctrl+S','Saqlash'],['F2','Tahrir'],['Ctrl+Z','Bekor']],tables:[{label:'📊 Ma\'lumotlar',h:['','A','B','C'],hr:['Ism','Shahar','Sotuv'],hc:['var(--acc)','var(--purple)','var(--green)'],rows:[['2','Ali','Toshkent','15 000'],['3','Madina','Buxoro','8 000']],st:[[0,'cv2','cp2','cg'],[0,'cv2','cp2','cg']],f:null,fd:null},{label:'📊 Natijalar',h:['','E','F'],hr:['UNIQUE','SORT'],hc:['var(--blue)','var(--yellow)'],rows:[['1','Ali','8 000'],['2','Madina','15 000']],st:[[0,'cb','cy'],[0,'cb','cy']],f:'E1=UNIQUE(A2:A6)\nF1=SORT(C2:C6)',fd:'Dinamik'}],sc:[['UNIQUE','Unikal'],['SORT','Tartiblash'],['FILTER','Ajratish'],['SEQUENCE','Ketma-ket'],['RANDARRAY','Tasodifiy'],['SORTBY','Saralash']],bog:'3-dars',nat:'Avtomatik jadval'},
+{n:5,d:'3-hafta',t:'Real loyiha',desc:'Zakaz tizimi.',items:['Zakaz bazasi','Formulalar','Tahlil'],keys:[['COUNTA','Sanash'],['SUMIF','Yig\'ish'],['AVERAGE','O\'rtacha'],['Ctrl+S','Saqlash'],['Ctrl+T','Table'],['Ctrl+Z','Bekor']],tables:[{label:'📊 Buyurtmalar',h:['','A','B','C','D'],hr:['Zakaz#','Mijoz','Mahsulot','Jami'],hc:['var(--acc)','var(--blue)','var(--purple)','var(--green)'],rows:[['2','Z001','Bobur','Telefon','6 000 000'],['3','Z002','Nilufar','Noutbuk','8 000 000']],st:[[0,'cp2','cb','cp2','cg'],[0,'cp2','cb','cp2','cg']],f:null,fd:null},{label:'📊 Tahlil',h:['','H','I'],hr:['Ko\'rsatkich','Natija'],hc:['var(--acc)','var(--green)'],rows:[['1','Jami:','2'],['2','Summa:','14 000 000']],st:[[0,'cv2','cg'],[0,'cv2','cg']],f:'I1=COUNTA(A:A)\nI2=SUM(D:D)',fd:'Real loyiha'}],sc:[['COUNTA','Sanash'],['SUM','Yig\'indi'],['SUMIF','Shartli'],['COUNTIF','Sanash'],['AVERAGE','O\'rtacha'],['Ctrl+T','Table']],bog:'Barcha bilimlar',nat:'Loyiha skeleti'},
+{n:6,d:'3-hafta',t:'Data cleaning',desc:'Tozalash.',items:['PROPER','TRIM','CLEAN','SUBSTITUTE'],keys:[['PROPER','Bosh harf'],['TRIM','Bo\'shliq'],['CLEAN','Tozalash'],['SUBSTITUTE','Almashtirish'],['LEN','Uzunlik'],['FIND','Topish']],tables:[{label:'📊 Noto\'g\'ri',h:['','A','B'],hr:['Ism','Telefon'],hc:['var(--acc)','var(--blue)'],rows:[['2','sherzod','90-123'],['3','ALI','tel:90123']],st:[[0,'cr','cr'],[0,'cr','cr']],f:null,fd:null},{label:'📊 Tozalangan',h:['','A','B'],hr:['Ism','Telefon'],hc:['var(--acc)','var(--blue)'],rows:[['2','Sherzod','901234567'],['3','Ali','901234567']],st:[[0,'cg','cg'],[0,'cg','cg']],f:'PROPER, TRIM, CLEAN',fd:'Toza data'}],sc:[['PROPER','Bosh harf'],['TRIM','Bo\'shliq'],['CLEAN','Tozalash'],['SUBSTITUTE','Almashtir'],['LEN','Uzunlik'],['VALUE','Songa']],bog:'5-dars',nat:'Toza data'},
+{n:7,d:'4-hafta',t:'Dashboard PRO',desc:'Professional KPI.',items:['KPI','Murakkab grafiklar','INDEX+MATCH'],keys:[['INDEX','Qiymat'],['MATCH','Pozitsiya'],['Ctrl+1','Format'],['Alt+F1','Grafik'],['Ctrl+B','Qalin'],['F11','To\'liq']],tables:[{label:'📊 KPI data',h:['','A','B','C','D'],hr:['Oy','Sotuv','Xarajat','Foyda'],hc:['var(--acc)','var(--green)','var(--red)','var(--blue)'],rows:[['2','Yanvar','25 000','18 000','7 000'],['3','Fevral','32 000','20 000','12 000']],st:[[0,'cp2','cg','cr','cb'],[0,'cp2','cg','cr','cb']],f:null,fd:null},{label:'📊 Dashboard',h:['','G','H'],hr:['Ko\'rsatkich','Natija'],hc:['var(--acc)','var(--green)'],rows:[['1','Jami sotuv:','57 000'],['2','Jami foyda:','19 000']],st:[[0,'cv2','cg'],[0,'cv2','cb']],f:'INDEX+MATCH',fd:'Avtomatik'}],sc:[['INDEX','Qiymat'],['MATCH','Pozitsiya'],['MAX','Eng katta'],['MIN','Eng kichik'],['Sparkline','Mini'],['Ctrl+1','Format']],bog:'6-dars',nat:'Professional dashboard'},
+{n:8,d:'4-hafta',t:'Interaktiv dashboard',desc:'Slicer.',items:['Slicer','Dinamik filtr','Timeline','Vizualizatsiya'],keys:[['Slicer','Panel'],['Timeline','Sana'],['Alt+F1','Grafik'],['Ctrl+S','Saqlash'],['F5','Yangilash'],['Ctrl+Z','Bekor']],tables:[{label:'📊 Slicer',h:['','A','B'],hr:['Slicer','Natija'],hc:['var(--acc)','var(--green)'],rows:[['2','Oy: Yanvar','13 000'],['3','Sotuvchi: Ali','5 000']],st:[[0,'cv2','cg'],[0,'cv2','cg']],f:'Slicer → Pivot → Grafik',fd:'Bir tugma'}],sc:[['Slicer','Panel'],['Timeline','Sana'],['Pivot','Jadval'],['Chart','Grafik'],['Refresh','Yangilash'],['Format','Bezash']],bog:'7-dars',nat:'Interaktiv'},
+{n:9,d:'5-hafta',t:'ChatGPT + Excel',desc:'AI yordamida.',items:['Prompt','Formula','Xato'],keys:[['Prompt','So\'rov'],['ChatGPT','AI'],['Ctrl+C','Nusxa'],['Ctrl+V','Joylashtir'],['F2','Tahrir'],['Ctrl+Z','Bekor']],tables:[{label:'📊 Prompt',h:['','A','B'],hr:['Prompt','Natija'],hc:['var(--acc)','var(--green)'],rows:[['2','"3 shartli IF"','=IF(...)'],['3','"SUMIFS"','=SUMIFS(...)']],st:[[0,'cv2','cg'],[0,'cv2','cg']],f:'Aniq savol = aniq natija',fd:'AI yordamchi'}],sc:[['Prompt','Savol'],['Context','Kontekst'],['Copy','Nusxalash'],['Test','Tekshirish'],['Refine','Yaxshilash'],['Learn','O\'rganish']],bog:'Skilllar',nat:'AI bilan tezroq'},
+{n:10,d:'5-hafta',t:'Avtomatlashtirish',desc:'Optimallashtirish.',items:['Sekin vs tez','Named Ranges','Table'],keys:[['Ctrl+`','Formula'],['F9','Hisoblash'],['Ctrl+S','Saqlash'],['Ctrl+T','Table'],['F2','Tahrir'],['Alt+=','AutoSum']],tables:[{label:'📊 Tez',h:['','A','B','C'],hr:['Amal','Sekin','Tez'],hc:['var(--acc)','var(--red)','var(--green)'],rows:[['2','Qidiruv','VLOOKUP','XLOOKUP'],['3','Yig\'indi','SUM(IF())','SUMIFS']],st:[[0,'cv2','cr','cg'],[0,'cv2','cr','cg']],f:'Named Range',fd:'Tez = yaxshi'}],sc:[['Ctrl+`','Formulalar'],['F9','Hisoblash'],['Ctrl+T','Table'],['Name','Named Range'],['Manual','Qo\'lda'],['F2','Tahrir']],bog:'9-dars',nat:'Samarali'},
+{n:11,d:'6-hafta',t:'VBA asoslari',desc:'Makroslar.',items:['VBA','Alt+F11','Sub','MsgBox'],keys:[['Alt+F11','VBA'],['F5','Ishga'],['Ctrl+S','Saqlash'],['Sub','Boshlash'],['End Sub','Yakun'],['MsgBox','Xabar']],tables:[{label:'📊 VBA',h:['','A','B'],hr:['Buyruq','Vazifa'],hc:['var(--acc)','var(--green)'],rows:[['2','Sub Salom()','Boshlash'],['3','MsgBox','Xabar']],st:[[0,'cb','cg'],[0,'cb','cg']],f:'Sub Salom()\n  MsgBox "Salom!"\nEnd Sub',fd:'Birinchi makros'}],sc:[['Alt+F11','VBA'],['F5','Ishga tushir'],['Sub','Boshlash'],['End Sub','Yakun'],['MsgBox','Xabar'],['Range','Katak']],bog:'10-dars',nat:'Birinchi makros'},
+{n:12,d:'6-hafta',t:'Tugma orqali hisobot',desc:'Yakuniy loyiha.',items:['Tugma','Makros','Avtomatik'],keys:[['Button','Tugma'],['Assign','Ulash'],['Sub','Protsedura'],['Alt+F11','VBA'],['F5','Ishga'],['Ctrl+S','Saqlash']],tables:[{label:'📊 Tugma',h:['','A','B'],hr:['Bosqich','Amal'],hc:['var(--acc)','var(--green)'],rows:[['2','1. Tugma','Insert'],['3','2. Makros','Sub Hisobot()']],st:[[0,'cv2','cg'],[0,'cv2','cg']],f:'Sub Hisobot()\n  Range("H1").Value=Sum(...)\nEnd Sub',fd:'Bir tugma = hisobot'}],sc:[['Button','Tugma'],['Assign','Ulash'],['.xlsm','Makros'],['Charts.Add','Grafik'],['Sum','Yig\'indi'],['Average','O\'rtacha']],bog:'11-dars',nat:'Avtomat tizim'}
 ];
 
 let DB={groups:[],users:[],sessions:[]};
@@ -637,7 +672,7 @@ groupsSnap.forEach(d=>DB.groups.push(d.data()));
 const sessionsSnap=await getDocs(collection(fdb,"sessions"));
 sessionsSnap.forEach(d=>DB.sessions.push(d.data()));
 if(DB.users.length===0){
-const kingUser={id:1,name:'Showkan',login:'showkan',pass:'Urinboyev1',role:'king',gId:null,days:9999,access:'all',cat:'2024-01-01',ls:'-',activeToken:''};
+const kingUser={id:1,name:'Showkan',login:'showkan',pass:encPass('Urinboyev1'),role:'king',gId:null,days:9999,access:'all',cat:'2024-01-01',ls:'-',activeToken:''};
 await setDoc(doc(fdb,"users","1"),kingUser);
 DB.users.push(kingUser);
 }
@@ -650,18 +685,21 @@ async function svSession(s){try{await setDoc(doc(fdb,"sessions",String(s.id)),s)
 async function delUserDB(id){try{await deleteDoc(doc(fdb,"users",String(id)))}catch(e){console.error(e)}}
 async function delGroupDB(id){try{await deleteDoc(doc(fdb,"groups",String(id)))}catch(e){console.error(e)}}
 
-function openLogin(){$('loginM').classList.remove('hidden')}
-function closeLogin(){$('loginM').classList.add('hidden')}
+function openLogin(){$('loginM').classList.add('open')}
+function closeLogin(){$('loginM').classList.remove('open')}
 
 async function doLogin(){
 const l=$('iL').value.trim();
 const ps=$('iP').value.trim();
 const er=$('lErr');
-er.classList.add('hidden');
+er.classList.remove('show');
 let u=null;
-for(let i=0;i<DB.users.length;i++){if(DB.users[i].login===l&&DB.users[i].pass===ps){u=DB.users[i];break}}
-if(!u){er.textContent='Login yoki parol xato!';er.classList.remove('hidden');return}
-if(u.role!=='king'&&dl(u)===0){er.textContent='Muddat tugagan!';er.classList.remove('hidden');return}
+for(let i=0;i<DB.users.length;i++){
+  const dbUser=DB.users[i];
+  if(dbUser.login===l && decPass(dbUser.pass)===ps){u=dbUser;break}
+}
+if(!u){er.textContent='Login yoki parol xato!';er.classList.add('show');return}
+if(u.role!=='king'&&dl(u)===0){er.textContent='Muddat tugagan!';er.classList.add('show');return}
 const newToken=Date.now()+'_'+Math.random().toString(36).substr(2,9);
 u.activeToken=newToken;
 u.ls=tdy();
@@ -692,7 +730,7 @@ let found=null;
 usersSnap.forEach(d=>{const data=d.data();if(data.id===ME.id)found=data});
 if(found && found.activeToken && found.activeToken!==myToken){
 clearInterval(tokenCheckInt);
-alert('Sizning hisobingizdan boshqa qurilmadan kirildi! Tizimdan chiqarildingiz.');
+alert('Sizning hisobingizdan boshqa qurilmadan kirildi!');
 localStorage.removeItem('myToken');
 localStorage.removeItem('myUserId');
 sessionStorage.removeItem(SK);
@@ -767,14 +805,14 @@ for(let i=0;i<ts.length;i++)tm2+=ts[i].min;
 const rs=DB.sessions.slice().sort((a,b)=>b.date>a.date?1:b.date<a.date?-1:b.id-a.id).slice(0,8);
 let rr='';
 for(let i=0;i<rs.length;i++){const s=rs[i],u=uById(s.uid),g=gById(s.gid);rr+='<tr><td><b>'+(u?u.name:'-')+'</b></td><td>'+(g?g.name:'-')+'</td><td>'+fdt(s.date)+'</td><td>'+s.lt+' → '+s.ot+'</td><td>'+ht(s.min)+'</td></tr>'}
-v.innerHTML='<div class="phead"><div><div class="ptitle">Dashboard</div><div class="psub">Umumiy holat</div></div></div><div class="g4" style="margin-bottom:20px"><div class="card cpad sc"><h4>O\'quvchilar</h4><div class="sv">'+ss.length+'</div></div><div class="card cpad sc"><h4>Guruhlar</h4><div class="sv">'+gs.length+'</div></div><div class="card cpad sc"><h4>Bugun faol</h4><div class="sv">'+at+'</div></div><div class="card cpad sc"><h4>Bugungi vaqt</h4><div class="sv">'+ht(tm2)+'</div></div></div><div class="card"><div class="cpad"><div class="stitle">Oxirgi faolliklar</div>'+(rr?'<table class="tbl"><thead><tr><th>Ism</th><th>Guruh</th><th>Sana</th><th>Vaqt</th><th>Davomiylik</th></tr></thead><tbody>'+rr+'</tbody></table>':'<div class="empty">Hali faollik yo\'q. Avval o\'quvchi qo\'shing.</div>')+'</div></div>';
+v.innerHTML='<div class="phead"><div><div class="ptitle">Dashboard</div><div class="psub">Umumiy holat</div></div></div><div class="g4" style="margin-bottom:20px"><div class="card cpad sc"><h4>O\'quvchilar</h4><div class="sv">'+ss.length+'</div></div><div class="card cpad sc"><h4>Guruhlar</h4><div class="sv">'+gs.length+'</div></div><div class="card cpad sc"><h4>Bugun faol</h4><div class="sv">'+at+'</div></div><div class="card cpad sc"><h4>Bugungi vaqt</h4><div class="sv">'+ht(tm2)+'</div></div></div><div class="card"><div class="cpad"><div class="stitle">Oxirgi faolliklar</div>'+(rr?'<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Ism</th><th>Guruh</th><th>Sana</th><th>Vaqt</th><th>Davomiylik</th></tr></thead><tbody>'+rr+'</tbody></table></div>':'<div class="empty">Hali faollik yo\'q.</div>')+'</div></div>';
 }
 
 function rLessons(v){if(curLesson>=0)return rLD(v);if(curCourse)return rLL(v);rCS(v)}
 
 function rCS(v){
 const fa=ha(ME,'foundation'),pa=ha(ME,'pro');
-v.innerHTML='<div class="phead"><div><div class="ptitle">Darslar</div><div class="psub">Kursni tanlang</div></div></div><div class="csg"><div class="csc'+(fa?'':' locked')+'" id="csF"><div class="csb badge-green">Boshlang\'ich</div><h3 style="font-size:1.4rem;font-weight:800;margin-bottom:10px;font-family:Syne,sans-serif">Foundation + Intermediate</h3><p style="color:var(--txt2);margin-bottom:14px">Interfeys, formulalar, jadvallar va dashboard.</p><div style="color:var(--txt2);font-size:.88rem;font-weight:600">📅 4 hafta • 📖 8 dars</div></div><div class="csc'+(pa?'':' locked')+'" id="csP"><div class="csb badge-purple">Professional</div><h3 style="font-size:1.4rem;font-weight:800;margin-bottom:10px;font-family:Syne,sans-serif">PRO + Automation</h3><p style="color:var(--txt2);margin-bottom:14px">Murakkab formulalar, VBA va avtomatlashtirish.</p><div style="color:var(--txt2);font-size:.88rem;font-weight:600">📅 6 hafta • 📖 12 dars</div></div></div>';
+v.innerHTML='<div class="phead"><div><div class="ptitle">Darslar</div><div class="psub">Kursni tanlang</div></div></div><div class="csg"><div class="csc'+(fa?'':' locked')+'" id="csF"><div class="csb" style="background:rgba(0,184,148,.12);color:var(--green2)">Boshlang\'ich</div><h3 style="font-size:1.4rem;font-weight:800;margin-bottom:10px;font-family:Syne,sans-serif">Foundation + Intermediate</h3><p style="color:var(--txt2);margin-bottom:14px">Interfeys, formulalar, jadvallar va dashboard.</p><div style="color:var(--txt2);font-size:.88rem;font-weight:600">📅 4 hafta • 📖 8 dars</div></div><div class="csc'+(pa?'':' locked')+'" id="csP"><div class="csb" style="background:rgba(108,92,231,.12);color:var(--acc3)">Professional</div><h3 style="font-size:1.4rem;font-weight:800;margin-bottom:10px;font-family:Syne,sans-serif">PRO + Automation</h3><p style="color:var(--txt2);margin-bottom:14px">Murakkab formulalar, VBA va avtomatlashtirish.</p><div style="color:var(--txt2);font-size:.88rem;font-weight:600">📅 6 hafta • 📖 12 dars</div></div></div>';
 $('csF').addEventListener('click',()=>{if(!fa){alert('Yopiq');return}curCourse='f';rM()});
 $('csP').addEventListener('click',()=>{if(!pa){alert('Yopiq');return}curCourse='p';rM()});
 }
@@ -804,7 +842,7 @@ for(let ti=0;ti<l.tables.length;ti++){const t=l.tables[ti];tbls+='<div class="vc
 let scs='<div class="sg2">';
 for(let s=0;s<l.sc.length;s++)scs+='<div class="si3"><span class="sk2">'+l.sc[s][0]+'</span><span class="sd2">'+l.sc[s][1]+'</span></div>';
 scs+='</div>';
-v.innerHTML='<div class="exw"><div class="exfb"><div class="exfc">'+cols[curLesson%8]+(Math.floor(curLesson/8)+2)+'</div><div class="exfx"><i>f</i>x</div><div class="exfp">Kurslar &rsaquo; <b>'+name+'</b> &rsaquo; '+n2(l.n)+'-dars</div></div><div class="exch"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span></div><div class="exbd"><div class="exrn">'+rowNums+'</div><div class="exct"><div style="margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-gh btn-sm" id="btnBackL">📋 Darslar</button>'+(curLesson>0?'<button class="btn btn-d btn-sm" id="btnPrevL">← '+curLesson+'-dars</button>':'')+(curLesson<data.length-1?'<button class="btn btn-p btn-sm" id="btnNextL">'+(curLesson+2)+'-dars →</button>':'')+'</div><div class="ll"><div class="lleft"><div class="lc2"><div class="lnum">'+n2(l.n)+'</div><div class="lday">'+(l.d||'Professional')+' &middot; '+l.n+'-dars</div><div class="ltit">'+l.t+'</div><div class="ldesc">'+l.desc+'</div></div><div class="lc2"><h4>📋 Mavzular</h4>'+tops+'</div><div class="lc2"><h4>⌨️ Tezkor tugmalar</h4>'+ks+'</div></div><div class="lright">'+tbls+'<div class="vc"><div class="vl">⚡ Foydali buyruqlar</div>'+scs+'</div></div><div class="lfooter2"><div class="fc2"><h4>🔗 Keyingi</h4><p>'+(next?'<b>'+n2(next.n)+'-dars:</b> '+next.t:'<b>Yakun:</b> Oxirgi dars.')+'</p></div><div class="fc2"><h4>✅ Natija</h4><p><b>'+l.nat+'</b>'+(l.bog?' va <b>'+l.bog+'</b> bilan bog\'lanadi.':'.')+'</p></div></div></div></div></div></div>';
+v.innerHTML='<div class="exw"><div class="exfb"><div class="exfc">'+cols[curLesson%8]+(Math.floor(curLesson/8)+2)+'</div><div class="exfx"><i>f</i>x</div><div class="exfp">Kurslar &rsaquo; <b>'+name+'</b> &rsaquo; '+n2(l.n)+'-dars</div></div><div class="exch"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span></div><div class="exbd"><div class="exrn">'+rowNums+'</div><div class="exct"><div style="margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-gh btn-sm" id="btnBackL">📋 Darslar</button>'+(curLesson>0?'<button class="btn btn-d btn-sm" id="btnPrevL">← '+curLesson+'-dars</button>':'')+(curLesson<data.length-1?'<button class="btn btn-p btn-sm" id="btnNextL">'+(curLesson+2)+'-dars →</button>':'')+'</div><div class="ll"><div class="lleft"><div class="lc2"><div class="lnum">'+n2(l.n)+'</div><div class="lday">'+(l.d||'Professional')+' &middot; '+l.n+'-dars</div><div class="ltit">'+l.t+'</div><div class="ldesc">'+l.desc+'</div></div><div class="lc2"><h4>📋 Mavzular</h4>'+tops+'</div><div class="lc2"><h4>⌨️ Tezkor tugmalar</h4>'+ks+'</div></div><div class="lright">'+tbls+'<div class="vc"><div class="vl">⚡ Foydali buyruqlar</div>'+scs+'</div></div><div class="lfooter2"><div class="fc2"><h4>🔗 Keyingi</h4><p>'+(next?'<b>'+n2(next.n)+'-dars:</b> '+next.t:'<b>Yakun</b>')+'</p></div><div class="fc2"><h4>✅ Natija</h4><p><b>'+l.nat+'</b></p></div></div></div></div></div></div>';
 $('btnBackL').addEventListener('click',()=>{curLesson=-1;rM()});
 const bp=$('btnPrevL');if(bp)bp.addEventListener('click',()=>{curLesson--;rM()});
 const bn=$('btnNextL');if(bn)bn.addEventListener('click',()=>{curLesson++;rM()});
@@ -815,7 +853,7 @@ if(curGroupId)return rGD(v);
 const gs=vg();
 let gr='';
 for(let i=0;i<gs.length;i++){const g=gs[i],cmd=uById(g.cmdId);let cnt=0,act2=0;for(let j=0;j<DB.users.length;j++)if(DB.users[j].gId===g.id&&DB.users[j].role==='soldier'){cnt++;if(iat(DB.users[j]))act2++}gr+='<div class="card gc" data-gid="'+g.id+'"><div class="gtop" style="background:'+g.color+'"><div class="gname">'+g.name+'</div><div class="ginfo">Qomondon: '+(cmd?cmd.name:'—')+'</div></div><div class="gbot"><div class="gcnt">'+cnt+' askar • '+act2+' faol</div><div>'+(ME.role==='king'?'<button class="btn btn-y btn-sm" data-edit="'+g.id+'">Tahrir</button> <button class="btn btn-r btn-sm" data-del="'+g.id+'">O\'chirish</button>':'')+'</div></div></div>'}
-v.innerHTML='<div class="phead"><div><div class="ptitle">Guruhlar</div><div class="psub">Guruh ustiga bosib ichini ko\'ring</div></div>'+(ME.role==='king'?'<button class="btn btn-p" id="btnNewG">+ Yangi guruh</button>':'')+'</div>'+(gr?'<div class="ggrid">'+gr+'</div>':'<div class="card cpad"><div class="empty">Hali guruh yo\'q. "+ Yangi guruh" tugmasini bosib boshlang.</div></div>');
+v.innerHTML='<div class="phead"><div><div class="ptitle">Guruhlar</div><div class="psub">Guruh ustiga bosib ichini ko\'ring</div></div>'+(ME.role==='king'?'<button class="btn btn-p" id="btnNewG">+ Yangi guruh</button>':'')+'</div>'+(gr?'<div class="ggrid">'+gr+'</div>':'<div class="card cpad"><div class="empty">Hali guruh yo\'q.</div></div>');
 const bn=$('btnNewG');if(bn)bn.addEventListener('click',opGM);
 v.querySelectorAll('.gc').forEach(c=>{
 const gid=Number(c.getAttribute('data-gid'));
@@ -846,7 +884,7 @@ let list=vu();
 if(studentSearch){const q=studentSearch.toLowerCase();list=list.filter(u=>u.name.toLowerCase().indexOf(q)>=0||u.login.toLowerCase().indexOf(q)>=0)}
 let rows='';
 for(let i=0;i<list.length;i++){const u=list[i],g=gById(u.gId),d=dl(u),at2=u.access==='all'?'Hammasi':u.access==='foundation'?'Oddiy':u.access==='pro'?'Pro':'Yopiq';const exp=u.role!=='king'&&d===0;const dText=d===9999?'∞':exp?'<span class="badge b-expired">TUGAGAN</span>':d+' kun';rows+='<tr class="'+(exp?'expired':'')+'"><td><b>'+u.name+'</b><br><span class="muted">'+u.login+'</span></td><td>'+rb(u.role)+'</td><td>'+(g?g.name:'-')+'</td><td>'+at2+'</td><td>'+dText+'</td><td>'+ht(tm(u.id))+'</td><td>'+sb(iat(u))+'</td><td>'+(ME.role==='king'?'<button class="btn btn-y btn-sm" data-eu="'+u.id+'">Tahrir</button> ':'')+(ME.role==='king'&&u.role!=='king'?'<button class="btn btn-r btn-sm" data-du="'+u.id+'">O\'chirish</button>':'')+'</td></tr>'}
-v.innerHTML='<div class="phead"><div><div class="ptitle">O\'quvchilar</div><div class="psub">Qidirish va boshqarish</div></div>'+(ME.role==='king'||ME.role==='commander'?'<button class="btn btn-p" id="btnNewU">+ Yangi</button>':'')+'</div><div style="margin-bottom:16px"><input class="fi" type="text" id="srchU" placeholder="🔍 Ism yoki login bo\'yicha qidirish..." value="'+studentSearch+'" style="max-width:400px"></div><div class="card"><div class="cpad">'+(rows?'<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Ism</th><th>Rol</th><th>Guruh</th><th>Kurs</th><th>Muddat</th><th>Jami vaqt</th><th>Holat</th><th>Amal</th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<div class="empty">'+(studentSearch?'"'+studentSearch+'" topilmadi':'Hali o\'quvchi yo\'q. "+ Yangi" tugmasini bosib qo\'shing.')+'</div>')+'</div></div>';
+v.innerHTML='<div class="phead"><div><div class="ptitle">O\'quvchilar</div><div class="psub">Qidirish va boshqarish</div></div>'+(ME.role==='king'||ME.role==='commander'?'<button class="btn btn-p" id="btnNewU">+ Yangi</button>':'')+'</div><div style="margin-bottom:16px"><input class="fi" type="text" id="srchU" placeholder="🔍 Ism yoki login bo\'yicha qidirish..." value="'+studentSearch+'" style="max-width:400px"></div><div class="card"><div class="cpad">'+(rows?'<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Ism</th><th>Rol</th><th>Guruh</th><th>Kurs</th><th>Muddat</th><th>Jami vaqt</th><th>Holat</th><th>Amal</th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<div class="empty">'+(studentSearch?'"'+studentSearch+'" topilmadi':'Hali o\'quvchi yo\'q.')+'</div>')+'</div></div>';
 const bn=$('btnNewU');if(bn)bn.addEventListener('click',opUM);
 const sr=$('srchU');if(sr)sr.addEventListener('input',e=>{studentSearch=e.target.value;rM()});
 v.querySelectorAll('[data-eu]').forEach(b=>b.addEventListener('click',()=>editUFn(Number(b.getAttribute('data-eu')))));
@@ -875,7 +913,7 @@ const g=gById(ME.gId),d=dl(ME),at2=ME.access==='all'?'Hammasi':ME.access==='foun
 const mss=sf(ME.id).sort((a,b)=>b.date>a.date?1:-1).slice(0,10);
 let sr='',totalM=0;
 for(let i=0;i<mss.length;i++){totalM+=mss[i].min;sr+='<tr><td>'+fdt(mss[i].date)+'</td><td>'+mss[i].lt+'</td><td>'+mss[i].ot+'</td><td>'+ht(mss[i].min)+'</td></tr>'}
-if(mss.length)sr+='<tr style="background:var(--green-bg);font-weight:800"><td colspan="3" style="text-align:right;color:var(--green)">JAMI:</td><td style="color:var(--green)">'+ht(totalM)+'</td></tr>';
+if(mss.length)sr+='<tr style="background:rgba(0,184,148,.1);font-weight:800"><td colspan="3" style="text-align:right;color:var(--green2)">JAMI:</td><td style="color:var(--green2)">'+ht(totalM)+'</td></tr>';
 v.innerHTML='<div class="phead"><div><div class="ptitle">Profil</div></div></div><div class="g2"><div class="card cpad"><div class="stitle">Ma\'lumot</div><p style="line-height:2.2"><b>Ism:</b> '+ME.name+'<br><b>Login:</b> '+ME.login+'<br><b>Rol:</b> '+rn(ME.role)+'<br><b>Guruh:</b> '+(g?g.name:'-')+'<br><b>Kurs:</b> '+at2+'<br><b>Muddat:</b> '+(d===9999?'Cheksiz':d+' kun')+'<br><b>Jami vaqt:</b> '+ht(tm(ME.id))+'</p></div><div class="card cpad"><div class="stitle">Oxirgi sessiyalar</div>'+(sr?'<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Sana</th><th>Kirdi</th><th>Chiqdi</th><th>Davomiylik</th></tr></thead><tbody>'+sr+'</tbody></table></div>':'<div class="empty">Sessiya yo\'q</div>')+'</div></div>';
 }
 
@@ -893,7 +931,7 @@ function editUFn(id){
 const u=uById(id);if(!u)return;
 editUId=id;
 $('umT').textContent='Tahrir: '+u.name;
-$('umN').value=u.name;$('umL').value=u.login;$('umP').value=u.pass;
+$('umN').value=u.name;$('umL').value=u.login;$('umP').value=decPass(u.pass);
 $('umR').value=u.role;$('umD').value=u.days;$('umA').value=u.access||'all';
 fGS('umG');$('umG').value=u.gId;
 $('umG').disabled=ME.role!=='king';$('umR').disabled=ME.role!=='king';
@@ -916,11 +954,11 @@ const dup=DB.users.find(u=>u.login===lg&&u.id!==editUId);
 if(dup){alert('Login band!');return}
 if(editUId){
 const u=uById(editUId);
-u.name=nm;u.login=lg;u.pass=ps;u.days=dy;u.access=ac;
+u.name=nm;u.login=lg;u.pass=encPass(ps);u.days=dy;u.access=ac;
 if(ME.role==='king'){u.role=rl;u.gId=gi}
 await svUser(u);
 }else{
-const newU={id:Date.now(),name:nm,login:lg,pass:ps,role:ME.role==='king'?rl:'soldier',gId:ME.role==='king'?gi:ME.gId,days:dy,access:ac,cat:tdy(),ls:'-',activeToken:''};
+const newU={id:Date.now(),name:nm,login:lg,pass:encPass(ps),role:ME.role==='king'?rl:'soldier',gId:ME.role==='king'?gi:ME.gId,days:dy,access:ac,cat:tdy(),ls:'-',activeToken:''};
 DB.users.push(newU);
 await svUser(newU);
 }
@@ -938,7 +976,7 @@ rM();
 function opGM(){
 editGId=null;
 $('gmT').textContent='Yangi guruh';
-$('gmN').value='';$('gmC').value='#7c6ef7';
+$('gmN').value='';$('gmC').value='#6c5ce7';
 fCmdS();
 $('gMod').classList.remove('hidden');
 }
@@ -1003,20 +1041,34 @@ $('btnGMSave').addEventListener('click',saveG);
 $('loginM').addEventListener('click',e=>{if(e.target.id==='loginM')closeLogin()});
 $('uMod').addEventListener('click',e=>{if(e.target.id==='uMod')clUM()});
 $('gMod').addEventListener('click',e=>{if(e.target.id==='gMod')clGM()});
+$('iP').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 100);
-    }
-  });
-}, { threshold: 0.1 });
+// Excel tabs
+document.querySelectorAll('.excel-tab').forEach(tab=>{
+tab.addEventListener('click',function(){
+document.querySelectorAll('.excel-tab').forEach(t=>t.classList.remove('active'));
+this.classList.add('active');
+});
+});
+
+// Nav scroll
+window.addEventListener('scroll',()=>{
+const nav=$('nav');
+if(nav)nav.classList.toggle('scrolled',scrollY>40);
+});
+
+// Reveals
+const ro=new IntersectionObserver(entries=>{
+entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('up')});
+},{threshold:.12});
 
 async function startApp(){
 await initDB();
-$('loader').classList.add('hidden');
+setTimeout(()=>{
+$('loader').classList.add('gone');
 $('vLand').classList.remove('hidden');
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+},800);
 }
 startApp();
 </script>
