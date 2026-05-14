@@ -1013,20 +1013,19 @@ function attachQuizEvents(course, lessonIdx, v) {
   });
 }
 
-// AI CHATBOT LOGIC — Gemini API
-const GEMINI_KEY = 'AIzaSyB5SbMMFcM8Pfb5sw0GkcRAtWGwYppjr8s';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`;
-const AI_SYSTEM = `Sen faqat Microsoft Excel bo'yicha yordam beradigan AI yordamchisan. Sening ismingiz "Excel Ustasi".
+// AI CHATBOT LOGIC — Groq API (key serverda yashiringan)
+const GROQ_URL = '/api/chat';
+const AI_SYSTEM = `Sen faqat Microsoft Excel bo'yicha yordam beradigan AI yordamchisan. Sening isming "Excel Ustasi".
 
 QATTIQ QOIDALAR — bularni HECH QACHON buzma:
 1. Faqat O'zbek tilida javob ber. Boshqa tilda yozma.
 2. FAQAT Excel, formulalar, VBA, Pivot Table, grafiklar, ma'lumotlar tahlili haqida gapir.
-3. Rasm yaratma, kod yozma (Excel VBA dan tashqari), tarjima qilma, she'r yozma, hikoya yozma.
+3. Rasm yaratma, she'r yozma, hikoya yozma, tarjima qilma.
 4. Shaxsiy savollar (ism, yoshing, qayerdasiz va h.k.) ga javob berma.
 5. Boshqa AI (ChatGPT, Claude va h.k.) haqida gapirma.
 6. Siyosat, din, sport, musiqa, kino va boshqa mavzularda gapirma.
 
-Agar Excel bilan bog'liq bo'lmagan har qanday savol kelsa — quyidagi javobni ber:
+Agar Excel bilan bog'liq bo'lmagan savol kelsa:
 "❌ Men faqat Excel bo'yicha yordam bera olaman. Formulalar, Pivot Table, VBA yoki boshqa Excel mavzularida savol bering!"
 
 Excel savollari uchun:
@@ -1034,7 +1033,7 @@ Excel savollari uchun:
 - Formula misollarini = belgisi bilan boshlat
 - Amaliy misol keltir`;
 
-let aiHistory = [];
+let aiHistory = [{ role: 'system', content: AI_SYSTEM }];
 
 function initAI() {
   const fab = $('aiFab');
@@ -1068,24 +1067,22 @@ function initAI() {
     body.appendChild(loadMsg);
     body.scrollTop = body.scrollHeight;
 
-    // Tarix (oxirgi 20 xabar)
-    aiHistory.push({ role: 'user', parts: [{ text }] });
-    if (aiHistory.length > 20) aiHistory = aiHistory.slice(-20);
+    // Tarix (system + oxirgi 20 xabar)
+    aiHistory.push({ role: 'user', content: text });
+    if (aiHistory.length > 22) {
+      aiHistory = [aiHistory[0], ...aiHistory.slice(-20)];
+    }
 
     try {
-      const res = await fetch(GEMINI_URL, {
+      const res = await fetch(GROQ_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: AI_SYSTEM }] },
-          contents: aiHistory,
-          generationConfig: { maxOutputTokens: 400, temperature: 0.7 }
-        })
+        body: JSON.stringify({ messages: aiHistory })
       });
       const data = await res.json();
-      if (data.candidates && data.candidates[0]) {
-        const answer = data.candidates[0].content.parts[0].text;
-        aiHistory.push({ role: 'model', parts: [{ text: answer }] });
+      if (data.choices && data.choices[0]) {
+        const answer = data.choices[0].message.content;
+        aiHistory.push({ role: 'assistant', content: answer });
         loadMsg.innerHTML = '';
         answer.split('\n').forEach(line => {
           if (!line.trim()) return;
