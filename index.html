@@ -1013,16 +1013,29 @@ function attachQuizEvents(course, lessonIdx, v) {
   });
 }
 
-// AI CHATBOT LOGIC
-const aiData = {
-  vlookup: "VLOOKUP 4ta argument oladi: =VLOOKUP(izlanadigan, jadval, ustun_raqami, FALSE). #N/A chiqsa, qiymat topilmagan bo'ladi.",
-  sumif: "SUMIF(Range, Criteria, Sum_Range) - bitta shart bilan yig'adi. Sum_range doim oxirida bo'ladi.",
-  sumifs: "SUMIFS(Sum_Range, Range1, Criteria1, ...) - ko'p shart bilan yig'adi. Sum_range doim BOSHIDA bo'ladi!",
-  xato: "Agar formulangiz #VALUE!, #N/A yoki #REF! chiqarsa, uni IFERROR(formula, \"Xato matni\") ichiga oling.",
-  pivot: "Pivot Table ochish uchun: Data -> Insert PivotTable qiling. Katta jadvallarni hisobot qilish uchun eng zo'r usul.",
-  if: "IF formulasi 3ta qismdan iborat: =IF(shart, TRUE bo'lsa natija, FALSE bo'lsa natija). Masalan =IF(A1>10, \"Zo'r\", \"Yomon\").",
-  salom: "Assalomu alaykum! Excel Qirolligida o'qish qanday ketyapti? Savollaringiz bo'lsa yozing."
-};
+// AI CHATBOT LOGIC — Gemini API
+const GEMINI_KEY = 'AIzaSyB5SbMMFcM8Pfb5sw0GkcRAtWGwYppjr8s';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`;
+const AI_SYSTEM = `Sen faqat Microsoft Excel bo'yicha yordam beradigan AI yordamchisan. Sening ismingiz "Excel Ustasi".
+
+QATTIQ QOIDALAR — bularni HECH QACHON buzma:
+1. Faqat O'zbek tilida javob ber. Boshqa tilda yozma.
+2. FAQAT Excel, formulalar, VBA, Pivot Table, grafiklar, ma'lumotlar tahlili haqida gapir.
+3. Rasm yaratma, kod yozma (Excel VBA dan tashqari), tarjima qilma, she'r yozma, hikoya yozma.
+4. Shaxsiy savollar (ism, yoshing, qayerdasiz va h.k.) ga javob berma.
+5. Boshqa AI (ChatGPT, Claude va h.k.) haqida gapirma.
+6. Siyosat, din, sport, musiqa, kino va boshqa mavzularda gapirma.
+
+Agar Excel bilan bog'liq bo'lmagan har qanday savol kelsa — quyidagi javobni ber:
+"❌ Men faqat Excel bo'yicha yordam bera olaman. Formulalar, Pivot Table, VBA yoki boshqa Excel mavzularida savol bering!"
+
+Excel savollari uchun:
+- Javobni qisqa va aniq qil (3-5 gap)
+- Formula misollarini = belgisi bilan boshlat
+- Amaliy misol keltir`;
+
+let aiHistory = [];
+
 function initAI() {
   const fab = $('aiFab');
   const win = $('aiWindow');
@@ -1034,39 +1047,64 @@ function initAI() {
   btn.addEventListener('click', sendAI);
   inp.addEventListener('keydown', e => { if (e.key === 'Enter') sendAI(); });
 
-  function sendAI() {
+  async function sendAI() {
     const text = inp.value.trim();
     if (!text) return;
-    
-    // User msg
+
+    // Foydalanuvchi xabari
     const uMsg = document.createElement('div');
     uMsg.className = 'ai-msg user';
     uMsg.textContent = text;
     body.appendChild(uMsg);
     inp.value = '';
-    
-    // Auto-scroll
+    inp.disabled = true;
+    btn.disabled = true;
     body.scrollTop = body.scrollHeight;
 
-    // AI think
-    setTimeout(() => {
-      const bMsg = document.createElement('div');
-      bMsg.className = 'ai-msg bot';
-      
-      let answer = "Kechirasiz, savolingizni aniq tushunmadim. 'VLOOKUP', 'SUMIF' yoki 'Xato' kabi so'zlardan foydalaning.";
-      const tLower = text.toLowerCase();
-      
-      for (const key in aiData) {
-        if (tLower.includes(key)) {
-          answer = aiData[key];
-          break;
-        }
+    // Yuklash animatsiyasi
+    const loadMsg = document.createElement('div');
+    loadMsg.className = 'ai-msg bot';
+    loadMsg.innerHTML = '<span style="letter-spacing:4px;opacity:.6">● ● ●</span>';
+    body.appendChild(loadMsg);
+    body.scrollTop = body.scrollHeight;
+
+    // Tarix (oxirgi 20 xabar)
+    aiHistory.push({ role: 'user', parts: [{ text }] });
+    if (aiHistory.length > 20) aiHistory = aiHistory.slice(-20);
+
+    try {
+      const res = await fetch(GEMINI_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: AI_SYSTEM }] },
+          contents: aiHistory,
+          generationConfig: { maxOutputTokens: 400, temperature: 0.7 }
+        })
+      });
+      const data = await res.json();
+      if (data.candidates && data.candidates[0]) {
+        const answer = data.candidates[0].content.parts[0].text;
+        aiHistory.push({ role: 'model', parts: [{ text: answer }] });
+        loadMsg.innerHTML = '';
+        answer.split('\n').forEach(line => {
+          if (!line.trim()) return;
+          const p = document.createElement('p');
+          p.style.margin = '3px 0';
+          p.textContent = line;
+          loadMsg.appendChild(p);
+        });
+      } else {
+        loadMsg.textContent = '⚠️ ' + (data.error?.message || 'Javob kelmadi. Qayta urining.');
       }
-      
-      bMsg.textContent = answer;
-      body.appendChild(bMsg);
-      body.scrollTop = body.scrollHeight;
-    }, 600);
+    } catch(e) {
+      loadMsg.textContent = '⚠️ Internet xatosi. Ulanishni tekshiring.';
+    }
+
+    inp.disabled = false;
+    btn.disabled = false;
+    inp.focus();
+    body.scrollTop = body.scrollHeight;
   }
 }
 
