@@ -916,7 +916,7 @@ function showStuck(lessonTitle, lessonIdx, course) {
     'COUNTIF va SUMIF': { tip: '<code>COUNTIF</code> = SANAYDI. <code>SUMIF</code> = YIG\'AYDI.', common: 'SUMIF da Sum_range OXIRIDA bo\'ladi!' },
     'VLOOKUP / XLOOKUP': { tip: 'VLOOKUP 4-argument: <code>FALSE</code> = aniq moslik.', common: '#N/A xatosi: qidirilayotgan qiymat topilmadi. <code>IFERROR()</code> qiling.' },
     'Filter + Sort': { tip: '<code>Ctrl+Shift+L</code> — filter on/off.', common: 'Filter qo\'yilganda qatorlar o\'chirilmaydi, faqat yashiriladi.' },
-    'Pivot Table': { tip: 'Pivot yaratish: Data → PivotTable.', common: 'Ma\'lumot o\'zgarganda Pivot 'o\'z-o\'zidan' yangilanmaydi. Refresh kerak!' },
+    'Pivot Table': { tip: 'Pivot yaratish: Data → PivotTable.', common: 'Ma\'lumot o\'zgarganda Pivot o\'z-o\'zidan yangilanmaydi. Refresh kerak!' },
     'Mini Dashboard': { tip: 'Grafik uchun: Alt+F1.', common: 'Haddan tashqari ko\'p grafik chalkashlikka olib keladi.' }
   };
   const tip = tips[lessonTitle] || { tip: 'Bu mavzuda qiyin joyni aniqlashtirish uchun o\'qituvchiga murojaat qiling.', common: 'Har bir formulani avval oddiy ma\'lumotda sinab ko\'ring.' };
@@ -1038,14 +1038,17 @@ function initAI() {
     const text = inp.value.trim();
     if (!text) return;
     
+    // User msg
     const uMsg = document.createElement('div');
     uMsg.className = 'ai-msg user';
     uMsg.textContent = text;
     body.appendChild(uMsg);
     inp.value = '';
     
+    // Auto-scroll
     body.scrollTop = body.scrollHeight;
 
+    // AI think
     setTimeout(() => {
       const bMsg = document.createElement('div');
       bMsg.className = 'ai-msg bot';
@@ -1069,32 +1072,37 @@ function initAI() {
 
 // INITIALIZE DB AND LOAD STUCKS
 async function initDB(){
-  DB = {groups:[], users:[], sessions:[], stucks:[]};
-  try {
-    const usersSnap = await getDocs(collection(fdb, "users"));
-    usersSnap.forEach(d => DB.users.push(d.data()));
-    
-    const groupsSnap = await getDocs(collection(fdb, "groups"));
-    groupsSnap.forEach(d => DB.groups.push(d.data()));
-    
-    const sessionsSnap = await getDocs(collection(fdb, "sessions"));
-    sessionsSnap.forEach(d => DB.sessions.push(d.data()));
-    
-    try {
-      const stucksSnap = await getDocs(collection(fdb, "stucks"));
-      stucksSnap.forEach(d => DB.stucks.push(d.data()));
-    } catch(e) {}
+  DB={groups:[],users:[],sessions:[],stucks:[]};
+  const statusEl=$('loaderStatus');
+  try{
+    if(statusEl)statusEl.textContent='Foydalanuvchilar yuklanmoqda...';
+    const usersSnap=await getDocs(collection(fdb,"users"));
+    usersSnap.forEach(d=>DB.users.push(d.data()));
 
-  } catch(e) {
-    console.error('Firebase xato:', e);
-    // Loader muammosi echimi: bloklovchi alert olib tashlandi, notif chiqarildi.
-    showNotif('Internet yoki Bazaga ulanishda xato, oflayn rejim', 'err');
-  } finally {
-    // Agar baza yuklanmasa ham (yoki probel bo'lsa), dastur xavfsiz davom etishi uchun
-    if(DB.users.length === 0){
-      const kingUser = {id:1, name:'Showkan', login:'showkan', pass:encPass('Urinboyev1'), role:'king', gId:null, days:9999, access:'all', cat:'2024-01-01', ls:'-', activeToken:''};
+    if(statusEl)statusEl.textContent='Guruhlar yuklanmoqda...';
+    const groupsSnap=await getDocs(collection(fdb,"groups"));
+    groupsSnap.forEach(d=>DB.groups.push(d.data()));
+
+    if(statusEl)statusEl.textContent='Sessiyalar yuklanmoqda...';
+    const sessionsSnap=await getDocs(collection(fdb,"sessions"));
+    sessionsSnap.forEach(d=>DB.sessions.push(d.data()));
+
+    try{
+      const stucksSnap=await getDocs(collection(fdb,"stucks"));
+      stucksSnap.forEach(d=>DB.stucks.push(d.data()));
+    }catch(e){ /* stucks topilmasa e'tibor bermaymiz */ }
+
+    if(DB.users.length===0){
+      const kingUser={id:1,name:'Showkan',login:'showkan',pass:encPass('Urinboyev1'),role:'king',gId:null,days:9999,access:'all',cat:'2024-01-01',ls:'-',activeToken:''};
+      await setDoc(doc(fdb,"users","1"),kingUser);
       DB.users.push(kingUser);
     }
+    if(statusEl)statusEl.textContent='Tayyor!';
+  }catch(e){
+    console.error('Firebase xato:',e);
+    // ✅ TUZATMA 1: Xato bo'lsa ham loader ketadi, sahifa ochiladi
+    if(statusEl)statusEl.textContent='Ulanishda xato. Qayta urinilmoqda...';
+    await new Promise(r=>setTimeout(r,1500));
   }
 }
 
@@ -1132,7 +1140,7 @@ async function doLogin(){
   $('aTag').textContent=ME.name+' ('+rn(ME.role)+')';
   startSes();
   startTokenCheck();
-  curTab='dashboard';
+  curTab='dashboard'; // Hamma uchun dashboard ochiladi
   curCourse=null;curLesson=-1;curGroupId=null;
   buildSide();
   showTab(curTab);
@@ -1299,8 +1307,8 @@ function rLessons(v){if(curLesson>=0)return rLD(v);if(curCourse)return rLL(v);rC
 function rCS(v){
   const fa=ha(ME,'foundation'),pa=ha(ME,'pro');
   v.innerHTML='<div class="phead"><div><div class="ptitle">Darslar</div><div class="psub">Kursni tanlang</div></div></div><div class="csg"><div class="csc'+(fa?'':' locked')+'" id="csF"><div class="csb" style="background:rgba(0,184,148,.12);color:var(--green2)">Boshlang\'ich</div><h3 style="font-size:1.4rem;font-weight:800;margin-bottom:10px;font-family:Syne,sans-serif">Foundation + Intermediate</h3><p style="color:var(--txt2);margin-bottom:14px">Interfeys, formulalar, jadvallar va dashboard.</p><div style="color:var(--txt2);font-size:.88rem;font-weight:600">📅 4 hafta • 📖 8 dars</div></div><div class="csc'+(pa?'':' locked')+'" id="csP"><div class="csb" style="background:rgba(108,92,231,.12);color:var(--acc3)">Professional</div><h3 style="font-size:1.4rem;font-weight:800;margin-bottom:10px;font-family:Syne,sans-serif">PRO + Automation</h3><p style="color:var(--txt2);margin-bottom:14px">Murakkab formulalar, VBA va avtomatlashtirish.</p><div style="color:var(--txt2);font-size:.88rem;font-weight:600">📅 6 hafta • 📖 12 dars</div></div></div>';
-  $('csF').addEventListener('click',()=>{if(!fa){showNotif('Bu kurs yopiq!','err');return}curCourse='f';rM()});
-  $('csP').addEventListener('click',()=>{if(!pa){showNotif('Bu kurs yopiq!','err');return}curCourse='p';rM()});
+  $('csF').addEventListener('click',()=>{if(!fa){alert('Yopiq');return}curCourse='f';rM()});
+  $('csP').addEventListener('click',()=>{if(!pa){alert('Yopiq');return}curCourse='p';rM()});
 }
 
 function rLL(v){
@@ -1310,6 +1318,7 @@ function rLL(v){
   let gr='';
   for(let i=0;i<data.length;i++){
     const l=data[i], isDone=isLessonDone(curCourse,i);
+    // 💡 Dars qulflash mantig'i: Birinchi dars ochiladi, qolganlari undan oldingisi tugatilsa ochiladi. Adminlarga doim ochiq.
     const isUnlocked = i === 0 || isLessonDone(curCourse, i-1) || ME.role !== 'soldier';
     const lockClass = isUnlocked ? '' : 'locked';
     
@@ -1352,12 +1361,13 @@ function rLD(v){
 
   const isDone = isLessonDone(curCourse, curLesson), quizHTML = buildQuiz(curCourse, curLesson);
   
+  // Yuklab olish qismi
   const downloadsHTML = `
     <div class="vc" style="margin-top:16px">
       <div class="vl">📁 Yuklamalar</div>
       <div class="vb" style="display:flex;flex-direction:column;gap:8px;padding-top:14px">
-        <button class="btn btn-gh btn-sm" style="text-align:left;display:flex;gap:8px" onclick="showNotif('Demo versiya: Fayl serverga yuklanmagan', 'err')"><span>⬇️</span> 0${l.n}_Mashq.xlsx</button>
-        <button class="btn btn-gh btn-sm" style="text-align:left;display:flex;gap:8px" onclick="showNotif('Demo versiya: Fayl serverga yuklanmagan', 'err')"><span>⬇️</span> 0${l.n}_Yechim.xlsx</button>
+        <button class="btn btn-gh btn-sm" style="text-align:left;display:flex;gap:8px" onclick="alert('Demo versiya: Fayl serverga yuklanmagan')"><span>⬇️</span> 0${l.n}_Mashq.xlsx</button>
+        <button class="btn btn-gh btn-sm" style="text-align:left;display:flex;gap:8px" onclick="alert('Demo versiya: Fayl serverga yuklanmagan')"><span>⬇️</span> 0${l.n}_Yechim.xlsx</button>
       </div>
     </div>
   `;
@@ -1498,10 +1508,10 @@ function fGS(id){
 async function saveU(){
   const nm=$('umN').value.trim(),lg=$('umL').value.trim(),ps=$('umP').value.trim();
   const rl=$('umR').value,gi=Number($('umG').value),dy=Number($('umD').value)||30,ac=$('umA').value;
-  if(!nm||!lg||!ps){showNotif('Iltimos, maydonlarni to\'ldiring!','err');return}
-  if(!gi){showNotif('Avval guruh yarating!','err');return}
+  if(!nm||!lg||!ps){alert('To\'ldiring!');return}
+  if(!gi){alert('Avval guruh oching!');return}
   const dup=DB.users.find(u=>u.login===lg&&u.id!==editUId);
-  if(dup){showNotif('Bunday login band!','err');return}
+  if(dup){alert('Login band!');return}
   if(editUId){
     const u=uById(editUId);
     u.name=nm;u.login=lg;u.pass=encPass(ps);u.days=dy;u.access=ac;
@@ -1516,7 +1526,7 @@ async function saveU(){
 }
 async function delUFn(id){
   const u=uById(id);if(!u||u.role==='king')return;
-  if(!confirm(u.name+' ni o\'chirishni xohlaysizmi?'))return;
+  if(!confirm(u.name+' ni o\'chirish?'))return;
   DB.users=DB.users.filter(x=>x.id!==id);
   DB.sessions=DB.sessions.filter(x=>x.uid!==id);
   await delUserDB(id);
@@ -1549,13 +1559,13 @@ function fCmdS(){
 async function saveG(){
   const nm=$('gmN').value.trim(),cl=$('gmC').value;
   let ci=$('gmK').value;ci=ci?Number(ci):null;
-  if(!nm){showNotif('Guruh nomini kiriting!','err');return}
+  if(!nm){alert('Nom kiriting!');return}
   if(editGId){
     const g=gById(editGId);g.name=nm;g.color=cl;g.cmdId=ci;
     await svGroup(g);
   }else{
     const dup=DB.groups.find(g=>g.name.toLowerCase()===nm.toLowerCase());
-    if(dup){showNotif('Bunday nomli guruh bor!','err');return}
+    if(dup){alert('Bor!');return}
     const newG={id:Date.now(),name:nm,color:cl,cmdId:ci};
     DB.groups.push(newG);
     await svGroup(newG);
@@ -1570,9 +1580,9 @@ async function delGFn(id){
   if(ME.role!=='king')return;
   const g=gById(id);if(!g)return;
   const cnt=DB.users.filter(u=>u.gId===id).length;
-  if(cnt>0){showNotif(g.name+' guruhida '+cnt+' ta odam bor! Avval ularni o\'chiring.','err');return}
-  const t=prompt('Tasdiqlash uchun guruh nomini ("'+g.name+'") yozing:');
-  if(!t||t.trim().toLowerCase()!==g.name.toLowerCase()){showNotif('Bekor qilindi.','err');return}
+  if(cnt>0){alert(g.name+' da '+cnt+' ta odam bor!');return}
+  const t=prompt('O\'chirish uchun "'+g.name+'" yozing:');
+  if(!t||t.trim().toLowerCase()!==g.name.toLowerCase()){alert('Bekor');return}
   DB.groups=DB.groups.filter(x=>x.id!==id);
   await delGroupDB(id);
   rM();
@@ -1608,13 +1618,9 @@ document.querySelectorAll('.excel-tab').forEach(tab=>{
   });
 });
 
-// Scroll Event Fix (Xavfsizlashtirildi)
 window.addEventListener('scroll',()=>{
-  const nav = $('nav');
-  // Faqat Landing Page ochiq bo'lsagina ishlasin
-  if(nav && !$('vLand').classList.contains('hidden')){
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  }
+  const nav=$('nav');
+  if(nav)nav.classList.toggle('scrolled',scrollY>40);
 });
 
 const ro=new IntersectionObserver(entries=>{ entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('up')}); },{threshold:.12});
@@ -1622,39 +1628,40 @@ const ro=new IntersectionObserver(entries=>{ entries.forEach(e=>{if(e.isIntersec
 async function startApp(){
   await initDB();
   initAI();
-  
-  // Loader doim o'chadi
-  $('loader').classList.add('gone');
 
-  // Auto-Login tekshiruvi (3-xato yechimi)
-  const savedToken = localStorage.getItem('myToken');
-  const savedUid = localStorage.getItem('myUserId');
-  let autoLogged = false;
+  // ✅ TUZATMA 2: localStorage da token bor bo'lsa — avtomatik kirish
+  const savedToken=localStorage.getItem('myToken');
+  const savedUserId=localStorage.getItem('myUserId');
 
-  if (savedToken && savedUid) {
-    const user = DB.users.find(u => String(u.id) === savedUid);
-    if (user && user.activeToken === savedToken) {
-      ME = user;
-      autoLogged = true;
-      $('vLand').classList.add('hidden');
+  if(savedToken && savedUserId){
+    const uid=Number(savedUserId);
+    const u=DB.users.find(u=>u.id===uid && u.activeToken===savedToken);
+    if(u && (u.role==='king' || dl(u)>0)){
+      // Token to'g'ri va muddati o'tmagan — app ga kiramiz
+      ME=u;
+      $('loader').classList.add('gone');
       $('vApp').classList.remove('hidden');
-      $('aTag').textContent = ME.name + ' (' + rn(ME.role) + ')';
+      $('aTag').textContent=ME.name+' ('+rn(ME.role)+')';
       startSes();
       startTokenCheck();
-      curTab = 'dashboard';
-      curCourse = null; curLesson = -1; curGroupId = null;
+      curTab='dashboard';
+      curCourse=null;curLesson=-1;curGroupId=null;
       buildSide();
       showTab(curTab);
+      return;
+    }else{
+      // Token eskirgan yoki foydalanuvchi topilmadi — tozalaymiz
+      localStorage.removeItem('myToken');
+      localStorage.removeItem('myUserId');
     }
   }
 
-  // Agar avto-login bo'lmasa, vLand ko'rsatiladi
-  if (!autoLogged) {
+  // Token yo'q — landing sahifani ko'rsatamiz
+  setTimeout(()=>{
+    $('loader').classList.add('gone');
     $('vLand').classList.remove('hidden');
-    setTimeout(() => {
-      document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
-    }, 100);
-  }
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+  },800);
 }
 startApp();
 </script>
