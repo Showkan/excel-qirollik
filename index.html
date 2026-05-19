@@ -1296,14 +1296,15 @@ function initAI() {
 async function initDB(){
   DB={groups:[],users:[],sessions:[],stucks:[]};
   try{
-    const usersSnap=await getDocs(collection(fdb,"users"));
+    const fetchWithTimeout = (promise, ms=5000) => Promise.race([promise, new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),ms))]);
+    const usersSnap=await fetchWithTimeout(getDocs(collection(fdb,"users")));
     usersSnap.forEach(d=>DB.users.push(d.data()));
-    const groupsSnap=await getDocs(collection(fdb,"groups"));
+    const groupsSnap=await fetchWithTimeout(getDocs(collection(fdb,"groups")));
     groupsSnap.forEach(d=>DB.groups.push(d.data()));
-    const sessionsSnap=await getDocs(collection(fdb,"sessions"));
+    const sessionsSnap=await fetchWithTimeout(getDocs(collection(fdb,"sessions")));
     sessionsSnap.forEach(d=>DB.sessions.push(d.data()));
     try{
-      const stucksSnap=await getDocs(collection(fdb,"stucks"));
+      const stucksSnap=await fetchWithTimeout(getDocs(collection(fdb,"stucks")));
       stucksSnap.forEach(d=>DB.stucks.push(d.data()));
     }catch(e){}
     if(DB.users.length===0){
@@ -1340,7 +1341,7 @@ async function doLogin(){
   await svUser(u);
   
   // ← PROGRESS NI FIREBASE DAN YUKLAYMIZ
-  await loadПрогрессFromFirebase();
+  await loadProgressFromFirebase();
   
   closeLogin();
   $('vLand').classList.add('hidden');
@@ -1734,7 +1735,15 @@ window.addEventListener('scroll',()=>{const nav=$('nav');if(nav)nav.classList.to
 const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('up')});},{threshold:.12});
 
 async function startApp(){
-  await initDB();
+  // Firebase ga 8 soniya timeout bilan ulanamiz
+  try {
+    await Promise.race([
+      initDB(),
+      new Promise((_,reject) => setTimeout(() => reject(new Error('timeout')), 8000))
+    ]);
+  } catch(e) {
+    console.warn('Firebase sekin yoki xato, offline rejimda davom etamiz:', e);
+  }
   initAI();
 
   const savedToken=localStorage.getItem('myToken');
@@ -1747,7 +1756,7 @@ async function startApp(){
       ME=u;
       
       // ← AVTOMATIK KIRISHDA HAM PROGRESS YUKLAYMIZ
-      await loadПрогрессFromFirebase();
+      await loadProgressFromFirebase();
       
       $('loader').classList.add('gone');
       $('vApp').classList.remove('hidden');
@@ -1765,8 +1774,22 @@ async function startApp(){
     $('loader').classList.add('gone');
     $('vLand').classList.remove('hidden');
     document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
-  },800);
+  },600);
 }
+
+// Fallback: loader 10 soniyadan keyin majburiy yashiriladi
+setTimeout(()=>{
+  const loader = document.getElementById('loader');
+  if(loader && !loader.classList.contains('gone')){
+    loader.classList.add('gone');
+    const vLand = document.getElementById('vLand');
+    const vApp = document.getElementById('vApp');
+    if(vLand && vLand.classList.contains('hidden') && vApp && vApp.classList.contains('hidden')){
+      vLand.classList.remove('hidden');
+    }
+  }
+}, 10000);
+
 startApp();
 </script>
 </body>
